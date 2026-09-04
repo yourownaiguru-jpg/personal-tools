@@ -3,8 +3,15 @@ import type { Transaction } from '../lib/types'
 import { SummaryCards } from './SummaryCards'
 import { CategoryChart } from './CategoryChart'
 import { TrendChart } from './TrendChart'
+import { TransactionTable } from './TransactionTable'
 
-export function Dashboard({ transactions }: { transactions: Transaction[] }) {
+interface DashboardProps {
+  transactions: Transaction[]
+  categories: string[]
+  onCategoryChange: (id: string, category: string) => void
+}
+
+export function Dashboard({ transactions, categories, onCategoryChange }: DashboardProps) {
   const summary = summarize(transactions)
   const categoryTotals = spendByCategory(transactions)
   const monthTotals = totalsByMonth(transactions)
@@ -16,6 +23,11 @@ export function Dashboard({ transactions }: { transactions: Transaction[] }) {
         <CategoryChart data={categoryTotals} />
         <TrendChart data={monthTotals} />
       </div>
+      <TransactionTable
+        transactions={transactions}
+        categories={categories}
+        onCategoryChange={onCategoryChange}
+      />
     </div>
   )
 }
