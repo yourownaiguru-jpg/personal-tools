@@ -29,6 +29,28 @@ See [PRIVACY.md](./PRIVACY.md) for details.
   purchases on the same day are both kept)
 - Local-only persistence (localStorage) with a one-click "Clear all data"
 - CSV export (generated in the browser, downloaded directly to your machine)
+- Works with both US-style (single amount, `CR` marker) and India-style
+  (day-first dates, `Dr`/`Cr` markers, 2- or 3-column Debit/Credit/Balance
+  layouts) statement formats — see [Regional statement formats](#regional-statement-formats)
+
+## Regional statement formats
+
+The parser was built against US formats first, then extended for India.
+Both are covered by sample PDFs in [`samples/`](./samples) — see
+[Try it with sample statements](#try-it-with-sample-statements) below.
+
+| | US | India |
+|---|---|---|
+| Date order | month-first (`03/14/2024`) | day-first (`14/03/2024` or `14-03-2024`) — auto-detected, or set manually with the "Date format" control above the upload box |
+| Amount sign | plain = charge, `CR` suffix = credit | plain = charge, `Dr`/`Cr` suffix = explicit debit/credit |
+| Statement layout | one trailing amount per line (most credit cards) | credit cards: one amount + `Dr`/`Cr`; bank accounts: 2 columns (amount, running balance) or 3 columns (debit, credit, balance) |
+| Currency | `$` | `₹`, `Rs.`, `INR`, or no symbol (all stripped during parsing) |
+
+Auto-detection scans for an unambiguous date (day > 12) first, then for
+India-specific hints (`₹`, `IFSC`, `UPI`, `GSTIN`, `NEFT`, `IMPS`) in the
+statement text, and defaults to month-first if neither is found. If a
+statement is read with the wrong date order, override it with the
+**Date format** selector above the upload box before re-uploading.
 
 ## Architecture
 
@@ -38,7 +60,8 @@ lives in small, individually tested modules under `src/lib/`:
 | Module | Responsibility |
 |---|---|
 | `pdf.ts` | pdf.js wrapper — extracts positioned text and reconstructs lines per page |
-| `parseStatement.ts` | Generic line parser: leading date + trailing amount → transaction |
+| `dateFormat.ts` | Infers month-first vs. day-first dates from the statement text |
+| `parseStatement.ts` | Generic line parser: leading date + 1–3 trailing amount columns → transaction |
 | `categorize.ts` | Keyword rules → category; first matching rule wins |
 | `aggregate.ts` | Summary totals, spend-by-category, monthly income/expense series |
 | `storage.ts` | localStorage persistence (validated on load) and merge/dedupe |
@@ -52,16 +75,41 @@ Components under `src/components/` are thin views over these modules;
 - **Text-based PDFs only.** Scanned/image-only statements have no text
   layer and will produce no transactions (there is no OCR).
 - **Encrypted PDFs are not supported** and are reported as unreadable.
-- **Date format:** US `mm/dd` is assumed. Unambiguous `dd/mm` dates (day
-  > 12) are detected and swapped, but an ambiguous European date like
-  `05/03` will be read as May 3.
-- **Amount conventions:** lines are treated as charges (money out) unless
-  marked `CR`, parenthesized, negative, or matching payment/refund
-  keywords. Bank statements that use separate debit/credit columns may
-  need a format adapter.
-- **Currency display is USD**; parsing strips `$` and `,` only.
+- **Date format** is auto-detected per statement (see
+  [Regional statement formats](#regional-statement-formats)) with a manual
+  override. A genuinely ambiguous date (day ≤ 12 in both positions, no
+  India hints in the document) falls back to month-first, so a statement
+  with no unambiguous dates and no recognized hints can still be misread —
+  use the override if so.
+- **Amount conventions:** a line with one trailing amount is a charge
+  unless marked `CR`/`Cr`, parenthesized, negative, or matching a
+  payment/refund keyword. Two trailing amounts are read as
+  `[transaction, running balance]`; three as `[debit, credit, balance]`.
+  Four or more trailing numbers on one line are too ambiguous to guess at
+  and are skipped rather than risk a wrong sign or amount.
+- **Currency display is USD** regardless of source; parsing strips `$`,
+  `₹`, and `,` but does not convert values — amounts are shown as printed.
 - The generic parser aims for broad coverage rather than per-bank
   perfection — check the table after import and correct categories inline.
+  If a specific bank's layout doesn't parse correctly, its statement lines
+  likely don't match any of the shapes above.
+
+## Try it with sample statements
+
+[`samples/`](./samples) has four synthetic (not real) statement PDFs — run
+the app (`npm run dev`) and drop one in:
+
+| File | Format |
+|---|---|
+| `us-credit-card-statement.pdf` | US credit card — month-first dates, plain amounts, one `CR` credit |
+| `us-bank-statement.pdf` | US checking account — payroll deposit and a refund, both inferred as income from their description |
+| `india-credit-card-statement.pdf` | India credit card — day-first dates, `Dr`/`Cr` markers |
+| `india-bank-statement.pdf` | India savings account — day-first dates, UPI/NEFT descriptions, 3-column Debit/Credit/Balance layout |
+
+Regenerate them any time with `npm run samples` (uses `pdf-lib`, a dev
+dependency — nothing is added to the production bundle). The same files
+are also asserted against in `e2e/samples.spec.ts`, so a broken parser
+change fails CI, not just a manual check.
 
 ## Development
 

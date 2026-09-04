@@ -6,6 +6,7 @@ import { Dashboard } from './components/Dashboard'
 import { RulesEditor } from './components/RulesEditor'
 import { guessStatementYear } from './lib/pdf'
 import { parseStatementText } from './lib/parseStatement'
+import { guessDateFormat, type DateFormat } from './lib/dateFormat'
 import { categorizeAll, DEFAULT_RULES } from './lib/categorize'
 import { transactionsToCsv, downloadTextFile } from './lib/csv'
 import {
@@ -41,10 +42,13 @@ function EmptyState() {
   )
 }
 
+type DateFormatChoice = 'auto' | DateFormat
+
 function App() {
   const [transactions, setTransactions] = useState<Transaction[]>(() => loadTransactions())
   const [rules, setRules] = useState<CategoryRule[]>(() => loadRules() ?? DEFAULT_RULES)
   const [statusMessage, setStatusMessage] = useState<string | null>(null)
+  const [dateFormatChoice, setDateFormatChoice] = useState<DateFormatChoice>('auto')
 
   useEffect(() => {
     saveTransactions(transactions)
@@ -62,6 +66,7 @@ function App() {
         account: accountNameFromFile(s.fileName),
         sourceStatement: s.fileName,
         statementYear: guessStatementYear(s.pages),
+        dateFormat: dateFormatChoice === 'auto' ? guessDateFormat(s.pages) : dateFormatChoice,
       }),
     )
     // Merge outside the state updater — updaters must stay pure (StrictMode
@@ -106,6 +111,21 @@ function App() {
       <Header />
       <main className="flex-1 mx-auto max-w-6xl w-full px-4 py-8 space-y-6">
         <UploadZone onStatementsExtracted={handleStatements} />
+        <div className="flex items-center gap-2 -mt-2">
+          <label htmlFor="date-format" className="text-xs text-slate-500">
+            Date format in these statements:
+          </label>
+          <select
+            id="date-format"
+            value={dateFormatChoice}
+            onChange={(e) => setDateFormatChoice(e.target.value as DateFormatChoice)}
+            className="rounded-md border border-slate-700 bg-slate-950 px-2 py-1 text-xs text-slate-300"
+          >
+            <option value="auto">Auto-detect</option>
+            <option value="MDY">MM/DD/YYYY (US)</option>
+            <option value="DMY">DD/MM/YYYY (India, UK, most other countries)</option>
+          </select>
+        </div>
         {statusMessage && (
           <p role="status" className="text-xs text-slate-500">
             {statusMessage}

@@ -56,4 +56,95 @@ describe('parseStatementText', () => {
     )
     expect(new Set(result.map((t) => t.id)).size).toBe(2)
   })
+
+  describe('India / international formats', () => {
+    it('parses a dd/mm/yyyy date when dateFormat is DMY', () => {
+      const [tx] = parseStatementText(
+        [['05/03/2024 SWIGGY BANGALORE 450.00']],
+        { ...opts, dateFormat: 'DMY' },
+      )
+      expect(tx.date).toBe('2024-03-05')
+    })
+
+    it('reads a ₹ amount and an explicit Dr suffix as an expense', () => {
+      const [tx] = parseStatementText(
+        [['05/03/2024 SWIGGY BANGALORE ₹450.00 Dr']],
+        { ...opts, dateFormat: 'DMY' },
+      )
+      expect(tx.amount).toBe(-450)
+      expect(tx.description).toBe('SWIGGY BANGALORE')
+    })
+
+    it('reads an explicit Cr suffix as income even with a generic description', () => {
+      const [tx] = parseStatementText(
+        [['12/03/2024 NEFT CR-ACME CORP-SALARY ₹55,000.00 Cr']],
+        { ...opts, dateFormat: 'DMY' },
+      )
+      expect(tx.amount).toBe(55000)
+    })
+
+    it('handles a glued marker with no space ("500.00Dr")', () => {
+      const [tx] = parseStatementText([['05/03/2024 ATM WDL 500.00Dr']], { ...opts, dateFormat: 'DMY' })
+      expect(tx.amount).toBe(-500)
+    })
+
+    it('parses [amount, balance] using the Dr/Cr marker on the amount', () => {
+      const [tx] = parseStatementText(
+        [['01/03/2024 UPI-SWIGGY INSTAMART-swiggy@icici 450.00 Dr 45,230.00']],
+        { ...opts, dateFormat: 'DMY' },
+      )
+      expect(tx.amount).toBe(-450)
+      expect(tx.description).toBe('UPI-SWIGGY INSTAMART-swiggy@icici')
+    })
+
+    it('infers [amount, balance] sign from balance increasing when no marker is present', () => {
+      const lines = [
+        '01/03/2024 OPENING BALANCE 100.00 10000.00',
+        '05/03/2024 UPI-SALARY CREDIT-XXXXXX 55000.00 65000.00',
+      ]
+      const result = parseStatementText([lines], { ...opts, dateFormat: 'DMY' })
+      // First line establishes lastBalance=10000 with no prior balance to
+      // compare against, so it falls back to the credit-hint heuristic
+      // (no hint here -> treated as an expense, matching documented
+      // best-effort behavior for the very first row of a statement).
+      expect(result[0].amount).toBe(-100)
+      // Second line: balance rose 10000 -> 65000, so despite no marker the
+      // transaction is inferred as a credit.
+      expect(result[1].amount).toBe(55000)
+    })
+
+    it('infers [amount, balance] sign from balance decreasing when no marker is present', () => {
+      const lines = [
+        '01/03/2024 OPENING BALANCE 100.00 10000.00',
+        '05/03/2024 UPI-SWIGGY INSTAMART 450.00 9550.00',
+      ]
+      const result = parseStatementText([lines], { ...opts, dateFormat: 'DMY' })
+      expect(result[1].amount).toBe(-450)
+    })
+
+    it('parses a [debit, credit, balance] row where debit is nonzero', () => {
+      const [tx] = parseStatementText(
+        [['01/03/2024 UPI-SWIGGY INSTAMART-swiggy@icici 450.00 0.00 45,230.00']],
+        { ...opts, dateFormat: 'DMY' },
+      )
+      expect(tx.amount).toBe(-450)
+      expect(tx.description).toBe('UPI-SWIGGY INSTAMART-swiggy@icici')
+    })
+
+    it('parses a [debit, credit, balance] row where credit is nonzero', () => {
+      const [tx] = parseStatementText(
+        [['05/03/2024 UPI-SALARY CREDIT-XXXXXX 0.00 55,000.00 100,230.00']],
+        { ...opts, dateFormat: 'DMY' },
+      )
+      expect(tx.amount).toBe(55000)
+    })
+
+    it('skips a [debit, credit, balance] row where both debit and credit are zero', () => {
+      const result = parseStatementText(
+        [['10/03/2024 BALANCE RESTATED 0.00 0.00 45,230.00']],
+        { ...opts, dateFormat: 'DMY' },
+      )
+      expect(result).toHaveLength(0)
+    })
+  })
 })

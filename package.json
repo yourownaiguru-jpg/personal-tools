@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "test": "vitest run",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "samples": "node scripts/generate-samples.mjs"
   },
   "dependencies": {
     "pdfjs-dist": "^4.6.82",
