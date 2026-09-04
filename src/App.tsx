@@ -4,6 +4,7 @@ import { Footer } from './components/Footer'
 import { UploadZone, type ParsedStatement } from './components/UploadZone'
 import { guessStatementYear } from './lib/pdf'
 import { parseStatementText } from './lib/parseStatement'
+import { categorizeAll } from './lib/categorize'
 import type { Transaction } from './lib/types'
 
 function accountNameFromFile(fileName: string): string {
@@ -21,7 +22,7 @@ function App() {
         statementYear: guessStatementYear(s.pages),
       }),
     )
-    setTransactions((prev) => [...prev, ...parsed])
+    setTransactions((prev) => [...prev, ...categorizeAll(parsed)])
   }
 
   return (
@@ -40,6 +41,7 @@ function App() {
                 <li key={t.id} className="flex gap-3">
                   <span className="text-slate-500">{t.date}</span>
                   <span className="flex-1 truncate">{t.description}</span>
+                  <span className="text-slate-500">{t.category}</span>
                   <span className={t.amount < 0 ? 'text-rose-400' : 'text-emerald-400'}>
                     {t.amount.toFixed(2)}
                   </span>
