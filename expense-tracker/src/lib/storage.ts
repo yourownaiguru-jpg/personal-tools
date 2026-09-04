@@ -43,12 +43,26 @@ export function saveTransactions(transactions: Transaction[]): void {
   }
 }
 
+function isCategoryRule(value: unknown): value is CategoryRule {
+  if (typeof value !== 'object' || value === null) return false
+  const r = value as Record<string, unknown>
+  return (
+    typeof r.category === 'string' &&
+    Array.isArray(r.keywords) &&
+    r.keywords.every((k) => typeof k === 'string')
+  )
+}
+
 export function loadRules(): CategoryRule[] | null {
   try {
     const raw = localStorage.getItem(RULES_KEY)
     if (!raw) return null
-    const parsed = JSON.parse(raw)
-    return Array.isArray(parsed) ? parsed : null
+    const parsed: unknown = JSON.parse(raw)
+    // Same rationale as loadTransactions: malformed storage must degrade
+    // to defaults, not crash categorization at runtime.
+    if (!Array.isArray(parsed)) return null
+    const rules = parsed.filter(isCategoryRule)
+    return rules.length > 0 ? rules : null
   } catch {
     return null
   }

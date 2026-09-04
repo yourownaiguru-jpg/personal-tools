@@ -25,4 +25,21 @@ describe('transactionsToCsv', () => {
     const csv = transactionsToCsv([tx({ description: 'ACME, INC "downtown"' })])
     expect(csv).toContain('"ACME, INC ""downtown"""')
   })
+
+  it('neutralizes spreadsheet formula injection in text fields', () => {
+    const csv = transactionsToCsv([
+      tx({ description: '=HYPERLINK("http://evil.example","click")' }),
+      tx({ description: '+1-555-CALL-NOW' }),
+      tx({ description: '@MENTION STORE' }),
+    ])
+    const lines = csv.split('\n')
+    expect(lines[1].startsWith(`2024-03-14,"'=HYPERLINK`)).toBe(true)
+    expect(lines[2]).toContain(`'+1-555-CALL-NOW`)
+    expect(lines[3]).toContain(`'@MENTION STORE`)
+  })
+
+  it('does not touch the numeric amount column even when negative', () => {
+    const csv = transactionsToCsv([tx({ amount: -4.5 })])
+    expect(csv.split('\n')[1].endsWith(',-4.50')).toBe(true)
+  })
 })

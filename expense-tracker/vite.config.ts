@@ -1,6 +1,40 @@
 /// <reference types="vitest/config" />
-import { defineConfig } from 'vite'
+import { defineConfig, type PluginOption } from 'vite'
 import react from '@vitejs/plugin-react'
+
+// Enforces the app's no-network-egress promise at the browser level.
+// GitHub Pages can't set response headers, so the policy ships as a meta
+// tag — injected only into production builds because the dev server needs
+// inline scripts (React refresh preamble) and websockets that this policy
+// forbids. What each directive is for:
+//   script-src 'self'      — only our bundled JS; no injected/inline scripts, no eval
+//   connect-src 'self'     — fetch/XHR/WebSocket can't reach any other origin
+//   style-src 'unsafe-inline' — React/recharts set style attributes inline
+//   worker-src blob:       — pdf.js falls back to a blob worker in some setups
+//   object/base/form 'none'— no plugins, <base> tricks, or form exfiltration
+// (frame-ancestors is header-only and ignored in meta CSP, so it's omitted.)
+const CSP = [
+  "default-src 'self'",
+  "script-src 'self'",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data:",
+  "connect-src 'self'",
+  "worker-src 'self' blob:",
+  "object-src 'none'",
+  "base-uri 'none'",
+  "form-action 'none'",
+].join('; ')
+
+const cspPlugin: PluginOption = {
+  name: 'inject-csp-meta',
+  apply: 'build',
+  transformIndexHtml(html) {
+    return html.replace(
+      '<meta charset="UTF-8" />',
+      `<meta charset="UTF-8" />\n    <meta http-equiv="Content-Security-Policy" content="${CSP}" />`,
+    )
+  },
+}
 
 // Base path matches the GitHub Pages project-site URL. This tool lives in
 // the personal-tools monorepo and is (for now) the only thing deployed to
@@ -10,7 +44,7 @@ import react from '@vitejs/plugin-react'
 const REPO_NAME = 'personal-tools'
 
 export default defineConfig(({ command, isPreview }) => ({
-  plugins: [react()],
+  plugins: [react(), cspPlugin],
   // The Pages base path must apply to `vite preview` too — preview runs
   // with command === 'serve', and serving the built assets at '/' would
   // 404 every /<repo>/assets/* request.
@@ -22,9 +56,10 @@ export default defineConfig(({ command, isPreview }) => ({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          pdfjs: ['pdfjs-dist'],
-          recharts: ['recharts'],
+        // Function form — vite 8 (rolldown) dropped the object shorthand.
+        manualChunks(id) {
+          if (id.includes('node_modules/pdfjs-dist')) return 'pdfjs'
+          if (id.includes('node_modules/recharts')) return 'recharts'
         },
       },
     },

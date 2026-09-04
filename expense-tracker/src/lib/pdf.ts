@@ -14,7 +14,12 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = workerUrl
  */
 export async function extractLinesFromPdf(file: File): Promise<string[][]> {
   const data = await file.arrayBuffer()
-  const doc = await pdfjsLib.getDocument({ data }).promise
+  // isEvalSupported: false — statements are untrusted input, and pdf.js's
+  // eval-based fast path for Type1 font hinting (the CVE-2024-4367 vector,
+  // fixed upstream but disabled here anyway) is pure defense-in-depth to
+  // give up: text extraction doesn't need it, and the page's CSP bans eval
+  // regardless.
+  const doc = await pdfjsLib.getDocument({ data, isEvalSupported: false }).promise
 
   const pages: string[][] = []
   try {
