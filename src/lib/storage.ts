@@ -1,6 +1,7 @@
-import type { Transaction } from './types'
+import type { CategoryRule, Transaction } from './types'
 
 const TRANSACTIONS_KEY = 'expense-tracker:transactions:v1'
+const RULES_KEY = 'expense-tracker:rules:v1'
 
 /**
  * All persistence in this app is local to the browser (localStorage) and
@@ -26,8 +27,28 @@ export function saveTransactions(transactions: Transaction[]): void {
   }
 }
 
+export function loadRules(): CategoryRule[] | null {
+  try {
+    const raw = localStorage.getItem(RULES_KEY)
+    if (!raw) return null
+    const parsed = JSON.parse(raw)
+    return Array.isArray(parsed) ? parsed : null
+  } catch {
+    return null
+  }
+}
+
+export function saveRules(rules: CategoryRule[]): void {
+  try {
+    localStorage.setItem(RULES_KEY, JSON.stringify(rules))
+  } catch {
+    // Ignore storage failures — rules still work in-memory this session.
+  }
+}
+
 export function clearAllData(): void {
   localStorage.removeItem(TRANSACTIONS_KEY)
+  localStorage.removeItem(RULES_KEY)
 }
 
 function dedupeKey(t: Transaction): string {
