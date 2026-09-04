@@ -1,8 +1,9 @@
-name: Deploy to GitHub Pages
+name: Deploy expense-tracker to GitHub Pages
 
 on:
   push:
     branches: [main]
+    paths: ['expense-tracker/**', '.github/workflows/deploy.yml']
   workflow_dispatch:
 
 permissions:
@@ -14,6 +15,10 @@ concurrency:
   group: pages
   cancel-in-progress: true
 
+defaults:
+  run:
+    working-directory: expense-tracker
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -23,12 +28,13 @@ jobs:
         with:
           node-version: 20
           cache: npm
+          cache-dependency-path: expense-tracker/package-lock.json
       - run: npm ci
       - run: npm run test
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: expense-tracker/dist
 
   deploy:
     needs: build

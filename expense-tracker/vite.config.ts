@@ -2,9 +2,12 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// Base path matches the GitHub Pages project-site URL (/<repo-name>/).
-// Update REPO_NAME if the repository is renamed.
-const REPO_NAME = 'privacy-expense-tracker'
+// Base path matches the GitHub Pages project-site URL. This tool lives in
+// the personal-tools monorepo and is (for now) the only thing deployed to
+// its Pages site, so the base is the repo name, not this subfolder's name.
+// If a second tool starts sharing the same Pages site, this — and the
+// deploy workflow's artifact path — will need to become a subpath instead.
+const REPO_NAME = 'personal-tools'
 
 export default defineConfig(({ command, isPreview }) => ({
   plugins: [react()],

@@ -1,11 +1,2 @@
-node_modules
-dist
-dist-ssr
-*.local
-.DS_Store
-.env
-.env.local
 .claude
-*.tsbuildinfo
-playwright-report
-test-results
+.DS_Store

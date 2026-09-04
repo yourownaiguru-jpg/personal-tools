@@ -1,8 +1,13 @@
-name: CI
+name: expense-tracker CI
 
 on:
   pull_request:
     branches: [main]
+    paths: ['expense-tracker/**', '.github/workflows/ci.yml']
+
+defaults:
+  run:
+    working-directory: expense-tracker
 
 jobs:
   test:
@@ -13,6 +18,7 @@ jobs:
         with:
           node-version: 20
           cache: npm
+          cache-dependency-path: expense-tracker/package-lock.json
       - run: npm ci
       - run: npm run lint
       - run: npm run test
@@ -26,6 +32,7 @@ jobs:
         with:
           node-version: 20
           cache: npm
+          cache-dependency-path: expense-tracker/package-lock.json
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm run e2e

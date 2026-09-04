@@ -7,13 +7,13 @@ export default defineConfig({
   testDir: 'e2e',
   timeout: 60_000,
   use: {
-    baseURL: 'http://localhost:4173/privacy-expense-tracker/',
+    baseURL: 'http://localhost:4173/personal-tools/',
     channel: process.env.CI ? undefined : 'chrome',
     headless: true,
   },
   webServer: {
     command: 'npm run build && npm run preview',
-    url: 'http://localhost:4173/privacy-expense-tracker/',
+    url: 'http://localhost:4173/personal-tools/',
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
   },
