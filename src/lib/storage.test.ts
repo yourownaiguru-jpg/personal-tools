@@ -37,6 +37,21 @@ describe('mergeTransactions', () => {
     expect(merged).toHaveLength(2)
   })
 
+  it('keeps two genuinely identical purchases arriving in one upload', () => {
+    const incoming = [tx({ id: 'a' }), tx({ id: 'b' })] // two identical coffees, same day
+    const { merged, addedCount, duplicateCount } = mergeTransactions([], incoming)
+    expect(merged).toHaveLength(2)
+    expect(addedCount).toBe(2)
+    expect(duplicateCount).toBe(0)
+  })
+
+  it('dedupes a re-uploaded statement containing legitimate same-day twins', () => {
+    const first = mergeTransactions([], [tx({ id: 'a' }), tx({ id: 'b' })])
+    const second = mergeTransactions(first.merged, [tx({ id: 'c' }), tx({ id: 'd' })])
+    expect(second.merged).toHaveLength(2)
+    expect(second.duplicateCount).toBe(2)
+  })
+
   it('sorts the merged result chronologically', () => {
     const existing = [tx({ id: 'a', date: '2024-03-20' })]
     const incoming = [tx({ id: 'b', date: '2024-03-01', description: 'X' })]

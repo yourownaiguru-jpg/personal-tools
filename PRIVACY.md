@@ -22,9 +22,11 @@ device.
   persists across page reloads.
 - This stored data never leaves your browser. It is not synced, backed up,
   or transmitted anywhere by this app.
-- You can clear all stored data at any time from the app's settings
-  ("Clear all data"), or by clearing your browser's site data for this
-  origin.
+- You can clear all stored data at any time with the app's
+  "Clear all data" control, or by clearing your browser's site data for
+  this origin.
+- The CSV export is generated in the browser and saved directly to your
+  machine — it is a local download, not a network transfer.
 
 ## No analytics, no tracking
 

@@ -7,12 +7,28 @@ const RULES_KEY = 'expense-tracker:rules:v1'
  * All persistence in this app is local to the browser (localStorage) and
  * holds only parsed transaction records — never the original PDF bytes.
  */
+function isTransaction(value: unknown): value is Transaction {
+  if (typeof value !== 'object' || value === null) return false
+  const t = value as Record<string, unknown>
+  return (
+    typeof t.id === 'string' &&
+    typeof t.date === 'string' &&
+    typeof t.description === 'string' &&
+    typeof t.amount === 'number' &&
+    Number.isFinite(t.amount) &&
+    typeof t.category === 'string' &&
+    typeof t.account === 'string' &&
+    typeof t.sourceStatement === 'string'
+  )
+}
+
 export function loadTransactions(): Transaction[] {
   try {
     const raw = localStorage.getItem(TRANSACTIONS_KEY)
     if (!raw) return []
-    const parsed = JSON.parse(raw)
-    return Array.isArray(parsed) ? parsed : []
+    const parsed: unknown = JSON.parse(raw)
+    // Malformed or hand-edited storage must not crash the app on load.
+    return Array.isArray(parsed) ? parsed.filter(isTransaction) : []
   } catch {
     return []
   }
@@ -60,23 +76,35 @@ function dedupeKey(t: Transaction): string {
  * look like duplicates of a transaction already present (same date,
  * description, amount, and account) — this lets overlapping statement
  * periods be uploaded again without doubling entries.
+ *
+ * Duplicates are matched by occurrence count, not mere existence: if a
+ * statement legitimately contains the same purchase twice on one day (two
+ * identical coffees), both are kept, because only as many incoming copies
+ * are dropped as already exist in the stored set.
  */
 export function mergeTransactions(
   existing: Transaction[],
   incoming: Transaction[],
 ): { merged: Transaction[]; addedCount: number; duplicateCount: number } {
-  const seen = new Set(existing.map(dedupeKey))
+  const existingCounts = new Map<string, number>()
+  for (const t of existing) {
+    const key = dedupeKey(t)
+    existingCounts.set(key, (existingCounts.get(key) ?? 0) + 1)
+  }
+
+  const consumed = new Map<string, number>()
   const merged = [...existing]
   let addedCount = 0
   let duplicateCount = 0
 
   for (const t of incoming) {
     const key = dedupeKey(t)
-    if (seen.has(key)) {
+    const used = consumed.get(key) ?? 0
+    consumed.set(key, used + 1)
+    if (used < (existingCounts.get(key) ?? 0)) {
       duplicateCount++
       continue
     }
-    seen.add(key)
     merged.push(t)
     addedCount++
   }

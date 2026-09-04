@@ -31,9 +31,13 @@ function normalizeDate(raw: string, fallbackYear: number): string | null {
   const parts = raw.split(/[/-]/).map((p) => p.trim())
   if (parts.length < 2) return null
   const [mRaw, dRaw, yRaw] = parts
-  const month = parseInt(mRaw, 10)
-  const day = parseInt(dRaw, 10)
-  if (!month || !day || month > 12 || day > 31) return null
+  let month = parseInt(mRaw, 10)
+  let day = parseInt(dRaw, 10)
+  if (!month || !day) return null
+  // US mm/dd is assumed, but an unambiguous dd/mm date (first number > 12)
+  // is recognized and swapped so European-style statements still parse.
+  if (month > 12 && day <= 12) [month, day] = [day, month]
+  if (month > 12 || day > 31) return null
   let year = yRaw ? parseInt(yRaw, 10) : fallbackYear
   if (yRaw && yRaw.length === 2) year = 2000 + year
   return `${String(year).padStart(4, '0')}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
@@ -57,7 +61,6 @@ export function parseStatementText(
   opts: ParseStatementOptions,
 ): Transaction[] {
   const transactions: Transaction[] = []
-  let counter = 0
 
   for (const lines of pages) {
     for (const line of lines) {
@@ -78,9 +81,11 @@ export function parseStatementText(
       const amount = parseAmount(amountMatch[1], forceCredit)
       if (amount === 0) continue
 
-      counter++
+      // A random id, not `${file}#${index}` — two uploads can share a file
+      // name (e.g. every month's download is "statement.pdf"), and colliding
+      // ids would break React keys and per-row category edits.
       transactions.push({
-        id: `${opts.sourceStatement}#${counter}`,
+        id: crypto.randomUUID(),
         date,
         description,
         amount,

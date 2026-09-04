@@ -16,6 +16,16 @@ describe('parseStatementText', () => {
     expect(tx.date).toBe('2023-03-14')
   })
 
+  it('recognizes an unambiguous dd/mm date and swaps it', () => {
+    const [tx] = parseStatementText([['25/03 LOCAL SHOP 12.00']], opts)
+    expect(tx.date).toBe('2024-03-25')
+  })
+
+  it('rejects impossible dates', () => {
+    const result = parseStatementText([['45/03 BROKEN LINE 12.00']], opts)
+    expect(result).toHaveLength(0)
+  })
+
   it('treats an explicit CR suffix as a credit (positive amount)', () => {
     const [tx] = parseStatementText([['03/15 PAYMENT RECEIVED - THANK YOU 200.00 CR']], opts)
     expect(tx.amount).toBe(200)

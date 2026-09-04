@@ -64,18 +64,18 @@ function App() {
         statementYear: guessStatementYear(s.pages),
       }),
     )
-    setTransactions((prev) => {
-      const { merged, addedCount, duplicateCount } = mergeTransactions(
-        prev,
-        categorizeAll(parsed, rules),
-      )
-      setStatusMessage(
-        duplicateCount > 0
-          ? `Added ${addedCount} new transaction${addedCount === 1 ? '' : 's'} (skipped ${duplicateCount} already-imported duplicate${duplicateCount === 1 ? '' : 's'}).`
-          : `Added ${addedCount} new transaction${addedCount === 1 ? '' : 's'}.`,
-      )
-      return merged
-    })
+    // Merge outside the state updater — updaters must stay pure (StrictMode
+    // runs them twice), and the status message is a separate state change.
+    const { merged, addedCount, duplicateCount } = mergeTransactions(
+      transactions,
+      categorizeAll(parsed, rules),
+    )
+    setTransactions(merged)
+    setStatusMessage(
+      duplicateCount > 0
+        ? `Added ${addedCount} new transaction${addedCount === 1 ? '' : 's'} (skipped ${duplicateCount} already-imported duplicate${duplicateCount === 1 ? '' : 's'}).`
+        : `Added ${addedCount} new transaction${addedCount === 1 ? '' : 's'}.`,
+    )
   }
 
   const handleCategoryChange = (id: string, category: string) => {

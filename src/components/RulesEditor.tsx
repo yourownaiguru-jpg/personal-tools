@@ -16,7 +16,11 @@ export function RulesEditor({ rules, onChange, onReapply }: RulesEditorProps) {
     const keyword = (keywordDraft[category] ?? '').trim().toLowerCase()
     if (!keyword) return
     onChange(
-      rules.map((r) => (r.category === category ? { ...r, keywords: [...r.keywords, keyword] } : r)),
+      rules.map((r) =>
+        r.category === category && !r.keywords.includes(keyword)
+          ? { ...r, keywords: [...r.keywords, keyword] }
+          : r,
+      ),
     )
     setKeywordDraft((d) => ({ ...d, [category]: '' }))
   }

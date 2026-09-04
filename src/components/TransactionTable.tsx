@@ -127,11 +127,23 @@ export function TransactionTable({
                 <th
                   key={col.key}
                   scope="col"
-                  className={`py-2 pr-3 font-medium cursor-pointer select-none ${col.align === 'right' ? 'text-right' : ''}`}
-                  onClick={() => toggleSort(col.key)}
+                  aria-sort={
+                    sortKey === col.key
+                      ? sortDir === 'asc'
+                        ? 'ascending'
+                        : 'descending'
+                      : undefined
+                  }
+                  className={`py-2 pr-3 font-medium ${col.align === 'right' ? 'text-right' : ''}`}
                 >
-                  {col.label}
-                  {sortKey === col.key ? (sortDir === 'asc' ? ' ▲' : ' ▼') : ''}
+                  <button
+                    type="button"
+                    onClick={() => toggleSort(col.key)}
+                    className="font-medium select-none hover:text-slate-300"
+                  >
+                    {col.label}
+                    {sortKey === col.key ? (sortDir === 'asc' ? ' ▲' : ' ▼') : ''}
+                  </button>
                 </th>
               ))}
             </tr>

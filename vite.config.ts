@@ -8,4 +8,14 @@ const REPO_NAME = 'privacy-expense-tracker'
 export default defineConfig(({ command }) => ({
   plugins: [react()],
   base: command === 'build' ? `/${REPO_NAME}/` : '/',
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          pdfjs: ['pdfjs-dist'],
+          recharts: ['recharts'],
+        },
+      },
+    },
+  },
 }))
