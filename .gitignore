@@ -7,3 +7,5 @@ dist-ssr
 .env.local
 .claude
 *.tsbuildinfo
+playwright-report
+test-results

@@ -73,9 +73,15 @@ npm run dev
 ## Test & lint
 
 ```bash
-npm run test
+npm run test   # unit tests (vitest)
+npm run e2e    # browser tests (Playwright — real Chrome locally, Chromium in CI)
 npm run lint
 ```
+
+The end-to-end suite generates a synthetic statement PDF at test time,
+uploads it into the running app, and verifies parsing, categorization,
+dedupe, persistence, CSV export — and that **zero network requests leave
+localhost** while a statement is processed.
 
 ## Build
 
