@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Header } from './components/Header'
 import { Footer } from './components/Footer'
 import { UploadZone, type ParsedStatement } from './components/UploadZone'
+import { Dashboard } from './components/Dashboard'
 import { guessStatementYear } from './lib/pdf'
 import { parseStatementText } from './lib/parseStatement'
 import { categorizeAll } from './lib/categorize'
@@ -30,26 +31,7 @@ function App() {
       <Header />
       <main className="flex-1 mx-auto max-w-6xl w-full px-4 py-8 space-y-6">
         <UploadZone onStatementsExtracted={handleStatements} />
-        {transactions.length > 0 && (
-          <div className="text-sm text-slate-400">
-            <p className="mb-2">
-              Parsed {transactions.length} transaction
-              {transactions.length === 1 ? '' : 's'}.
-            </p>
-            <ul className="space-y-1 font-mono text-xs">
-              {transactions.slice(0, 10).map((t) => (
-                <li key={t.id} className="flex gap-3">
-                  <span className="text-slate-500">{t.date}</span>
-                  <span className="flex-1 truncate">{t.description}</span>
-                  <span className="text-slate-500">{t.category}</span>
-                  <span className={t.amount < 0 ? 'text-rose-400' : 'text-emerald-400'}>
-                    {t.amount.toFixed(2)}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        {transactions.length > 0 && <Dashboard transactions={transactions} />}
       </main>
       <Footer />
     </div>
