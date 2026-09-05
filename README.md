@@ -5,7 +5,7 @@ subfolder with its own README, dependencies, and (where it has one) CI.
 
 | Tool | What it does |
 |---|---|
-| [`expense-tracker/`](./expense-tracker) | Client-side-only expense dashboard that parses bank/credit card PDF statements entirely in the browser — nothing is ever uploaded or stored server-side. Supports both US and India statement formats. |
+| [`expense-tracker/`](./expense-tracker) | Client-side-only expense dashboard that parses bank/credit card PDF statements entirely in the browser — nothing is ever uploaded or stored server-side. Supports both US and India statement formats. **[Guide](./expense-tracker/GUIDE.md)** · **[Privacy](./expense-tracker/PRIVACY.md)** |
 
 ## Conventions
 

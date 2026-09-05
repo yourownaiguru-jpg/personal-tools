@@ -77,8 +77,17 @@ export function saveRules(rules: CategoryRule[]): void {
 }
 
 export function clearAllData(): void {
-  localStorage.removeItem(TRANSACTIONS_KEY)
-  localStorage.removeItem(RULES_KEY)
+  // Guarded like every other access here: in the strictest privacy modes
+  // (e.g. Safari's "Block all cookies") merely touching window.localStorage
+  // throws a SecurityError. Clearing must never fail loudly — if it did,
+  // the caller would abort before wiping in-memory state and the user would
+  // click "Clear all data" and watch their data stay on screen.
+  try {
+    localStorage.removeItem(TRANSACTIONS_KEY)
+    localStorage.removeItem(RULES_KEY)
+  } catch {
+    // Nothing was persisted in the first place if storage is unreachable.
+  }
 }
 
 function dedupeKey(t: Transaction): string {

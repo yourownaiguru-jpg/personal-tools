@@ -3,6 +3,10 @@
 A dashboard for tracking expenses from bank and credit card statements —
 entirely in your browser. No backend, no server, no upload.
 
+> **New here? Read [the guide](./GUIDE.md).** It walks through using the
+> tool, explains how it's built and why your statements can't leak, and
+> shows you how to verify that yourself in about ten seconds.
+
 ## How it works
 
 1. You drop a PDF bank or credit card statement onto the page.
