@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { formatCurrency, type Currency } from '../lib/currency'
 import type { Transaction } from '../lib/types'
 
 type SortKey = 'date' | 'description' | 'category' | 'amount'
@@ -7,18 +8,17 @@ type SortDir = 'asc' | 'desc'
 interface TransactionTableProps {
   transactions: Transaction[]
   categories: string[]
+  currency: Currency
   onCategoryChange: (id: string, category: string) => void
-}
-
-function formatCurrency(value: number): string {
-  return value.toLocaleString(undefined, { style: 'currency', currency: 'USD' })
 }
 
 export function TransactionTable({
   transactions,
   categories,
+  currency,
   onCategoryChange,
 }: TransactionTableProps) {
+  const format = (value: number) => formatCurrency(value, currency)
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState('All')
   const [account, setAccount] = useState('All')
@@ -174,7 +174,7 @@ export function TransactionTable({
                     t.amount < 0 ? 'text-rose-400' : 'text-emerald-400'
                   }`}
                 >
-                  {formatCurrency(t.amount)}
+                  {format(t.amount)}
                 </td>
               </tr>
             ))}

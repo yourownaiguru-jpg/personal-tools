@@ -3,8 +3,13 @@ import type { Transaction } from './types'
 
 // Matches a leading date like "03/14", "3/14/24", "03-14-2024", "25-03-2024".
 const DATE_RE = /^(\d{1,2}[/-]\d{1,2}(?:[/-]\d{2,4})?)\s+/
-// A single amount token: "1,234.56", "-45.00", "(45.00)", "₹1,234.56", "$45.00".
-const AMOUNT_TOKEN_RE = /^\(?-?[$₹]?[\d,]+\.\d{2}\)?$/
+// A single amount token: "1,234.56", "-45.00", "(45.00)", "₹1,234.56",
+// "$45.00", "Rs.1,299.00". Indian statements often glue "Rs." straight onto
+// the number with no space, which would otherwise leave the line with no
+// recognizable amount and drop the transaction entirely.
+const CURRENCY_PREFIX = String.raw`(?:[$₹£€]|Rs\.?|INR)`
+const AMOUNT_TOKEN_RE = new RegExp(String.raw`^\(?-?${CURRENCY_PREFIX}?[\d,]+\.\d{2}\)?$`, 'i')
+const CURRENCY_STRIP_RE = new RegExp(String.raw`${CURRENCY_PREFIX}|,`, 'gi')
 const MARKER_RE = /^(CR|DR)$/i
 
 const CREDIT_HINT_RE =
@@ -57,11 +62,11 @@ function splitTrailingAmounts(text: string): { description: string; amounts: Amo
 }
 
 function toNumber(raw: string): number {
-  return parseFloat(raw.replace(/[$,₹()]/g, ''))
+  return parseFloat(raw.replace(CURRENCY_STRIP_RE, '').replace(/[()]/g, ''))
 }
 
 function parseAmount(raw: string, isCredit: boolean): number {
-  let s = raw.replace(/[$,₹]/g, '').trim()
+  let s = raw.replace(CURRENCY_STRIP_RE, '').trim()
   let negative = false
   if (s.startsWith('(') && s.endsWith(')')) {
     negative = true

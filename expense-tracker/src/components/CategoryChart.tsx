@@ -9,15 +9,13 @@ import {
   YAxis,
 } from 'recharts'
 import type { CategoryTotal } from '../lib/aggregate'
+import { formatCurrency, type Currency } from '../lib/currency'
 import { CHART_COLORS } from '../lib/palette'
 
-function formatCurrency(value: number): string {
-  return value.toLocaleString(undefined, { style: 'currency', currency: 'USD' })
-}
-
-export function CategoryChart({ data }: { data: CategoryTotal[] }) {
+export function CategoryChart({ data, currency }: { data: CategoryTotal[]; currency: Currency }) {
   if (data.length === 0) return null
   const top = data.slice(0, 8)
+  const format = (value: number) => formatCurrency(value, currency)
 
   return (
     <div className="rounded-lg border border-slate-800 bg-slate-900/60 p-4">
@@ -27,7 +25,7 @@ export function CategoryChart({ data }: { data: CategoryTotal[] }) {
           <CartesianGrid horizontal={false} stroke={CHART_COLORS.grid} />
           <XAxis
             type="number"
-            tickFormatter={(v: number) => formatCurrency(v)}
+            tickFormatter={(v: number) => format(v)}
             stroke={CHART_COLORS.gray}
             tick={{ fontSize: 11, fill: CHART_COLORS.gray }}
           />
@@ -46,7 +44,7 @@ export function CategoryChart({ data }: { data: CategoryTotal[] }) {
               borderRadius: 8,
               fontSize: 12,
             }}
-            formatter={(value: number) => formatCurrency(value)}
+            formatter={(value: number) => format(value)}
           />
           <Bar dataKey="total" radius={[0, 4, 4, 0]} maxBarSize={22}>
             {top.map((entry) => (

@@ -48,7 +48,7 @@ Both are covered by sample PDFs in [`samples/`](./samples) — see
 | Date order | month-first (`03/14/2024`) | day-first (`14/03/2024` or `14-03-2024`) — auto-detected, or set manually with the "Date format" control above the upload box |
 | Amount sign | plain = charge, `CR` suffix = credit | plain = charge, `Dr`/`Cr` suffix = explicit debit/credit |
 | Statement layout | one trailing amount per line (most credit cards) | credit cards: one amount + `Dr`/`Cr`; bank accounts: 2 columns (amount, running balance) or 3 columns (debit, credit, balance) |
-| Currency | `$` | `₹`, `Rs.`, `INR`, or no symbol (all stripped during parsing) |
+| Currency | `$` | `₹`, `Rs.`, `INR`, or no symbol (all recognized; dashboard renders ₹) |
 
 Auto-detection scans for an unambiguous date (day > 12) first, then for
 India-specific hints (`₹`, `IFSC`, `UPI`, `GSTIN`, `NEFT`, `IMPS`) in the
@@ -65,6 +65,7 @@ lives in small, individually tested modules under `src/lib/`:
 |---|---|
 | `pdf.ts` | pdf.js wrapper — extracts positioned text and reconstructs lines per page |
 | `dateFormat.ts` | Infers month-first vs. day-first dates from the statement text |
+| `currency.ts` | Infers the statement's currency and formats amounts for display |
 | `parseStatement.ts` | Generic line parser: leading date + 1–3 trailing amount columns → transaction |
 | `categorize.ts` | Keyword rules → category; first matching rule wins |
 | `aggregate.ts` | Summary totals, spend-by-category, monthly income/expense series |
@@ -91,8 +92,14 @@ Components under `src/components/` are thin views over these modules;
   `[transaction, running balance]`; three as `[debit, credit, balance]`.
   Four or more trailing numbers on one line are too ambiguous to guess at
   and are skipped rather than risk a wrong sign or amount.
-- **Currency display is USD** regardless of source; parsing strips `$`,
-  `₹`, and `,` but does not convert values — amounts are shown as printed.
+- **Currency is detected, not converted.** The symbol printed on the
+  statement (`$`, `₹`/`Rs.`/`INR`, `£`, `€`) sets how the dashboard renders
+  amounts — rupee figures show as ₹ with lakh grouping (₹1,23,456). An
+  Indian statement that prints no symbol at all is recognized by its
+  UPI/NEFT/IFSC vocabulary or its `Dr`/`Cr` markers. Override a wrong guess
+  with the **Currency** selector above the upload box. Values are never
+  converted between currencies — they are shown as printed, so mixing
+  statements in different currencies would produce meaningless totals.
 - The generic parser aims for broad coverage rather than per-bank
   perfection — check the table after import and correct categories inline.
   If a specific bank's layout doesn't parse correctly, its statement lines

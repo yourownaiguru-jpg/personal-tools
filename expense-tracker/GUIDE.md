@@ -52,11 +52,17 @@ Both US and Indian statements are supported and tested:
 | Dates | `03/14/2024` (month first) | `14/03/2024` or `14-03-2024` (day first) |
 | Credits | `CR` suffix | `Cr` / `Dr` markers |
 | Layout | one amount per line | one amount, or Debit/Credit/Balance columns |
-| Currency | `$` | `₹`, `Rs.`, `INR` |
+| Currency | `$` | `₹`, `Rs.`, `INR`, or no symbol at all |
 
 The date format is detected automatically. If a statement's dates come out
 wrong, set the format manually with the **Date format** dropdown above the
 upload box and upload it again.
+
+The currency is detected the same way — from the symbol on the statement,
+or, when an Indian bank prints none, from its UPI/NEFT lines and `Dr`/`Cr`
+markers. Rupee amounts are shown as ₹ and grouped the Indian way
+(₹1,23,456, not ₹123,456). The **Currency** dropdown next to it overrides
+a wrong guess, and your choice is remembered on this browser.
 
 Merchant recognition covers common names in both countries — Starbucks,
 Whole Foods, Delta on one side; Swiggy, Zomato, Flipkart, Ola, BigBasket,
@@ -158,7 +164,8 @@ never written to disk, never uploaded, and never kept.
 Only the parsed transactions and your category rules, in your browser's
 `localStorage`, under two names: `expense-tracker:transactions:v1` and
 `expense-tracker:rules:v1`. That's what makes your dashboard still be
-there when you come back.
+there when you come back. A third name, `expense-tracker:currency:v1`,
+holds your currency preference — a three-letter code, nothing more.
 
 **Be clear-eyed about this:** the PDF isn't stored, but what *is* stored is
 still financial data. Transaction descriptions on Indian statements often
@@ -237,9 +244,13 @@ No tool is risk-free, and you should know where this one's edges are:
 - **The parser isn't perfect.** Every bank formats statements differently.
   Always check the transaction table against your statement before relying
   on the numbers.
-- **Amounts are displayed with a `$` sign** regardless of the source
-  currency. Values are shown exactly as printed — nothing is converted —
-  but ₹1,000 will display as $1,000.
+- **Amounts are never converted between currencies.** The app detects
+  whether your statement is in dollars, rupees, pounds, or euros and labels
+  the figures accordingly (₹ amounts group the Indian way: ₹1,23,456), but
+  it shows every value exactly as printed. Use the **Currency** selector
+  above the upload box if a statement is read as the wrong one — and don't
+  mix currencies in one dashboard, since the totals would add rupees to
+  dollars.
 - **The hosted version asks you to trust the host.** The published site is
   served by GitHub Pages. If you want to remove even that assumption,
   build and run it yourself.

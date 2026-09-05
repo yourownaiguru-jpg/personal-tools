@@ -1,7 +1,9 @@
+import { CURRENCIES, type Currency } from './currency'
 import type { CategoryRule, Transaction } from './types'
 
 const TRANSACTIONS_KEY = 'expense-tracker:transactions:v1'
 const RULES_KEY = 'expense-tracker:rules:v1'
+const CURRENCY_KEY = 'expense-tracker:currency:v1'
 
 /**
  * All persistence in this app is local to the browser (localStorage) and
@@ -76,6 +78,50 @@ export function saveRules(rules: CategoryRule[]): void {
   }
 }
 
+/**
+ * `choice` is what the user picked in the currency selector ('auto' to let
+ * each import decide); `detected` is what the last import actually inferred.
+ * Both persist because stored transactions outlive the page: without the
+ * detected value, reloading a dashboard built from rupee statements would
+ * silently redraw every figure as dollars.
+ */
+export interface CurrencySettings {
+  choice: 'auto' | Currency
+  detected: Currency
+}
+
+export const DEFAULT_CURRENCY_SETTINGS: CurrencySettings = { choice: 'auto', detected: 'USD' }
+
+function isCurrency(value: unknown): value is Currency {
+  return typeof value === 'string' && (CURRENCIES as string[]).includes(value)
+}
+
+export function loadCurrencySettings(): CurrencySettings {
+  try {
+    const raw = localStorage.getItem(CURRENCY_KEY)
+    if (!raw) return DEFAULT_CURRENCY_SETTINGS
+    const parsed: unknown = JSON.parse(raw)
+    if (typeof parsed !== 'object' || parsed === null) return DEFAULT_CURRENCY_SETTINGS
+    const { choice, detected } = parsed as Record<string, unknown>
+    // Same rationale as loadTransactions: malformed storage degrades to
+    // defaults per field rather than crashing or blanking the dashboard.
+    return {
+      choice: choice === 'auto' || isCurrency(choice) ? choice : DEFAULT_CURRENCY_SETTINGS.choice,
+      detected: isCurrency(detected) ? detected : DEFAULT_CURRENCY_SETTINGS.detected,
+    }
+  } catch {
+    return DEFAULT_CURRENCY_SETTINGS
+  }
+}
+
+export function saveCurrencySettings(settings: CurrencySettings): void {
+  try {
+    localStorage.setItem(CURRENCY_KEY, JSON.stringify(settings))
+  } catch {
+    // Ignore storage failures — the setting still applies in-memory.
+  }
+}
+
 export function clearAllData(): void {
   // Guarded like every other access here: in the strictest privacy modes
   // (e.g. Safari's "Block all cookies") merely touching window.localStorage
@@ -85,6 +131,7 @@ export function clearAllData(): void {
   try {
     localStorage.removeItem(TRANSACTIONS_KEY)
     localStorage.removeItem(RULES_KEY)
+    localStorage.removeItem(CURRENCY_KEY)
   } catch {
     // Nothing was persisted in the first place if storage is unreachable.
   }

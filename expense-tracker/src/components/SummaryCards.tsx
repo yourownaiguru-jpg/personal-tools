@@ -1,21 +1,15 @@
 import type { Summary } from '../lib/aggregate'
+import { formatCurrency, type Currency } from '../lib/currency'
 import { CHART_COLORS } from '../lib/palette'
 
-function formatCurrency(value: number): string {
-  return value.toLocaleString(undefined, {
-    style: 'currency',
-    currency: 'USD',
-    maximumFractionDigits: 0,
-  })
-}
-
-export function SummaryCards({ summary }: { summary: Summary }) {
+export function SummaryCards({ summary, currency }: { summary: Summary; currency: Currency }) {
+  const format = (value: number) => formatCurrency(value, currency, { maximumFractionDigits: 0 })
   const netColor = summary.net >= 0 ? CHART_COLORS.green : CHART_COLORS.red
 
   const tiles = [
-    { label: 'Total spent', value: formatCurrency(summary.totalExpenses) },
-    { label: 'Total income', value: formatCurrency(summary.totalIncome) },
-    { label: 'Net', value: formatCurrency(summary.net), color: netColor },
+    { label: 'Total spent', value: format(summary.totalExpenses) },
+    { label: 'Total income', value: format(summary.totalIncome) },
+    { label: 'Net', value: format(summary.net), color: netColor },
     { label: 'Transactions', value: summary.count.toLocaleString() },
   ]
 

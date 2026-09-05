@@ -148,3 +148,32 @@ describe('parseStatementText', () => {
     })
   })
 })
+
+describe('currency-prefixed amounts', () => {
+  it('parses "Rs." glued to the number, as Indian statements print it', () => {
+    const [t] = parseStatementText([['05/03/2024 SWIGGY BANGALORE Rs.450.00 Dr']], {
+      ...opts,
+      dateFormat: 'DMY',
+    })
+    expect(t.amount).toBe(-450)
+    expect(t.description).toBe('SWIGGY BANGALORE')
+  })
+
+  it('parses an INR-prefixed credit', () => {
+    const [t] = parseStatementText([['12/03/2024 PAYMENT RECEIVED INR5,000.00 Cr']], {
+      ...opts,
+      dateFormat: 'DMY',
+    })
+    expect(t.amount).toBe(5000)
+  })
+
+  it('still parses the ₹ and $ symbol forms', () => {
+    const [rupees] = parseStatementText([['05/03/2024 SWIGGY ₹450.00']], {
+      ...opts,
+      dateFormat: 'DMY',
+    })
+    expect(rupees.amount).toBe(-450)
+    const [dollars] = parseStatementText([['03/14/2024 STARBUCKS $5.75']], opts)
+    expect(dollars.amount).toBe(-5.75)
+  })
+})

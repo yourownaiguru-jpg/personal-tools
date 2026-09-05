@@ -82,8 +82,11 @@ test('a parsed statement leaves no PDF bytes and no non-transaction text in stor
   expect(everything).not.toContain(ACCOUNT_NO)
   expect(everything).not.toContain(IFSC)
 
-  // 3. Nothing persisted outside the two known localStorage keys.
+  // 3. Nothing persisted outside the three known localStorage keys. The
+  //    currency key holds a three-letter code and nothing else — it is
+  //    listed here so that any *new* key has to be justified in this test.
   expect(Object.keys(storage.localStorage).sort()).toEqual([
+    'expense-tracker:currency:v1',
     'expense-tracker:rules:v1',
     'expense-tracker:transactions:v1',
   ])

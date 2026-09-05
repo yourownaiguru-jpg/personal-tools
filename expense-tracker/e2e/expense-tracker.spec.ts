@@ -128,7 +128,39 @@ test('exports the parsed transactions as CSV', async ({ page }) => {
   const chunks: Buffer[] = []
   for await (const chunk of stream) chunks.push(chunk as Buffer)
   const csv = Buffer.concat(chunks).toString('utf-8')
-  expect(csv.split('\n')[0]).toBe('Date,Description,Category,Account,Amount')
+  expect(csv.split('\n')[0]).toBe('Date,Description,Category,Account,Amount (USD)')
   expect(csv).toContain('2024-03-01,STARBUCKS STORE #4521,Dining,sample-statement,-5.75')
   expect(csv).toContain('2024-03-12,PAYMENT RECEIVED - THANK YOU,Payment,sample-statement,200.00')
+})
+
+test('currency is detected per statement, overridable, and survives a reload', async ({ page }) => {
+  await page.goto('./')
+
+  // An Indian statement. It writes "Rs." rather than ₹ because pdf-lib's
+  // built-in Helvetica is WinAnsi-only and cannot encode the rupee sign —
+  // the same reason the sample PDFs avoid it. The dashboard still renders ₹.
+  await page.setInputFiles('input[type="file"]', {
+    name: 'india-statement.pdf',
+    mimeType: 'application/pdf',
+    buffer: await makeStatementPdf([
+      'SAMPLE BANK INDIA',
+      'Statement Period: 01/03/2024 - 31/03/2024',
+      '',
+      '05/03/2024 SWIGGY BANGALORE Rs.450.00 Dr',
+      '14/03/2024 BIGBASKET ONLINE Rs.1,299.00 Dr',
+    ]),
+  })
+  await expect(page.getByText('Added 2 new transactions.')).toBeVisible()
+  await expect(page.getByText('₹1,749', { exact: true })).toBeVisible()
+
+  // The detected currency is stored alongside the transactions, so a reload
+  // must not redraw rupee figures as dollars.
+  await page.reload()
+  await expect(page.getByText('₹1,749', { exact: true })).toBeVisible()
+
+  // A wrong guess is correctable, and the override persists too.
+  await page.getByLabel('Currency:').selectOption('USD')
+  await expect(page.getByText('$1,749', { exact: true })).toBeVisible()
+  await page.reload()
+  await expect(page.getByText('$1,749', { exact: true })).toBeVisible()
 })
