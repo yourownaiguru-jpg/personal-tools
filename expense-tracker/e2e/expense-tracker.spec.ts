@@ -1,4 +1,5 @@
-import { expect, test, type Page } from '@playwright/test'
+import { expect, test } from './fixtures'
+import type { Page } from '@playwright/test'
 import { PDFDocument, StandardFonts } from 'pdf-lib'
 
 // A synthetic but realistically shaped credit card statement, generated as
@@ -48,13 +49,19 @@ test('shows the empty state before any upload', async ({ page }) => {
   await expect(page.getByText('Step 1')).toBeVisible()
 })
 
-test('parses an uploaded statement into the dashboard without any network egress', async ({
+// The one disclosed exception to "no network egress" — a page-load visit
+// count with no statement data. See PRIVACY.md's "The one thing this app
+// now counts" section.
+const ALLOWED_EXTERNAL_HOSTS = ['gc.zgo.at', 'yourownaiguru.goatcounter.com']
+
+test('parses an uploaded statement into the dashboard without any request carrying statement data', async ({
   page,
 }) => {
-  const externalRequests: string[] = []
+  const externalRequests: { url: string; postData: string | null }[] = []
   page.on('request', (request) => {
-    if (!new URL(request.url()).hostname.match(/^(localhost|127\.0\.0\.1)$/)) {
-      externalRequests.push(request.url())
+    const hostname = new URL(request.url()).hostname
+    if (!hostname.match(/^(localhost|127\.0\.0\.1)$/)) {
+      externalRequests.push({ url: request.url(), postData: request.postData() })
     }
   })
 
@@ -78,9 +85,19 @@ test('parses an uploaded statement into the dashboard without any network egress
   await expect(page.getByLabel('Category for TRADER JOE S #102')).toHaveValue('Groceries')
   await expect(page.getByLabel('Category for DELTA AIR LINES')).toHaveValue('Travel')
 
-  // The privacy promise, verified: parsing a statement made zero requests
-  // to anything but the local dev server.
-  expect(externalRequests).toEqual([])
+  // The privacy promise, verified: every non-local request goes only to
+  // the one disclosed, allowed host, and even that one carries nothing
+  // derived from the statement — no merchant name, no amount.
+  for (const req of externalRequests) {
+    expect(ALLOWED_EXTERNAL_HOSTS).toContain(new URL(req.url).hostname)
+  }
+  const sensitiveStrings = ['STARBUCKS', '4521', 'TRADER JOE', '62.40', 'NETFLIX', 'DELTA', '412.00', '569', 'sample-statement']
+  for (const req of externalRequests) {
+    const haystack = req.url + (req.postData ?? '')
+    for (const needle of sensitiveStrings) {
+      expect(haystack).not.toContain(needle)
+    }
+  }
 })
 
 test('skips duplicates when the same statement is uploaded twice', async ({ page }) => {

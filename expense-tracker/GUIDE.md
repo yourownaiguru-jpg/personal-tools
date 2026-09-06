@@ -192,9 +192,12 @@ guarantees.
 Two protections don't depend on the code behaving well:
 
 - **A Content Security Policy** ships with the app telling your browser to
-  refuse any script from another source and to block *all* outgoing
-  network connections. Even if a piece of the app were compromised, the
-  browser would refuse to let it send your data anywhere.
+  refuse any script from another source and to block outgoing network
+  connections everywhere except one: a page-load visit counter
+  ([GoatCounter](https://www.goatcounter.com/), see
+  [PRIVACY.md](./PRIVACY.md)) that fires before you've chosen a file and
+  carries no statement data. Even if a piece of the app were compromised,
+  the browser would refuse to let it send your data anywhere else.
 - **Only the browser's own file picker** ever touches your disk. The app
   can't go looking for files on its own.
 
@@ -205,7 +208,7 @@ change, not just documented:
 
 - A test uploads a statement and **records every network request the page
   makes**, then asserts that none of them go anywhere but the local
-  machine.
+  machine or the one named, disclosed visit-count endpoint.
 - A test uploads a statement whose account holder name, account number,
   and IFSC code sit on non-transaction lines, then **dumps every storage
   mechanism the browser has** — local storage, session storage, IndexedDB,
@@ -226,8 +229,9 @@ You don't have to take any of the above on trust:
   Keep using it — upload a statement, browse the dashboard. It all works,
   which is only possible if nothing needs to leave your machine.
 - **Watch the network.** Open your browser's developer tools, go to the
-  Network tab, and upload a statement. After the page itself finishes
-  loading, nothing further is requested.
+  Network tab, and upload a statement. You'll see one request when the
+  page first loads — the visit counter — and then nothing further, no
+  matter what you upload.
 - **Read the code.** It's all public. The parsing and storage logic is
   under `src/lib/`, and each file is a few hundred lines at most.
 - **Build it yourself.** Clone the repository and run `npm install` and

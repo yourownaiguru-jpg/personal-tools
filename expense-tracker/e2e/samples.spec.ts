@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { expect, test } from '@playwright/test'
+import { expect, test } from './fixtures'
 
 // These drive the real app in Chrome against the actual sample PDFs shipped
 // in samples/ (run `npm run samples` to regenerate) — the same files a user

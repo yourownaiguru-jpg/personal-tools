@@ -139,8 +139,10 @@ npm run lint
 
 The end-to-end suite generates a synthetic statement PDF at test time,
 uploads it into the running app, and verifies parsing, categorization,
-dedupe, persistence, CSV export — and that **zero network requests leave
-localhost** while a statement is processed.
+dedupe, persistence, CSV export — and that **no request carrying a
+statement leaves localhost** while one is processed (the one exception,
+a page-load visit count with no statement data, is asserted by name — see
+[PRIVACY.md](./PRIVACY.md)).
 
 ## Build
 

@@ -12,6 +12,12 @@ export default tseslint.config(
       ecmaVersion: 2022,
       globals: { window: 'readonly', document: 'readonly' },
     },
+  },
+  {
+    // React-specific rules only make sense for the app's own source — a
+    // Playwright fixture's `use` parameter (e2e/fixtures.ts) is unrelated
+    // to React hooks and was tripping the naming-convention check.
+    files: ['src/**/*.{ts,tsx}'],
     plugins: {
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,

@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './fixtures'
 import { PDFDocument, StandardFonts } from 'pdf-lib'
 
 // The docs tell privacy-conscious users they can run this in a private

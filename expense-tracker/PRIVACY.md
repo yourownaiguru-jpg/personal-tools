@@ -46,24 +46,45 @@ Practical guidance:
   on its own domain.
 - The stored data is parsed transactions only — never the PDF itself.
 
-## No analytics, no tracking
+## The one thing this app now counts
 
-This app does not include any third-party analytics, telemetry, or
-tracking scripts.
+The app loads [GoatCounter](https://www.goatcounter.com/), an open-source,
+cookieless visit counter, so the person who built this can see how many
+people use it — nothing more specific than that.
 
-The production build also ships a Content-Security-Policy that blocks
-scripts from any other origin and blocks all network connections
-(`connect-src 'self'`) — so even a hypothetical injected script could
-not send your data anywhere. (Pages can't set response headers, so the
-policy ships as a `<meta>` tag; it is enforcement-grade in all modern
-browsers.)
+- It fires **once, on page load**, before you've chosen a file. It has no
+  way to know anything about a statement, because it runs before one
+  exists.
+- It sets no cookies and reads nothing from `localStorage`. GoatCounter
+  doesn't build visitor profiles or track you across sites — its entire
+  design goal is a simple count, not surveillance.
+- It sends the page URL and referrer to `yourownaiguru.goatcounter.com`,
+  which is the one thing this app's Content-Security-Policy now allows
+  beyond `'self'` (see `vite.config.ts`). Nothing else is permitted to
+  leave the page — the CSP still blocks any other network destination.
+
+This is the one exception to "no analytics, no tracking" this app has ever
+made, and it's the only one the CSP allows. Every claim below still holds
+for the thing that actually matters here — your statement.
+
+## No analytics, no tracking of your financial data
+
+Beyond that one page-load count, this app includes no third-party
+analytics, telemetry, or tracking scripts. Your statement and the
+transactions parsed from it are never sent anywhere, to GoatCounter or
+otherwise — the CSP's `connect-src` permits exactly `'self'` and the
+GoatCounter endpoint above, nothing else, so even a hypothetical injected
+script could not send your data anywhere else. (Pages can't set response
+headers, so the policy ships as a `<meta>` tag; it is enforcement-grade in
+all modern browsers.)
 
 ## Verifying this yourself
 
 Because this is open-source and runs as a static site, you can:
 - Read the source, in particular `src/lib/` for parsing/storage code.
-- Open your browser's Network tab while using the app and confirm no
-  requests are made after the page and its assets load.
-- The Playwright suite (`e2e/expense-tracker.spec.ts`) asserts on every
-  CI run that parsing a statement makes **zero** requests to any
-  non-localhost origin.
+- Open your browser's Network tab while using the app. You'll see one
+  request to GoatCounter when the page loads, and — no matter what
+  statement you upload — nothing else, ever.
+- The Playwright suite (`e2e/expense-tracker.spec.ts`) asserts on every CI
+  run that parsing a statement makes **zero** requests to any origin
+  besides GoatCounter's visit-count endpoint.

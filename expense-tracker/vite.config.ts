@@ -2,23 +2,26 @@
 import { defineConfig, type PluginOption } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// Enforces the app's no-network-egress promise at the browser level.
-// GitHub Pages can't set response headers, so the policy ships as a meta
-// tag — injected only into production builds because the dev server needs
-// inline scripts (React refresh preamble) and websockets that this policy
-// forbids. What each directive is for:
-//   script-src 'self'      — only our bundled JS; no injected/inline scripts, no eval
-//   connect-src 'self'     — fetch/XHR/WebSocket can't reach any other origin
-//   style-src 'unsafe-inline' — React/recharts set style attributes inline
-//   worker-src blob:       — pdf.js falls back to a blob worker in some setups
-//   object/base/form 'none'— no plugins, <base> tricks, or form exfiltration
+// Enforces the app's no-network-egress promise at the browser level, with
+// one narrow, disclosed exception (see PRIVACY.md): a GoatCounter visit
+// count, which fires once per page load via navigator.sendBeacon and
+// carries no statement data — everything about a parsed statement still
+// never leaves 'self'. GitHub Pages can't set response headers, so the
+// policy ships as a meta tag — injected only into production builds
+// because the dev server needs inline scripts (React refresh preamble) and
+// websockets that this policy forbids. What each directive is for:
+//   script-src 'self' gc.zgo.at        — our bundled JS, plus GoatCounter's count.js
+//   connect-src 'self' goatcounter.com — fetch/XHR/WebSocket stay in-origin, except the visit-count beacon
+//   style-src 'unsafe-inline'          — React/recharts set style attributes inline
+//   worker-src blob:                   — pdf.js falls back to a blob worker in some setups
+//   object/base/form 'none'            — no plugins, <base> tricks, or form exfiltration
 // (frame-ancestors is header-only and ignored in meta CSP, so it's omitted.)
 const CSP = [
   "default-src 'self'",
-  "script-src 'self'",
+  "script-src 'self' https://gc.zgo.at",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data:",
-  "connect-src 'self'",
+  "connect-src 'self' https://yourownaiguru.goatcounter.com",
   "worker-src 'self' blob:",
   "object-src 'none'",
   "base-uri 'none'",

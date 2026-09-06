@@ -1,4 +1,5 @@
-import { expect, test, type Page } from '@playwright/test'
+import { expect, test } from './fixtures'
+import type { Page } from '@playwright/test'
 import { PDFDocument, StandardFonts } from 'pdf-lib'
 
 // Guards the app's core promise: the PDF's bytes are never persisted, and

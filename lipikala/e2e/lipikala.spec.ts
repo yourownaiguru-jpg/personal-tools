@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './fixtures'
 
 test('loads with the default name, script, and letter map', async ({ page }) => {
   await page.goto('./')
@@ -84,16 +84,28 @@ test('downloading the plate produces a PNG file', async ({ page }) => {
   expect(download.suggestedFilename()).toMatch(/^Kaveri-tamil-brahmi\.png$/)
 })
 
-test('makes no network request outside Google Fonts and the page\'s own origin', async ({ page }) => {
-  const externalHosts = new Set<string>()
+const ALLOWED_EXTERNAL_HOSTS = ['fonts.googleapis.com', 'fonts.gstatic.com', 'gc.zgo.at', 'yourownaiguru.goatcounter.com']
+
+test('makes no network request outside Google Fonts, GoatCounter, and the page\'s own origin', async ({ page }) => {
+  const externalRequests: { url: string; postData: string | null }[] = []
+  const PRIVATE_NAME = 'a private name nobody should see leave the browser'
   page.on('request', (req) => {
     const url = new URL(req.url())
-    if (url.hostname !== 'localhost' && url.hostname !== '127.0.0.1') externalHosts.add(url.hostname)
+    if (url.hostname !== 'localhost' && url.hostname !== '127.0.0.1') {
+      externalRequests.push({ url: req.url(), postData: req.postData() })
+    }
   })
   await page.goto('./')
-  await page.getByLabel(/Name or text/).fill('a private name nobody should see leave the browser')
+  await page.getByLabel(/Name or text/).fill(PRIVATE_NAME)
   await page.getByRole('button', { name: 'Sanskrit / Hindi' }).click()
-  for (const host of externalHosts) {
-    expect(['fonts.googleapis.com', 'fonts.gstatic.com']).toContain(host)
+
+  // Every external request goes to an allowed host, and — the point of
+  // this test — not one of them, including the visit-count beacon, carries
+  // any part of the name that was typed.
+  for (const req of externalRequests) {
+    expect(ALLOWED_EXTERNAL_HOSTS).toContain(new URL(req.url).hostname)
+    const haystack = req.url + (req.postData ?? '')
+    expect(haystack).not.toContain(PRIVATE_NAME)
+    expect(haystack.toLowerCase()).not.toContain('private')
   }
 })
