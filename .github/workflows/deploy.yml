@@ -1,9 +1,16 @@
-name: Deploy expense-tracker to GitHub Pages
+name: Deploy to GitHub Pages
 
+# Publishes every tool in the monorepo as one combined Pages site.
+# expense-tracker keeps the site's root (that URL is already shared
+# publicly); every other tool gets its own subpath — see the root README's
+# "Conventions" section. Because Pages takes one artifact per deploy, any
+# change to either tool rebuilds and republishes both, even if only one
+# changed — simple and correct, and cheap enough at this scale to not be
+# worth the added complexity of a partial rebuild.
 on:
   push:
     branches: [main]
-    paths: ['expense-tracker/**', '.github/workflows/deploy.yml']
+    paths: ['expense-tracker/**', 'lipikala/**', '.github/workflows/deploy.yml']
   workflow_dispatch:
 
 permissions:
@@ -15,10 +22,6 @@ concurrency:
   group: pages
   cancel-in-progress: true
 
-defaults:
-  run:
-    working-directory: expense-tracker
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -28,13 +31,34 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: expense-tracker/package-lock.json
-      - run: npm ci
-      - run: npm run test
-      - run: npm run build
+          cache-dependency-path: |
+            expense-tracker/package-lock.json
+            lipikala/package-lock.json
+
+      - name: Build expense-tracker (site root)
+        working-directory: expense-tracker
+        run: |
+          npm ci
+          npm run test
+          npm run build
+
+      - name: Build lipikala (/lipikala/)
+        working-directory: lipikala
+        run: |
+          npm ci
+          npm run test
+          npm run build
+
+      - name: Assemble combined Pages site
+        run: |
+          mkdir -p _site
+          cp -r expense-tracker/dist/. _site/
+          mkdir -p _site/lipikala
+          cp -r lipikala/dist/. _site/lipikala/
+
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: expense-tracker/dist
+          path: _site
 
   deploy:
     needs: build

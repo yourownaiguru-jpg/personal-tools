@@ -151,21 +151,22 @@ npm run preview
 
 ## Deployment (GitHub Pages)
 
-This tool lives in the [`personal-tools`](../) monorepo and is (for now) the
-only thing deployed to that repo's Pages site — the workflows and
-`vite.config.ts`'s `REPO_NAME` assume this tool owns the whole site,
-served at `/personal-tools/`. If a second tool starts sharing the site,
-both this app's `base` and the deploy workflow's artifact path will need
-to move to a subpath instead.
+This tool lives in the [`personal-tools`](../) monorepo and owns the root
+of that repo's Pages site (`/personal-tools/`) — the workflows and
+`vite.config.ts`'s `REPO_NAME` assume that, and it stays that way because
+this URL is already shared publicly. Other tools added later (e.g.
+[`lipikala`](../lipikala)) live at their own subpath instead, so this
+one's `base` never has to move.
 
 1. In the repository's **Settings → Pages**, set **Source** to
    **GitHub Actions**.
 2. Push to `main` with changes under `expense-tracker/`.
-   [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) (at the
-   repo root) builds, tests, and publishes this tool automatically; a pull
-   request instead triggers
+   [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) (at
+   the repo root) builds every tool in the monorepo and publishes them
+   together as one Pages artifact — this tool at the root, others at their
+   subpath; a pull request instead triggers
    [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) (lint, test,
-   build, e2e) without deploying. Both are scoped to `expense-tracker/**`
-   changes so they don't run for other tools in this repo.
+   build, e2e) without deploying, scoped to `expense-tracker/**` changes
+   so it doesn't run for other tools in this repo.
 4. The published URL appears in the Actions run summary and under
    **Settings → Pages**.
