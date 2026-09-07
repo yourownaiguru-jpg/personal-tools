@@ -87,9 +87,8 @@ npm run lint
 
 The e2e suite asserts that typing a name never produces a network request
 to anywhere other than Google Fonts (needed to render the historic
-scripts) and GoatCounter (a cookieless, page-load-only visit count — see
-[PRIVACY.md](./PRIVACY.md)) — the same commitment this repo's other tools
-make, verified the same way.
+scripts) — the same zero-egress guarantee this repo's other tools make,
+verified the same way.
 
 ## Build
 
