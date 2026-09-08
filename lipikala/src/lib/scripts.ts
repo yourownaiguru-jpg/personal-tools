@@ -71,6 +71,7 @@ const OMIT: Partial<Record<ScriptId, string[]>> = {
 
 export const FONT: Record<ScriptId, string> = {
   brahmi: 'Noto Sans Brahmi',
+  tamilBrahmi: 'Noto Sans Brahmi',
   grantha: 'Noto Sans Grantha',
   siddham: 'Noto Sans Siddham',
   sharada: 'Noto Sans Sharada',
@@ -88,6 +89,7 @@ export const FONT: Record<ScriptId, string> = {
 
 export const SCRIPT_LABEL: Record<ScriptId, string> = {
   brahmi: 'Brahmi script',
+  tamilBrahmi: 'Brahmi script',
   grantha: 'Grantha script',
   siddham: 'Siddhaṃ script',
   sharada: 'Śāradā script',
@@ -131,21 +133,40 @@ function mkIscii(name: ScriptId): ScriptTable {
   return S
 }
 
+// Brahmi (U+11000-U+1107F) — the ancestor of every Indic script, used from
+// Ashoka's edicts (3rd c. BCE) into the early centuries CE.
+const BRAHMI: ScriptTable = {
+  indep: seq({}, 0x11005, V14),
+  cons: seq({}, 0x11013, [...STD33, 'll', 'zh', 'rr', 'nn']),
+  sign: seq({}, 0x11038, ['A', null, 'i', 'I', 'u', 'U', 'R', 'RR', 'L', 'LL', 'E', 'ai', 'O', 'au']),
+  virama: cp(0x11046),
+  M: cp(0x11001),
+  H: cp(0x11002),
+  font: FONT.brahmi,
+}
+
+// Tamil-Brahmi — the same Brahmi block, but Old Tamil scribes independently
+// developed a puḷḷi (dot) mark that both cancels a consonant's vowel and
+// shortens e/o, distinct in shape and behaviour from the horizontal-stroke
+// virama used everywhere else in Brahmi; Unicode encodes it and the short
+// e/o it produces as their own code points (Tolkāppiyam eḻuttatikāram 51-52;
+// Unicode proposal L2/12-226), attested from inscriptions like Kuṭumiyāmalai
+// (3rd c. CE) and Araccalūr (4th c. CE) — within this era's own date range.
+// Tamil-Brahmi's ḷ is likewise its own invention, not the Northern LLA.
+const TAMIL_BRAHMI: ScriptTable = {
+  ...BRAHMI,
+  indep: { ...BRAHMI.indep, e: cp(0x11071), o: cp(0x11072) },
+  cons: { ...BRAHMI.cons, ll: cp(0x11075) },
+  sign: { ...BRAHMI.sign, e: cp(0x11073), o: cp(0x11074) },
+  virama: cp(0x11070),
+}
+
 // Historic scripts. Each is a real, distinct Unicode block — none of these
 // are fonts painted over Devanagari; the code points below are that
 // script's own, so copying the output text elsewhere keeps working.
 export const SCRIPTS: Record<ScriptId, ScriptTable> = {
-  // Brahmi (U+11000-U+1107F) — the ancestor of every Indic script, used
-  // from Ashoka's edicts (3rd c. BCE) into the early centuries CE.
-  brahmi: {
-    indep: seq({}, 0x11005, V14),
-    cons: seq({}, 0x11013, [...STD33, 'll', 'zh', 'rr', 'nn']),
-    sign: seq({}, 0x11038, ['A', null, 'i', 'I', 'u', 'U', 'R', 'RR', 'L', 'LL', 'E', 'ai', 'O', 'au']),
-    virama: cp(0x11046),
-    M: cp(0x11001),
-    H: cp(0x11002),
-    font: FONT.brahmi,
-  },
+  brahmi: BRAHMI,
+  tamilBrahmi: TAMIL_BRAHMI,
   // Grantha (U+11300-U+1137F) — South Indian script for Sanskrit, ancestor
   // of the modern Tamil and Malayalam letterforms.
   grantha: {

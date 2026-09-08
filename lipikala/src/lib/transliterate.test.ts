@@ -89,6 +89,22 @@ describe('render: historic scripts', () => {
     expect(SCRIPTS.brahmi.indep.e).toBeUndefined()
     expect(render([{ t: 'V', v: 'e' }], SCRIPTS.brahmi)).toBe(SCRIPTS.brahmi.indep.E)
   })
+
+  it('Tamil-Brahmi keeps short e/o distinct via the dedicated Old Tamil code points, unlike plain Brahmi', () => {
+    expect(render([{ t: 'V', v: 'e' }], SCRIPTS.tamilBrahmi)).toBe(String.fromCodePoint(0x11071))
+    expect(render([{ t: 'V', v: 'o' }], SCRIPTS.tamilBrahmi)).toBe(String.fromCodePoint(0x11072))
+    expect(render([{ t: 'V', v: 'e' }], SCRIPTS.tamilBrahmi)).not.toBe(SCRIPTS.tamilBrahmi.indep.E)
+  })
+
+  it('Tamil-Brahmi cancels a vowel with its own puḷḷi, not the Northern Brahmi virama', () => {
+    expect(SCRIPTS.tamilBrahmi.virama).toBe(String.fromCodePoint(0x11070))
+    expect(SCRIPTS.tamilBrahmi.virama).not.toBe(SCRIPTS.brahmi.virama)
+  })
+
+  it('Tamil-Brahmi ḷ uses the Tamil-original LLA, not the Northern Brahmi LLA', () => {
+    expect(SCRIPTS.tamilBrahmi.cons.ll).toBe(String.fromCodePoint(0x11075))
+    expect(SCRIPTS.tamilBrahmi.cons.ll).not.toBe(SCRIPTS.brahmi.cons.ll)
+  })
 })
 
 describe('render: modern scripts respect their OMIT lists', () => {

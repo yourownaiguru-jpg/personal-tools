@@ -1,5 +1,6 @@
 export type ScriptId =
   | 'brahmi'
+  | 'tamilBrahmi'
   | 'grantha'
   | 'siddham'
   | 'sharada'
