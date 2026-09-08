@@ -65,6 +65,48 @@ describe('parse: native-script input', () => {
   })
 })
 
+describe('parse: historic-script input (reading an inscription back)', () => {
+  it('round-trips real Brahmi text through render unchanged', () => {
+    const original = render(parse('Kaveri'), SCRIPTS.brahmi)
+    expect(render(parse(original), SCRIPTS.brahmi)).toBe(original)
+  })
+
+  it('reads Brahmi text into the same tokens as the roman spelling that produced it', () => {
+    expect(parse(render(parse('Divya'), SCRIPTS.brahmi))).toEqual(parse('Divya'))
+  })
+
+  it('re-sets a Brahmi inscription into modern Tamil', () => {
+    const brahmiText = render(parse('Divya'), SCRIPTS.brahmi)
+    expect(render(parse(brahmiText), SCRIPTS.Tamil)).toBe(render(parse('Divya'), SCRIPTS.Tamil))
+  })
+
+  it('short e/o survives a full round trip through Tamil-Brahmi, unlike plain Brahmi', () => {
+    const tamilBrahmiText = render(parse('Kaveri'), SCRIPTS.tamilBrahmi)
+    expect(parse(tamilBrahmiText)).toEqual(parse('Kaveri'))
+  })
+
+  it('reads either LLA glyph tradition (Northern vs Old Tamil) back as the same phoneme', () => {
+    const northern = String.fromCodePoint(0x11034)
+    const oldTamil = String.fromCodePoint(0x11075)
+    expect(parse(northern)).toEqual(parse(oldTamil))
+    expect(parse(northern)).toEqual([{ t: 'C', c: 'll', v: 'a' }])
+  })
+
+  it('reads the Old Tamil puḷḷi (0x11070) as a vowel-canceler, same as the Northern virama', () => {
+    const kaWithNorthernVirama = SCRIPTS.brahmi.cons.k + String.fromCodePoint(0x11046)
+    const kaWithPulli = SCRIPTS.brahmi.cons.k + String.fromCodePoint(0x11070)
+    expect(parse(kaWithNorthernVirama)).toEqual(parse(kaWithPulli))
+    expect(parse(kaWithPulli)).toEqual([{ t: 'C', c: 'k', v: null }])
+  })
+
+  it('round-trips Grantha and Siddham text through render unchanged', () => {
+    for (const id of ['grantha', 'siddham', 'sharada', 'bhaiksuki', 'nandinagari'] as const) {
+      const original = render(parse('Kaveri'), SCRIPTS[id])
+      expect(render(parse(original), SCRIPTS[id])).toBe(original)
+    }
+  })
+})
+
 describe('render: historic scripts', () => {
   it('renders "Kaveri" into real Brahmi code points (U+11000 block), not a Devanagari font trick', () => {
     const out = render(parse('Kaveri'), SCRIPTS.brahmi)

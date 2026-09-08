@@ -89,6 +89,45 @@ const LC: [string, string | string[]][] = [
 ]
 
 /**
+ * A historic script's own codepoint, read back to the phonemic code (and
+ * slot: independent vowel, consonant, dependent sign, or virama/anusvara/
+ * visarga) it renders from — the inverse of each ScriptTable in scripts.ts.
+ */
+type HistoricEntry = { kind: 'indep' | 'cons' | 'sign' | 'virama' | 'M' | 'H'; key: string }
+
+function reverseInto(map: Map<number, HistoricEntry>, S: ScriptTable): void {
+  for (const [key, ch] of Object.entries(S.indep)) map.set(ch.codePointAt(0)!, { kind: 'indep', key })
+  for (const [key, ch] of Object.entries(S.cons)) map.set(ch.codePointAt(0)!, { kind: 'cons', key })
+  for (const [key, ch] of Object.entries(S.sign)) map.set(ch.codePointAt(0)!, { kind: 'sign', key })
+  map.set(S.virama.codePointAt(0)!, { kind: 'virama', key: '' })
+  if (S.M) map.set(S.M.codePointAt(0)!, { kind: 'M', key: '' })
+  if (S.H) map.set(S.H.codePointAt(0)!, { kind: 'H', key: '' })
+}
+
+/** Builds one codepoint→phoneme map from every script sharing a Unicode block
+ * (brahmi and tamilBrahmi both live in U+11000–U+1107F), so either glyph
+ * tradition for a shared sound — e.g. the two different LLA letters — reads
+ * back the same way. */
+function historicMap(...tables: ScriptTable[]): Map<number, HistoricEntry> {
+  const map = new Map<number, HistoricEntry>()
+  for (const S of tables) reverseInto(map, S)
+  return map
+}
+
+// Historic scripts read back the same way the roman/modern-script decoders
+// do: a real Brahmi/Grantha/… inscription, once it's Unicode text (pasted
+// from a transcription, an epigraphy database, Wikipedia — not a photo),
+// re-sets into a modern script or romanizes, not just the other direction.
+const HISTORIC_BLOCKS: [number, number, Map<number, HistoricEntry>][] = [
+  [0x11000, 0x1107f, historicMap(SCRIPTS.brahmi, SCRIPTS.tamilBrahmi)],
+  [0x11300, 0x1137f, historicMap(SCRIPTS.grantha)],
+  [0x11580, 0x115ff, historicMap(SCRIPTS.siddham)],
+  [0x11180, 0x111df, historicMap(SCRIPTS.sharada)],
+  [0x11c00, 0x11c6f, historicMap(SCRIPTS.bhaiksuki)],
+  [0x119a0, 0x119ff, historicMap(SCRIPTS.nandinagari)],
+]
+
+/**
  * Parses either romanized input ("double a vowel for a long one: aa, ee,
  * oo" per the app's placeholder text) or text already typed in one of the
  * eight supported modern Indic scripts, into the shared token sequence
@@ -131,6 +170,20 @@ export function parse(str: string): Token[] {
         toks.push({ t: 'C', c: ['k', 'kh', 'g', 'j', 'D', 'Dh', 'ph', 'y'][r - 0x58], v: 'a' })
       } else if (r >= 0x66 && r <= 0x6f) toks.push({ t: 'X', s: String(r - 0x66) })
       else toks.push({ t: 'X', s: ch })
+      i++
+      continue
+    }
+    const hist = HISTORIC_BLOCKS.find(([lo, hi]) => code >= lo && code <= hi)
+    if (hist) {
+      const entry = hist[2].get(code)
+      const l = last()
+      if (!entry) toks.push({ t: 'X', s: ch })
+      else if (entry.kind === 'indep') toks.push({ t: 'V', v: entry.key })
+      else if (entry.kind === 'cons') toks.push({ t: 'C', c: entry.key, v: 'a' })
+      else if (entry.kind === 'sign') { if (l) l.v = entry.key }
+      else if (entry.kind === 'virama') { if (l) l.v = null }
+      else if (entry.kind === 'M') toks.push({ t: 'M' })
+      else toks.push({ t: 'H' })
       i++
       continue
     }

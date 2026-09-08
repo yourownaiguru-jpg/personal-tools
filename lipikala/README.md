@@ -11,9 +11,11 @@ runs in your browser; nothing you type is ever sent anywhere.
 
 ## How it works
 
-1. Type a name — in roman letters, or directly in any of eight modern
-   Indian scripts (Tamil, Kannada, Telugu, Malayalam, Devanagari, Bengali,
-   Gujarati, Odia).
+1. Type a name — in roman letters, directly in any of eight modern Indian
+   scripts (Tamil, Kannada, Telugu, Malayalam, Devanagari, Bengali,
+   Gujarati, Odia), or by pasting text already in one of the six historic
+   scripts (say, a transcribed inscription) to read it back into a modern
+   script or roman.
 2. Pick a language and a point on its timeline.
 3. The name is parsed into its underlying sounds and re-set letter for
    letter in that era's script, rendered with the actual Unicode code
@@ -27,7 +29,9 @@ browser.
 ## Features
 
 - Roman input (double a vowel for a long one: `aa`, `ee`, `oo`) or direct
-  typing in any of eight modern Indic scripts
+  typing in any of eight modern Indic scripts — or in any of the six
+  historic ones, to read an already-digitized inscription back into a
+  modern script or roman
 - Six historic scripts with real Unicode encodings: Brahmi, Grantha,
   Siddhaṃ, Śāradā, Bhaiksuki, Nandinagari
 - A researched timeline per language (Tamil, Kannada, Telugu, Malayalam,
