@@ -43,15 +43,24 @@ function pick(map: Record<string, string>, key: string | undefined, fallback: Re
 /** Renders a token sequence into one script's table. */
 export function render(toks: Token[], S: ScriptTable): string {
   let out = ''
-  for (const t of toks) {
+  for (let i = 0; i < toks.length; i++) {
+    const t = toks[i]
     if (t.t === 'X') out += t.s
     else if (t.t === 'V') out += pick(S.indep, t.v, VFB)
     else if (t.t === 'M') out += S.M || S.cons.m + S.virama
     else if (t.t === 'H') out += S.H || ''
     else {
-      out += pick(S.cons, t.c, CFB)
-      if (t.v === null) out += S.virama
-      else if (t.v !== 'a') out += pick(S.sign, t.v, VFB)
+      // A dead consonant still followed by another consonant is forming a
+      // cluster (e.g. the n in "Kanth") and stays consonant+virama; only a
+      // truly final one — Malayalam's chillu letters — gets the atomic glyph.
+      const nextIsConsonant = toks[i + 1]?.t === 'C'
+      const chillu = t.v === null && !nextIsConsonant ? S.chillu?.[t.c] : undefined
+      if (chillu) out += chillu
+      else {
+        out += pick(S.cons, t.c, CFB)
+        if (t.v === null) out += S.virama
+        else if (t.v !== 'a') out += pick(S.sign, t.v, VFB)
+      }
     }
   }
   return out

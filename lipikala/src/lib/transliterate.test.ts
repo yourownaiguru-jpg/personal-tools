@@ -149,6 +149,25 @@ describe('render: historic scripts', () => {
   })
 })
 
+describe('render: Malayalam chillu letters', () => {
+  it('renders a word-final chillu-eligible consonant as its own atomic glyph, not consonant+virama', () => {
+    const out = render(parse('Amal'), SCRIPTS.Malayalam)
+    expect(out.endsWith(SCRIPTS.Malayalam.chillu!.l)).toBe(true)
+    expect(out.endsWith(SCRIPTS.Malayalam.cons.l + SCRIPTS.Malayalam.virama)).toBe(false)
+  })
+
+  it('does not chillu-ize a dead consonant still forming a cluster with the next consonant', () => {
+    const out = render(parse('Kanth'), SCRIPTS.Malayalam)
+    expect(out).toContain(SCRIPTS.Malayalam.cons.n + SCRIPTS.Malayalam.virama)
+    expect(out).not.toContain(SCRIPTS.Malayalam.chillu!.n)
+  })
+
+  it('round-trips a chillu letter back to the same bare consonant token', () => {
+    const chilluText = render(parse('Amal'), SCRIPTS.Malayalam)
+    expect(parse(chilluText)).toEqual(parse('Amal'))
+  })
+})
+
 describe('render: modern scripts respect their OMIT lists', () => {
   it('Tamil has no aspirated/voiced consonants — "Khamala" renders identically to "Kamala"', () => {
     expect(render(parse('Khamala'), SCRIPTS.Tamil)).toBe(render(parse('Kamala'), SCRIPTS.Tamil))

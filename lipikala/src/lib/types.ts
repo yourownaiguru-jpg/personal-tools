@@ -66,6 +66,11 @@ export interface ScriptTable {
   /** Anusvara (nasalization) and visarga marks, when the script has dedicated ones. */
   M?: string
   H?: string
+  /** Malayalam-only: atomic glyphs for a bare consonant at the end of a word
+   * (chillu letters) — post-1980s-reform orthography writes these six dead
+   * consonants as their own character, not consonant+virama. Keyed the same
+   * as `cons`. */
+  chillu?: Record<string, string>
   /** CSS font-family this script renders in. */
   font: string
 }

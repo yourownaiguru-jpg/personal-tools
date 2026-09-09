@@ -238,3 +238,10 @@ SCRIPTS.grantha.indep.RR = cp(0x11360)
 SCRIPTS.grantha.indep.LL = cp(0x11361)
 SCRIPTS.grantha.sign.L = cp(0x11362)
 SCRIPTS.grantha.sign.LL = cp(0x11363)
+
+// Malayalam's six chillu letters — a bare/final consonant (ண ன ர ல ள க) is
+// its own atomic glyph in modern orthography, not consonant+virama, a
+// post-1980s-reform distinction the generic ISCII pattern doesn't have.
+SCRIPTS.Malayalam.chillu = {
+  N: cp(0x0d7a), n: cp(0x0d7b), rr: cp(0x0d7c), l: cp(0x0d7d), ll: cp(0x0d7e), k: cp(0x0d7f),
+}
