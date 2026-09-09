@@ -180,13 +180,89 @@ describe('render: Malayalam chillu letters', () => {
   })
 })
 
+describe('render: scripts added for Marathi, Punjabi, Maithili, Kashmiri, Tulu, Assamese, Sylheti, Manipuri', () => {
+  const u = (...cps: number[]) => String.fromCodePoint(...cps)
+
+  it('sets "Shivaji" in real Modi code points (U+11600 block) with vowel signs, not a Devanagari font trick', () => {
+    expect(render(parse('Shivaji'), SCRIPTS.modi)).toBe(u(0x1162b, 0x11631, 0x1162a, 0x11615, 0x11631))
+  })
+
+  it('Gurmukhi writes no halant at the end of a word, and one only under a subjoined r/h/v', () => {
+    expect(render(parse('Ram'), SCRIPTS.Gurmukhi)).toBe('ਰਮ')
+    expect(render(parse('Harpreet'), SCRIPTS.Gurmukhi)).toBe('ਹਰਪ੍ਰੀਤ')
+    expect(render(parse('Gurpreet Kaur'), SCRIPTS.Gurmukhi)).toBe('ਗੁਰਪ੍ਰੀਤ ਕੌਰ')
+    // ਕ੍ਰਿ + the precomposed ਸ਼ (U+0A36) + ਨ
+    expect(render(parse('Krishna'), SCRIPTS.Gurmukhi)).toBe('ਕ੍ਰਿ' + u(0x0a36) + 'ਨ')
+  })
+
+  it('reads native Gurmukhi back, with tippi as anusvara and ੜ as its own letter', () => {
+    expect(parse('ਸਿੰਘ')).toEqual([{ t: 'C', c: 's', v: 'i' }, { t: 'M' }, { t: 'C', c: 'gh', v: 'a' }])
+    // The bare ਰ and final ਤ carry no mark for their dropped vowels (Gurmukhi
+    // writes no halant there), so they read back as "ra" and "ta".
+    expect(parse('ਹਰਪ੍ਰੀਤ')).toEqual(parse('Harapreeta'))
+    expect(parse('ੜ')).toEqual([{ t: 'C', c: 'rr', v: 'a' }])
+    expect(render(parse('ੜ'), SCRIPTS.Gurmukhi)).toBe('ੜ')
+  })
+
+  it('Assamese uses its own ৰ but keeps Bengali ব for v, and reads both ৰ and ৱ on input', () => {
+    expect(render(parse('Rahul'), SCRIPTS.Assamese)).toBe('ৰহুল্')
+    expect(render(parse('Vivek'), SCRIPTS.Assamese)).toBe(render(parse('Vivek'), SCRIPTS.Bengali))
+    expect(parse('ৰাহুল')).toEqual(parse('Raahula'))
+    expect(parse('ৱ')).toEqual([{ t: 'C', c: 'v', v: 'a' }])
+  })
+
+  it('Tirhuta keeps a short e distinct from long ē (Maithili has both); Kaithi, Modi and Takri merge them', () => {
+    expect(render(parse('ve'), SCRIPTS.tirhuta)).not.toBe(render(parse('vae'), SCRIPTS.tirhuta))
+    for (const id of ['kaithi', 'modi', 'takri'] as const) {
+      expect(render(parse('ve'), SCRIPTS[id])).toBe(render(parse('vae'), SCRIPTS[id]))
+    }
+  })
+
+  it('Mahajani has no vowel signs and no virama: a vowel after a consonant is the independent letter, clusters are bare', () => {
+    // k r i s n — no killer between k and r, the i is the I letter itself.
+    expect(render(parse('Krishna'), SCRIPTS.mahajani)).toBe(u(0x11155, 0x1116d, 0x11151, 0x11170, 0x11167))
+    expect(SCRIPTS.mahajani.virama).toBe('')
+    expect(SCRIPTS.mahajani.sign.A).toBe(SCRIPTS.mahajani.indep.a)
+  })
+
+  it('Meitei Mayek writes a syllable-final consonant with its lonsum letter even mid-word, and keeps the killer for true clusters', () => {
+    // la · m-lonsum · phe · l-lonsum
+    expect(render(parse('Lamphel'), SCRIPTS.meeteiMayek)).toBe(u(0xabc2, 0xabdd, 0xabd0, 0xabe6, 0xabdc))
+    // Final r has no lonsum form and is written bare, not with the killer.
+    expect(render(parse('Manipur'), SCRIPTS.meeteiMayek)).toBe(u(0xabc3, 0xabc5, 0xabe4, 0xabc4, 0xabe8, 0xabd4))
+    // k + apun iyek + r: a real cluster.
+    expect(render(parse('Krishna'), SCRIPTS.meeteiMayek).startsWith(u(0xabc0, 0xabed, 0xabd4))).toBe(true)
+    // Lonsum letters read back as the same dead consonant, so the name round-trips
+    // (a name with only a-vowels: Meitei Mayek has one letter each for i/ī and
+    // e/ē, so those read back long, as in Brahmi).
+    expect(parse(render(parse('Lampak'), SCRIPTS.meeteiMayek))).toEqual(parse('Lampak'))
+  })
+
+  it('Syloti Nagri spells ā as the a-letter plus its sign, and its single code points read back', () => {
+    expect(render([{ t: 'V', v: 'A' }], SCRIPTS.sylotiNagri)).toBe(u(0xa800, 0xa823))
+    expect(render(parse('Kaveri'), SCRIPTS.sylotiNagri)).toBe(u(0xa807, 0xa81b, 0xa826, 0xa81e, 0xa824))
+    expect(parse(u(0xa807))).toEqual([{ t: 'C', c: 'k', v: 'a' }])
+    // The two-code-point ā must not shadow the plain a-letter in the reverse map.
+    expect(parse(u(0xa800))).toEqual([{ t: 'V', v: 'a' }])
+  })
+
+  it('every new historic script round-trips a name through parse and render', () => {
+    for (const id of ['modi', 'takri', 'mahajani', 'tirhuta', 'kaithi', 'sylotiNagri', 'meeteiMayek'] as const) {
+      const original = render(parse('Divya'), SCRIPTS[id])
+      expect(original.length).toBeGreaterThan(0)
+      expect(render(parse(original), SCRIPTS[id])).toBe(original)
+    }
+    for (const id of ['modi', 'tirhuta'] as const) expect(parse(render(parse('Divya'), SCRIPTS[id]))).toEqual(parse('Divya'))
+  })
+})
+
 describe('render: modern scripts respect their OMIT lists', () => {
   it('Tamil has no aspirated/voiced consonants — "Khamala" renders identically to "Kamala"', () => {
     expect(render(parse('Khamala'), SCRIPTS.Tamil)).toBe(render(parse('Kamala'), SCRIPTS.Tamil))
   })
 
   it('every modern script table has a virama and the five plain vowels', () => {
-    for (const id of ['Devanagari', 'Bengali', 'Gujarati', 'Oriya', 'Tamil', 'Telugu', 'Kannada', 'Malayalam'] as const) {
+    for (const id of ['Devanagari', 'Bengali', 'Assamese', 'Gujarati', 'Oriya', 'Tamil', 'Telugu', 'Kannada', 'Malayalam', 'Gurmukhi'] as const) {
       const S = SCRIPTS[id]
       expect(S.virama.length).toBe(1)
       for (const v of ['a', 'A', 'i', 'I', 'u', 'U']) expect(S.indep[v]).toBeTruthy()

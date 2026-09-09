@@ -19,9 +19,9 @@ site with no backend, no analytics, and no accounts.
 
 ## The one network request this app does make
 
-Rendering six historic scripts (Brahmi, Grantha, Siddhaṃ, Śāradā,
-Bhaiksuki, Nandinagari) needs specific Noto fonts that no device ships
-with. Those fonts — and the app's own body/heading fonts — are loaded
+Rendering the historic scripts (Brahmi, Grantha, Siddhaṃ, Śāradā,
+Bhaiksuki, Nandinagari, Modi, Kaithi, Tirhuta, Takri, Mahajani, Syloti
+Nagri, Meitei Mayek) needs specific Noto fonts that no device ships with. Those fonts — and the app's own body/heading fonts — are loaded
 from Google Fonts on page load.
 
 That request is for **fonts, not your data**: it happens once, when the

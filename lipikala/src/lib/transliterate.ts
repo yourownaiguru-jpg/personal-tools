@@ -11,7 +11,7 @@ import type { ScriptTable, Token } from './types'
 
 // Base code points of the modern (ISCII-pattern) blocks parse() can read
 // directly, so typing a name in Tamil or Devanagari works, not just roman.
-const BLOCKS = [0x0900, 0x0980, 0x0a80, 0x0b00, 0x0b80, 0x0c00, 0x0c80, 0x0d00]
+const BLOCKS = [0x0900, 0x0980, 0x0a00, 0x0a80, 0x0b00, 0x0b80, 0x0c00, 0x0c80, 0x0d00]
 
 const ISC_V = ['a', 'A', 'i', 'I', 'u', 'U', 'R', 'L', 'Ec', 'e', 'E', 'ai', 'Oc', 'o', 'O', 'au']
 const ISC_S = ['A', 'i', 'I', 'u', 'U', 'R', 'RR', 'Ec', 'e', 'E', 'ai', 'Oc', 'o', 'O', 'au']
@@ -28,7 +28,7 @@ const ISC_C = [
  */
 const CFB: Record<string, string> = {
   kh: 'k', g: 'k', gh: 'g', ch: 'c', j: 'c', jh: 'j', Th: 'T', D: 'T', Dh: 'D',
-  th: 't', d: 't', dh: 'd', nn: 'n', ph: 'p', b: 'p', bh: 'b', rr: 'r', zh: 'll',
+  th: 't', d: 't', dh: 'd', nn: 'n', N: 'n', ph: 'p', b: 'p', bh: 'b', rr: 'r', zh: 'll',
   ll: 'l', sh: 's', ss: 's', ng: 'n', ny: 'n', h: 'k', v: 'b',
 }
 const VFB: Record<string, string> = { Ec: 'e', e: 'E', Oc: 'o', o: 'O', RR: 'R', LL: 'L', L: 'i', R: 'i' }
@@ -50,16 +50,26 @@ export function render(toks: Token[], S: ScriptTable): string {
     else if (t.t === 'M') out += S.M || S.cons.m + S.virama
     else if (t.t === 'H') out += S.H || ''
     else {
-      // A dead consonant still followed by another consonant is forming a
-      // cluster (e.g. the n in "Kanth") and stays consonant+virama; only a
-      // truly final one — Malayalam's chillu letters — gets the atomic glyph.
-      const nextIsConsonant = toks[i + 1]?.t === 'C'
-      const chillu = t.v === null && !nextIsConsonant ? S.chillu?.[t.c] : undefined
+      if (t.v !== null) {
+        out += pick(S.cons, t.c, CFB)
+        if (t.v !== 'a') out += pick(S.sign, t.v, VFB)
+        continue
+      }
+      // A dead consonant. Followed by a consonant it can cluster with, it is
+      // consonant+virama (the n in "Kanth"). Anywhere else — word-final, or
+      // before a consonant the script doesn't join to — it takes its atomic
+      // final form where the script has one (Malayalam's chillu, Meitei
+      // Mayek's lonsum), is written bare in a script that shows the virama
+      // only under subjoined letters (Gurmukhi), and is consonant+virama
+      // otherwise.
+      const next = toks[i + 1]
+      const nextC = next?.t === 'C' ? next.c : null
+      const clusters = nextC !== null && (!S.viramaBefore || S.viramaBefore.includes(nextC))
+      const chillu = clusters ? undefined : S.chillu?.[t.c]
       if (chillu) out += chillu
       else {
         out += pick(S.cons, t.c, CFB)
-        if (t.v === null) out += S.virama
-        else if (t.v !== 'a') out += pick(S.sign, t.v, VFB)
+        if (clusters || !S.viramaBefore) out += S.virama
       }
     }
   }
@@ -108,15 +118,25 @@ const LC: [string, string | string[]][] = [
  * slot: independent vowel, consonant, dependent sign, or virama/anusvara/
  * visarga) it renders from — the inverse of each ScriptTable in scripts.ts.
  */
-type HistoricEntry = { kind: 'indep' | 'cons' | 'sign' | 'virama' | 'M' | 'H'; key: string }
+type HistoricEntry = { kind: 'indep' | 'cons' | 'sign' | 'chillu' | 'virama' | 'M' | 'H'; key: string }
 
 function reverseInto(map: Map<number, HistoricEntry>, S: ScriptTable): void {
-  for (const [key, ch] of Object.entries(S.indep)) map.set(ch.codePointAt(0)!, { kind: 'indep', key })
-  for (const [key, ch] of Object.entries(S.cons)) map.set(ch.codePointAt(0)!, { kind: 'cons', key })
-  for (const [key, ch] of Object.entries(S.sign)) map.set(ch.codePointAt(0)!, { kind: 'sign', key })
-  map.set(S.virama.codePointAt(0)!, { kind: 'virama', key: '' })
-  if (S.M) map.set(S.M.codePointAt(0)!, { kind: 'M', key: '' })
-  if (S.H) map.set(S.H.codePointAt(0)!, { kind: 'H', key: '' })
+  // Only a single code point can be read back as one letter. A table entry
+  // built from two (Syloti Nagri's ā, Meitei Mayek's ai) is a spelling made
+  // of letters that are each registered on their own, so it is skipped here
+  // rather than letting its first code point shadow the real letter's.
+  const single = (ch: string): number | null => ([...ch].length === 1 ? ch.codePointAt(0)! : null)
+  const put = (ch: string, entry: HistoricEntry) => {
+    const c = single(ch)
+    if (c !== null) map.set(c, entry)
+  }
+  for (const [key, ch] of Object.entries(S.indep)) put(ch, { kind: 'indep', key })
+  for (const [key, ch] of Object.entries(S.cons)) put(ch, { kind: 'cons', key })
+  for (const [key, ch] of Object.entries(S.sign)) put(ch, { kind: 'sign', key })
+  for (const [key, ch] of Object.entries(S.chillu ?? {})) put(ch, { kind: 'chillu', key })
+  if (S.virama) put(S.virama, { kind: 'virama', key: '' })
+  if (S.M) put(S.M, { kind: 'M', key: '' })
+  if (S.H) put(S.H, { kind: 'H', key: '' })
 }
 
 /** Builds one codepoint→phoneme map from every script sharing a Unicode block
@@ -140,13 +160,22 @@ const HISTORIC_BLOCKS: [number, number, Map<number, HistoricEntry>][] = [
   [0x11180, 0x111df, historicMap(SCRIPTS.sharada)],
   [0x11c00, 0x11c6f, historicMap(SCRIPTS.bhaiksuki)],
   [0x119a0, 0x119ff, historicMap(SCRIPTS.nandinagari)],
+  [0x11600, 0x1165f, historicMap(SCRIPTS.modi)],
+  [0x11680, 0x116cf, historicMap(SCRIPTS.takri)],
+  [0x11150, 0x1117f, historicMap(SCRIPTS.mahajani)],
+  [0x11480, 0x114df, historicMap(SCRIPTS.tirhuta)],
+  [0x11080, 0x110cf, historicMap(SCRIPTS.kaithi)],
+  [0xa800, 0xa82f, historicMap(SCRIPTS.sylotiNagri)],
+  // Meitei Mayek spans two blocks; both read from the one table.
+  [0xabc0, 0xabff, historicMap(SCRIPTS.meeteiMayek)],
+  [0xaae0, 0xaaff, historicMap(SCRIPTS.meeteiMayek)],
 ]
 
 /**
  * Parses either romanized input ("double a vowel for a long one: aa, ee,
  * oo" per the app's placeholder text) or text already typed in one of the
- * eight supported modern Indic scripts, into the shared token sequence
- * every script table in scripts.ts can render.
+ * supported modern Indic scripts, into the shared token sequence every
+ * script table in scripts.ts can render.
  */
 export function parse(str: string): Token[] {
   const toks: Token[] = []
@@ -179,7 +208,17 @@ export function parse(str: string): Token[] {
       } else if (blk === 0x0d00 && r >= 0x7a && r <= 0x7f) {
         toks.push({ t: 'C', c: ['N', 'n', 'rr', 'l', 'll', 'k'][r - 0x7a], v: null })
       } else if (blk === 0x0980 && r === 0x4e) toks.push({ t: 'C', c: 't', v: null })
-      else if (r === 0x5c || r === 0x5d || r === 0x5f) {
+      else if (blk === 0x0980 && (r === 0x70 || r === 0x71)) {
+        // Assamese ৰ and ৱ, past the shared Bengali run.
+        toks.push({ t: 'C', c: r === 0x70 ? 'r' : 'v', v: 'a' })
+      } else if (blk === 0x0a00 && r === 0x5c) toks.push({ t: 'C', c: 'rr', v: 'a' })
+      else if (blk === 0x0a00 && (r === 0x59 || r === 0x5a || r === 0x5b || r === 0x5e)) {
+        // Gurmukhi's nukta letters (ਖ਼ ਗ਼ ਜ਼ ਫ਼), read as their base sounds.
+        toks.push({ t: 'C', c: r === 0x59 ? 'kh' : r === 0x5a ? 'g' : r === 0x5b ? 'j' : 'ph', v: 'a' })
+      } else if (blk === 0x0a00 && r === 0x70) toks.push({ t: 'M' })
+      else if (blk === 0x0a00 && (r === 0x71 || r === 0x72 || r === 0x73 || r === 0x75)) {
+        // Addak (doubling), the iri/ura vowel bearers and yakash — not modelled.
+      } else if (r === 0x5c || r === 0x5d || r === 0x5f) {
         toks.push({ t: 'C', c: r === 0x5c ? 'D' : r === 0x5d ? 'Dh' : 'y', v: 'a' })
       } else if (blk === 0x0900 && r >= 0x58 && r <= 0x5f) {
         toks.push({ t: 'C', c: ['k', 'kh', 'g', 'j', 'D', 'Dh', 'ph', 'y'][r - 0x58], v: 'a' })
@@ -195,6 +234,7 @@ export function parse(str: string): Token[] {
       if (!entry) toks.push({ t: 'X', s: ch })
       else if (entry.kind === 'indep') toks.push({ t: 'V', v: entry.key })
       else if (entry.kind === 'cons') toks.push({ t: 'C', c: entry.key, v: 'a' })
+      else if (entry.kind === 'chillu') toks.push({ t: 'C', c: entry.key, v: null })
       else if (entry.kind === 'sign') { if (l) l.v = entry.key }
       else if (entry.kind === 'virama') { if (l) l.v = null }
       else if (entry.kind === 'M') toks.push({ t: 'M' })

@@ -1,9 +1,10 @@
 # Lipikāla
 
 Type a name and see it re-set in a historic Indian script — Brahmi,
-Grantha, Siddhaṃ, Śāradā, Bhaiksuki, Nandinagari — as it might have
-appeared cut in stone, on a copper plate, or on a palm leaf. Everything
-runs in your browser; nothing you type is ever sent anywhere.
+Grantha, Siddhaṃ, Śāradā, Bhaiksuki, Nandinagari, Modi, Kaithi, Tirhuta,
+Takri, Mahajani, Syloti Nagri, Meitei Mayek — as it might have appeared
+cut in stone, on a copper plate, or on a palm leaf. Everything runs in
+your browser; nothing you type is ever sent anywhere.
 
 > **New here? Read [the guide](./GUIDE.md).** It explains how to use the
 > tool, what "authentic" vs. "approximation" means, and why some eras look
@@ -11,11 +12,11 @@ runs in your browser; nothing you type is ever sent anywhere.
 
 ## How it works
 
-1. Type a name — in roman letters, directly in any of eight modern Indian
+1. Type a name — in roman letters, directly in any of the modern Indian
    scripts (Tamil, Kannada, Telugu, Malayalam, Devanagari, Bengali,
-   Gujarati, Odia), or by pasting text already in one of the six historic
-   scripts (say, a transcribed inscription) to read it back into a modern
-   script or roman.
+   Assamese, Gujarati, Odia, Gurmukhi, Meitei Mayek), or by pasting text
+   already in one of the historic scripts (say, a transcribed inscription)
+   to read it back into a modern script or roman.
 2. Pick a language and a point on its timeline.
 3. The name is parsed into its underlying sounds and re-set letter for
    letter in that era's script, rendered with the actual Unicode code
@@ -30,14 +31,18 @@ browser.
 
 - Roman input (double a vowel for a long one: `aa`, `ee`, `oo`, or `ae`/`ao`
   for Tamil/Kannada/Telugu/Malayalam's own long ஏ/ஓ) or direct typing in
-  any of eight modern Indic scripts — or in any of the six historic ones,
-  to read an already-digitized inscription back into a
-  modern script or roman
-- Six historic scripts with real Unicode encodings: Brahmi, Grantha,
-  Siddhaṃ, Śāradā, Bhaiksuki, Nandinagari
-- A researched timeline per language (Tamil, Kannada, Telugu, Malayalam,
-  Sanskrit/Hindi, Bengali, Gujarati, Odia), each era dated and sourced to
-  a specific inscription, dynasty, or manuscript tradition
+  any of the modern Indic scripts — or in any of the historic ones, to
+  read an already-digitized inscription back into a modern script or roman
+- Thirteen historic scripts with real Unicode encodings: Brahmi (with its
+  Tamil-Brahmi letters), Grantha, Siddhaṃ, Śāradā, Bhaiksuki, Nandinagari,
+  Modi, Kaithi, Tirhuta, Takri, Mahajani, Syloti Nagri, Meitei Mayek
+- A researched timeline per language — Tamil, Kannada, Telugu, Malayalam,
+  Tulu, Sanskrit/Hindi, Marathi, Punjabi, Kashmiri, Maithili/Bhojpuri,
+  Gujarati, Bengali, Assamese, Odia, Sylheti, Manipuri — each era dated and
+  sourced to a specific inscription, dynasty, or manuscript tradition
+- Script-specific spelling rules where the generic Indic pattern isn't
+  enough: Gurmukhi's halant only under subjoined letters, Malayalam chillu
+  and Meitei Mayek lonsum finals, Mahajani's sign-less shorthand
 - Every era is labeled **authentic** (its own script has a Unicode
   encoding) or **approximation** (it doesn't, so the closest living
   descendant stands in) — never presented as more certain than it is

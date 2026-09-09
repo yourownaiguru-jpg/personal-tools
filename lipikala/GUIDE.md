@@ -8,7 +8,8 @@
    short எ/ஒ — since `ee`/`oo` already mean long i/u (as in "Sheela",
    "Poonam"), type `ae`/`ao` for those instead. You can also type
    directly in Tamil, Kannada, Telugu, Malayalam, Devanagari, Bengali,
-   Gujarati, or Odia — including a script's own long ஏ/ஓ, unambiguously.
+   Assamese, Gujarati, Odia, Gurmukhi or Meitei Mayek — including a
+   script's own long ஏ/ஓ, unambiguously.
 2. Pick a language. This decides which timeline of eras you see, and
    which modern script the "now" column uses in the letter map.
 3. Pick a point on the timeline. The plate re-renders in that era's
@@ -23,12 +24,14 @@
 Every era is tagged one of two ways, and the tag means something specific:
 
 - **Authentic** — that era's actual script has its own Unicode encoding
-  (Brahmi, Grantha, Siddhaṃ, Śāradā, Bhaiksuki, Nandinagari), so your name
-  is set in that script's real letters, code point for code point.
+  (Brahmi, Grantha, Siddhaṃ, Śāradā, Bhaiksuki, Nandinagari, Modi, Kaithi,
+  Tirhuta, Takri, Mahajani, Syloti Nagri, Meitei Mayek), so your name is
+  set in that script's real letters, code point for code point.
 - **Approximation** — the era's actual script (Vatteluttu, the Kadamba
-  hand, early Telugu-Kannada) has no Unicode encoding yet, so the closest
-  living descendant stands in instead. The era's note always says which
-  one and why.
+  hand, early Telugu-Kannada, Tigalari, the Laṇḍā and Old Assamese hands)
+  has no Unicode encoding yet — or, for Tulu-Tigalari, an encoding but no
+  web font — so the closest living descendant stands in instead. The era's
+  note always says which one and why.
 
 Neither label is a value judgment on the era — some of the most
 historically important scripts (Vatteluttu, Kadamba) simply haven't been

@@ -54,6 +54,7 @@ const BLOCKS: Partial<Record<ScriptId, number>> = {
   Telugu: 0x0c00,
   Kannada: 0x0c80,
   Malayalam: 0x0d00,
+  Gurmukhi: 0x0a00,
 }
 
 // Letters a given modern script's block reserves space for but the language
@@ -67,6 +68,9 @@ const OMIT: Partial<Record<ScriptId, string[]>> = {
   Bengali: ['e', 'o', 'Ec', 'Oc', 'nn', 'rr', 'zh', 'll', 'v'],
   Gujarati: ['e', 'o', 'Ec', 'Oc', 'nn', 'rr', 'zh'],
   Oriya: ['e', 'o', 'Ec', 'Oc', 'nn', 'rr', 'zh'],
+  // Gurmukhi dropped the vocalic vowels and ṣ; its ṛ (ੜ) sits outside the
+  // main run and is added back below.
+  Gurmukhi: ['e', 'o', 'Ec', 'Oc', 'R', 'L', 'RR', 'LL', 'nn', 'rr', 'zh', 'ss'],
 }
 
 export const FONT: Record<ScriptId, string> = {
@@ -77,14 +81,23 @@ export const FONT: Record<ScriptId, string> = {
   sharada: 'Noto Sans Sharada',
   bhaiksuki: 'Noto Sans Bhaiksuki',
   nandinagari: 'Noto Sans Nandinagari',
+  modi: 'Noto Sans Modi',
+  takri: 'Noto Sans Takri',
+  mahajani: 'Noto Sans Mahajani',
+  tirhuta: 'Noto Sans Tirhuta',
+  kaithi: 'Noto Sans Kaithi',
+  sylotiNagri: 'Noto Sans Syloti Nagri',
+  meeteiMayek: 'Noto Sans Meetei Mayek',
   Tamil: 'Noto Serif Tamil',
   Kannada: 'Noto Serif Kannada',
   Telugu: 'Noto Serif Telugu',
   Malayalam: 'Noto Serif Malayalam',
   Devanagari: 'Noto Serif Devanagari',
   Bengali: 'Noto Serif Bengali',
+  Assamese: 'Noto Serif Bengali',
   Gujarati: 'Noto Serif Gujarati',
   Oriya: 'Noto Sans Oriya',
+  Gurmukhi: 'Noto Serif Gurmukhi',
 }
 
 export const SCRIPT_LABEL: Record<ScriptId, string> = {
@@ -95,14 +108,23 @@ export const SCRIPT_LABEL: Record<ScriptId, string> = {
   sharada: 'Śāradā script',
   bhaiksuki: 'Bhaiksuki script',
   nandinagari: 'Nandinagari script',
+  modi: 'Modi script',
+  takri: 'Takri script',
+  mahajani: 'Mahajani script',
+  tirhuta: 'Tirhuta script',
+  kaithi: 'Kaithi script',
+  sylotiNagri: 'Syloti Nagri script',
+  meeteiMayek: 'Meitei Mayek script',
   Tamil: 'Tamil letters',
   Kannada: 'Kannada letters',
   Telugu: 'Telugu letters',
   Malayalam: 'Malayalam letters',
   Devanagari: 'Nāgarī letters',
   Bengali: 'Bengali letters',
+  Assamese: 'Assamese letters',
   Gujarati: 'Gujarati letters',
   Oriya: 'Odia letters',
+  Gurmukhi: 'Gurmukhi letters',
 }
 
 /** Builds a modern (ISCII-pattern) script's table from its block base. */
@@ -221,16 +243,157 @@ export const SCRIPTS: Record<ScriptId, ScriptTable> = {
     H: cp(0x119df),
     font: FONT.nandinagari,
   },
+  // Modi (U+11600-U+1165F) — the cursive administrative script of the
+  // Yadavas, the Marathas and the Peshwas, c. 13th-20th century.
+  modi: {
+    indep: seq({}, 0x11600, V14),
+    cons: seq({}, 0x1160e, [...STD33, 'll']),
+    sign: seq({}, 0x11630, ['A', 'i', 'I', 'u', 'U', 'R', 'RR', 'L', 'LL', 'E', 'ai', 'O', 'au']),
+    virama: cp(0x1163f),
+    M: cp(0x1163d),
+    H: cp(0x1163e),
+    font: FONT.modi,
+  },
+  // Takri (U+11680-U+116CF) — the Śāradā-derived script of the Punjab hill
+  // states (Chamba, Kangra, Jammu), c. 16th-20th century. No vocalic vowels, no ṣ.
+  takri: {
+    indep: seq({}, 0x11680, ['a', 'A', 'i', 'I', 'u', 'U', 'E', 'ai', 'O', 'au']),
+    cons: seq({}, 0x1168a, [...STD33.slice(0, 30), 's', 'h', 'rr']),
+    sign: seq({}, 0x116ad, ['A', 'i', 'I', 'u', 'U', 'E', 'ai', 'O', 'au']),
+    virama: cp(0x116b6),
+    M: cp(0x116ab),
+    H: cp(0x116ac),
+    font: FONT.takri,
+  },
+  // Mahajani (U+11150-U+1117F) — the Laṇḍā bookkeeping script of Punjabi and
+  // Marwari merchants. A true shorthand: five vowel letters and no vowel
+  // signs at all (a vowel after a consonant is written with the independent
+  // letter, or left out), no virama, no ṅ ñ ś ṣ, and no ya — the ja letter
+  // served for both (proposal L2/11-274). Built by hand rather than with
+  // seq() since almost every slot needs an explicit stand-in.
+  mahajani: (() => {
+    const a = cp(0x11150), i = cp(0x11151), u = cp(0x11152), e = cp(0x11153), o = cp(0x11154)
+    const cons = seq({}, 0x11155, [
+      'k', 'kh', 'g', 'gh', 'c', 'ch', 'j', 'jh', 'ny', 'T', 'Th', 'D', 'Dh', 'N',
+      't', 'th', 'd', 'dh', 'n', 'p', 'ph', 'b', 'bh', 'm', 'r', 'l', 'v', 's', 'h', 'rr',
+    ])
+    cons.y = cons.j
+    return {
+      indep: { a, A: a, i, I: i, u, U: u, e, E: e, ai: e, o, O: o, au: o },
+      cons,
+      sign: { A: a, i, I: i, u, U: u, e, E: e, ai: e, o, O: o, au: o },
+      virama: '',
+      font: FONT.mahajani,
+    }
+  })(),
+  // Tirhuta (U+11480-U+114DF) — Mithilākṣar, the script of Maithili from
+  // Vidyapati's songs to the 20th century; one of the few with signs for
+  // Maithili's short e and o.
+  tirhuta: {
+    indep: seq({}, 0x11481, V14),
+    cons: seq({}, 0x1148f, STD33),
+    sign: seq({}, 0x114b0, ['A', 'i', 'I', 'u', 'U', 'R', 'RR', 'L', 'LL', 'E', 'e', 'ai', 'O', 'o', 'au']),
+    virama: cp(0x114c2),
+    M: cp(0x114c0),
+    H: cp(0x114c1),
+    font: FONT.tirhuta,
+  },
+  // Kaithi (U+11080-U+110CF) — the everyday script of Bihar and the eastern
+  // Hindi belt for Bhojpuri, Magahi, Maithili and Hindi, c. 16th-20th
+  // century. Its ṛ (ड़) is a separate letter, set here as the nearest code.
+  kaithi: {
+    indep: seq({}, 0x11083, ['a', 'A', 'i', 'I', 'u', 'U', 'E', 'ai', 'O', 'au']),
+    cons: seq({}, 0x1108d, [...STD33.slice(0, 13), 'rr', 'Dh', null, 'N', ...STD33.slice(15)]),
+    sign: seq({}, 0x110b0, ['A', 'i', 'I', 'u', 'U', 'E', 'ai', 'O', 'au']),
+    virama: cp(0x110b9),
+    M: cp(0x11081),
+    H: cp(0x11082),
+    font: FONT.kaithi,
+  },
+  // Syloti Nagri (U+A800-U+A82F) — Sylhet's own script, c. 15th-20th
+  // century. Like Bengali the inherent vowel is o, and there is no long ā
+  // letter: ā is the a-letter plus the ā-sign, and the dvisvara mark makes
+  // the i of a diphthong. No ṅ ñ ṇ ś ṣ, no ya (ja serves), no visarga.
+  sylotiNagri: (() => {
+    const a = cp(0xa800), aSign = cp(0xa823), dvisvara = cp(0xa802)
+    const cons = seq({}, 0xa807, [
+      'k', 'kh', 'g', 'gh', null, 'c', 'ch', 'j', 'jh', 'T', 'Th', 'D', 'Dh',
+      't', 'th', 'd', 'dh', 'n', 'p', 'ph', 'b', 'bh', 'm', 'r', 'l', 'rr', 's', 'h',
+    ])
+    cons.y = cons.j
+    return {
+      indep: {
+        a, A: a + aSign, i: cp(0xa801), I: cp(0xa801), u: cp(0xa803), U: cp(0xa803),
+        e: cp(0xa804), E: cp(0xa804), ai: a + dvisvara, o: cp(0xa805), O: cp(0xa805), au: cp(0xa805),
+      },
+      cons,
+      sign: {
+        A: aSign, i: cp(0xa824), I: cp(0xa824), u: cp(0xa825), U: cp(0xa825),
+        e: cp(0xa826), E: cp(0xa826), ai: aSign + dvisvara, o: cp(0xa827), O: cp(0xa827), au: cp(0xa827),
+      },
+      virama: cp(0xa806),
+      M: cp(0xa80b),
+      font: FONT.sylotiNagri,
+    }
+  })(),
+  // Meitei Mayek (U+ABC0-U+ABFF, plus U+AAE0-U+AAFF for the letters the
+  // older orthography kept) — Manipur's own script, attested from medieval
+  // copper plates and the Puya manuscripts, displaced by Bengali letters in
+  // the 18th century and revived since the 1980s. Letters are ordered by the
+  // parts of the body they are named after, not by varga, so each is placed
+  // by hand. A final consonant is written with its lonsum form — the same
+  // mechanism as Malayalam's chillu — and clusters with the apun iyek killer.
+  meeteiMayek: (() => {
+    const atiya = cp(0xabd1)
+    const sign = {
+      A: cp(0xabe5), i: cp(0xabe4), I: cp(0xaaeb), u: cp(0xabe8), U: cp(0xaaec),
+      e: cp(0xabe6), E: cp(0xabe6), ai: cp(0xabe9), o: cp(0xabe3), O: cp(0xabe3), au: cp(0xabe7),
+    }
+    return {
+      indep: {
+        a: atiya, A: atiya + sign.A, i: cp(0xabcf), I: cp(0xabcf), u: cp(0xabce), U: cp(0xabce),
+        e: cp(0xaae0), E: cp(0xaae0), ai: atiya + sign.ai, o: cp(0xaae1), O: cp(0xaae1), au: atiya + sign.au,
+      },
+      cons: {
+        k: cp(0xabc0), s: cp(0xabc1), l: cp(0xabc2), m: cp(0xabc3), p: cp(0xabc4), n: cp(0xabc5),
+        c: cp(0xabc6), t: cp(0xabc7), kh: cp(0xabc8), ng: cp(0xabc9), th: cp(0xabca), v: cp(0xabcb),
+        y: cp(0xabcc), h: cp(0xabcd), ph: cp(0xabd0), g: cp(0xabd2), jh: cp(0xabd3), r: cp(0xabd4),
+        b: cp(0xabd5), j: cp(0xabd6), d: cp(0xabd7), gh: cp(0xabd8), dh: cp(0xabd9), bh: cp(0xabda),
+        ch: cp(0xaae2), ny: cp(0xaae3), T: cp(0xaae4), Th: cp(0xaae5), D: cp(0xaae6), Dh: cp(0xaae7),
+        N: cp(0xaae8), sh: cp(0xaae9), ss: cp(0xaaea),
+      },
+      sign,
+      virama: cp(0xabed),
+      viramaBefore: ['r', 'l', 'y', 'v'],
+      M: cp(0xabea),
+      H: cp(0xaaf5),
+      chillu: { k: cp(0xabdb), l: cp(0xabdc), m: cp(0xabdd), p: cp(0xabde), n: cp(0xabdf), t: cp(0xabe0), ng: cp(0xabe1) },
+      font: FONT.meeteiMayek,
+    }
+  })(),
   // Modern scripts, built from their ISCII-pattern blocks.
   Devanagari: mkIscii('Devanagari'),
   Bengali: mkIscii('Bengali'),
+  Assamese: mkIscii('Bengali'),
   Gujarati: mkIscii('Gujarati'),
   Oriya: mkIscii('Oriya'),
   Tamil: mkIscii('Tamil'),
   Telugu: mkIscii('Telugu'),
   Kannada: mkIscii('Kannada'),
   Malayalam: mkIscii('Malayalam'),
+  Gurmukhi: mkIscii('Gurmukhi'),
 }
+
+// Assamese shares the Bengali block but has its own ra (ৰ), past the main
+// consonant run. Its wa (ৱ) is for native /w/ words; Sanskrit-origin names
+// keep Bengali's ব for v (বিবেক, বিক্ৰম), so it is read on input but not
+// written here.
+SCRIPTS.Assamese.cons.r = cp(0x09f0)
+
+// Gurmukhi's ṛ (ੜ) lives past the main run, and its halant is written only
+// under a subjoined ਰ ਹ ਵ (and the rare ਯ) — never at the end of a word.
+SCRIPTS.Gurmukhi.cons.rr = cp(0x0a5c)
+SCRIPTS.Gurmukhi.viramaBefore = ['r', 'h', 'v', 'y']
 
 // Grantha's vocalic RR/LL sit in its own extended range, not the ISCII-style
 // offset used by mkIscii — set after the fact since grantha is hand-built above.

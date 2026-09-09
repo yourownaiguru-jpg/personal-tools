@@ -160,7 +160,7 @@ export function template(state: AppState): string {
     </div>
     <div>
       <h6 style="color:var(--color-neutral-600);margin-bottom:8px">How faithful is this?</h6>
-      <p style="text-align:justify;font-size:14px;line-height:1.65;color:var(--color-neutral-700)">Where a historic script has been digitally encoded — Brahmi, Grantha, Siddhaṃ, Śāradā, Bhaiksuki, Nandinagari — your text is set in that script letter for letter, marked <em>authentic</em>. Where it has not (Vatteluttu, Kadamba, the early Telugu–Kannada hand), the closest living relative stands in, marked <em>approximation</em>. Sounds an older script lacked are replaced by their nearest letter, as scribes of the time did.</p>
+      <p style="text-align:justify;font-size:14px;line-height:1.65;color:var(--color-neutral-700)">Where a historic script has been digitally encoded — Brahmi, Grantha, Siddhaṃ, Śāradā, Bhaiksuki, Nandinagari, Modi, Kaithi, Tirhuta, Takri, Mahajani, Syloti Nagri, Meitei Mayek — your text is set in that script letter for letter, marked <em>authentic</em>. Where it has not (Vatteluttu, Kadamba, the early Telugu–Kannada hand, Tigalari, Laṇḍā, the Old Assamese hands), the closest living relative stands in, marked <em>approximation</em>. Sounds an older script lacked are replaced by their nearest letter, as scribes of the time did.</p>
       <p style="text-align:justify;font-size:14px;line-height:1.65;color:var(--color-neutral-700);margin:0">Spellings follow the script, not the pronunciation: a name typed as <em>Ram</em> ends in a silent-vowel mark; type <em>Rama</em> for the classical form.</p>
     </div>
   </div>

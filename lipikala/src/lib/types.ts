@@ -6,16 +6,28 @@ export type ScriptId =
   | 'sharada'
   | 'bhaiksuki'
   | 'nandinagari'
+  | 'modi'
+  | 'takri'
+  | 'mahajani'
+  | 'tirhuta'
+  | 'kaithi'
+  | 'sylotiNagri'
+  | 'meeteiMayek'
   | 'Devanagari'
   | 'Bengali'
+  | 'Assamese'
   | 'Gujarati'
   | 'Oriya'
   | 'Tamil'
   | 'Telugu'
   | 'Kannada'
   | 'Malayalam'
+  | 'Gurmukhi'
 
-export type LangId = 'Tamil' | 'Kannada' | 'Telugu' | 'Malayalam' | 'Sanskrit' | 'Bengali' | 'Gujarati' | 'Odia'
+export type LangId =
+  | 'Tamil' | 'Kannada' | 'Telugu' | 'Malayalam' | 'Tulu'
+  | 'Sanskrit' | 'Marathi' | 'Punjabi' | 'Kashmiri' | 'Maithili' | 'Gujarati'
+  | 'Bengali' | 'Assamese' | 'Odia' | 'Sylheti' | 'Manipuri'
 
 export interface Lang {
   id: LangId
@@ -61,16 +73,26 @@ export interface ScriptTable {
   cons: Record<string, string>
   /** Dependent vowel signs (matras) attached to a consonant, same keys as indep minus 'a'. */
   sign: Record<string, string>
-  /** The vowel-killer mark that strips a consonant's inherent "a". */
+  /** The vowel-killer mark that strips a consonant's inherent "a". Empty for
+   * a script that never had one (Mahajani wrote clusters plainly). */
   virama: string
   /** Anusvara (nasalization) and visarga marks, when the script has dedicated ones. */
   M?: string
   H?: string
-  /** Malayalam-only: atomic glyphs for a bare consonant at the end of a word
-   * (chillu letters) — post-1980s-reform orthography writes these six dead
-   * consonants as their own character, not consonant+virama. Keyed the same
-   * as `cons`. */
+  /** Atomic glyphs for a bare consonant at the end of a word, keyed the same
+   * as `cons`: Malayalam's chillu letters (post-1980s-reform orthography
+   * writes those six dead consonants as their own character, not
+   * consonant+virama) and Meitei Mayek's lonsum letters, which do the same
+   * job for its finals. */
   chillu?: Record<string, string>
+  /** When set, the virama is written only before one of these consonants —
+   * the ones the script actually joins to — and a dead consonant anywhere
+   * else (word-final, or before any other consonant) takes its `chillu` form
+   * if it has one and is otherwise written bare. Gurmukhi spells "Ram" ਰਾਮ
+   * with no halant and shows one only under ਰ ਹ ਵ; Meitei Mayek uses its
+   * killer only for true clusters like kr and writes every other
+   * syllable-final consonant with the lonsum letter. */
+  viramaBefore?: string[]
   /** CSS font-family this script renders in. */
   font: string
 }
