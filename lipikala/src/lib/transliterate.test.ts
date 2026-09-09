@@ -26,6 +26,18 @@ describe('parse + render: roman input', () => {
     expect(render(parse('Rama'), SCRIPTS.Devanagari)).toBe('रम')
   })
 
+  it('reads "ae"/"ao" as long ஏ/ஓ, distinct from short e/o and from "ee"/"oo" (long i/u)', () => {
+    expect(parse('vae')).toEqual([{ t: 'C', c: 'v', v: 'E' }])
+    expect(parse('vao')).toEqual([{ t: 'C', c: 'v', v: 'O' }])
+    expect(parse('ve')).toEqual([{ t: 'C', c: 'v', v: 'e' }])
+    expect(parse('vee')).toEqual([{ t: 'C', c: 'v', v: 'I' }])
+  })
+
+  it('renders long ஏ/ஓ distinctly from short எ/ஒ in Tamil, unlike Devanagari which only has the long one', () => {
+    expect(render(parse('vae'), SCRIPTS.Tamil)).not.toBe(render(parse('ve'), SCRIPTS.Tamil))
+    expect(render(parse('vae'), SCRIPTS.Devanagari)).toBe(render(parse('ve'), SCRIPTS.Devanagari))
+  })
+
   it('parses common consonant digraphs (kh, gh, sh)', () => {
     expect(parse('Khushi')[0]).toEqual({ t: 'C', c: 'kh', v: 'u' })
     expect(parse('Ghosh')[0]).toEqual({ t: 'C', c: 'gh', v: 'o' })

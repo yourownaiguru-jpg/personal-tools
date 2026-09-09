@@ -3,9 +3,12 @@
 ## Using it
 
 1. Type a name. Roman letters work — double a vowel for a long one (`aa`,
-   `ee`, `oo`), so "Raam" gives a long first vowel and "Rama" doesn't. You
-   can also type directly in Tamil, Kannada, Telugu, Malayalam,
-   Devanagari, Bengali, Gujarati, or Odia.
+   `ee`, `oo`), so "Raam" gives a long first vowel and "Rama" doesn't.
+   Tamil, Kannada, Telugu, and Malayalam also distinguish a long ஏ/ஓ from
+   short எ/ஒ — since `ee`/`oo` already mean long i/u (as in "Sheela",
+   "Poonam"), type `ae`/`ao` for those instead. You can also type
+   directly in Tamil, Kannada, Telugu, Malayalam, Devanagari, Bengali,
+   Gujarati, or Odia — including a script's own long ஏ/ஓ, unambiguously.
 2. Pick a language. This decides which timeline of eras you see, and
    which modern script the "now" column uses in the letter map.
 3. Pick a point on the timeline. The plate re-renders in that era's

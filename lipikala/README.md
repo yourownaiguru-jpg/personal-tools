@@ -28,9 +28,10 @@ browser.
 
 ## Features
 
-- Roman input (double a vowel for a long one: `aa`, `ee`, `oo`) or direct
-  typing in any of eight modern Indic scripts — or in any of the six
-  historic ones, to read an already-digitized inscription back into a
+- Roman input (double a vowel for a long one: `aa`, `ee`, `oo`, or `ae`/`ao`
+  for Tamil/Kannada/Telugu/Malayalam's own long ஏ/ஓ) or direct typing in
+  any of eight modern Indic scripts — or in any of the six historic ones,
+  to read an already-digitized inscription back into a
   modern script or roman
 - Six historic scripts with real Unicode encodings: Brahmi, Grantha,
   Siddhaṃ, Śāradā, Bhaiksuki, Nandinagari

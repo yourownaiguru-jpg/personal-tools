@@ -85,8 +85,14 @@ export function roman(t: Token): string {
 
 // Roman-input tables. Order matters: longer/more specific sequences must be
 // tried before their prefixes ("chh" before "ch" before "c").
+// "ee"/"oo" follow common informal spelling (long-i and long-u sounds, as in
+// "Sheela", "Poonam") rather than lengthening e/o, so Tamil/Kannada/Telugu/
+// Malayalam's own long ஏ/ஓ — distinct from short எ/ஒ, unlike in Sanskrit-
+// derived scripts where e/o are always long — need their own sequence: "ae"/
+// "ao", since "ee"/"oo" are already spoken for.
 const LV: [string, string][] = [
-  ['aa', 'A'], ['ai', 'ai'], ['au', 'au'], ['ee', 'I'], ['ii', 'I'], ['oo', 'U'], ['uu', 'U'],
+  ['aa', 'A'], ['ai', 'ai'], ['au', 'au'], ['ae', 'E'], ['ao', 'O'],
+  ['ee', 'I'], ['ii', 'I'], ['oo', 'U'], ['uu', 'U'],
   ['a', 'a'], ['i', 'i'], ['u', 'u'], ['e', 'e'], ['o', 'o'],
 ]
 const LC: [string, string | string[]][] = [

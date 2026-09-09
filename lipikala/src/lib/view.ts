@@ -109,7 +109,7 @@ export function template(state: AppState): string {
 
   <div style="display:grid;grid-template-columns:minmax(0,1fr);gap:22px">
     <div class="field">
-      <label for="name-input">Name or text — any Indian script, or roman letters (double a vowel for a long one: aa, ee, oo)</label>
+      <label for="name-input">Name or text — any Indian script, or roman letters (double a vowel for a long one: aa, ee, oo — ae, ao for long ஏ/ஓ)</label>
       <input id="name-input" class="input" style="font-size:24px;min-height:56px;padding:8px 14px" value="${nameValue}" placeholder="e.g. Kaveri · காவேரி · ಕಾವேரி" autocomplete="off" spellcheck="false">
     </div>
     <div class="field">
