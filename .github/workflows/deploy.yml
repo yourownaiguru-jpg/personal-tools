@@ -10,7 +10,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
-    paths: ['expense-tracker/**', 'lipikala/**', '.github/workflows/deploy.yml']
+    paths: ['expense-tracker/**', 'lipikala/**', 'growing-citizens/**', '.github/workflows/deploy.yml']
   workflow_dispatch:
 
 permissions:
@@ -55,6 +55,8 @@ jobs:
           cp -r expense-tracker/dist/. _site/
           mkdir -p _site/lipikala
           cp -r lipikala/dist/. _site/lipikala/
+          mkdir -p _site/growing-citizens
+          cp -r growing-citizens/. _site/growing-citizens/
 
       - uses: actions/upload-pages-artifact@v3
         with:
