@@ -7,7 +7,7 @@ subfolder with its own README, dependencies, and (where it has one) CI.
 |---|---|
 | [`expense-tracker/`](./expense-tracker) | Client-side-only expense dashboard that parses bank/credit card PDF statements entirely in the browser — nothing is ever uploaded or stored server-side. Supports both US and India statement formats. **[Guide](./expense-tracker/GUIDE.md)** · **[Privacy](./expense-tracker/PRIVACY.md)** |
 | [`lipikala/`](./lipikala) | Types a name and re-sets it in a historic Indian script (Brahmi, Grantha, Siddhaṃ, Śāradā, Bhaiksuki, Nandinagari) as it might have looked cut in stone, on copper, or on a palm leaf — entirely client-side. **[Guide](./lipikala/GUIDE.md)** · **[Privacy](./lipikala/PRIVACY.md)** |
-| [`growing-citizens/`](./growing-citizens) | A research-informed, no-login home-learning companion for parents of children in Grades 1–4. Includes hands-on challenges, parent prompts, subject filters, and on-device progress tracking. **[Open site](https://yourownaiguru-jpg.github.io/personal-tools/growing-citizens/)** |
+| [`growing-citizens/`](./growing-citizens) | A research-informed, no-login home-learning companion for parents of children in Grades 1–8. Includes 40-week curricula per grade with hands-on challenges, parent prompts, subject filters, and on-device progress tracking. **[Open site](https://yourownaiguru-jpg.github.io/personal-tools/growing-citizens/)** |
 
 ## Conventions
 
