@@ -58,7 +58,7 @@ jobs:
           mkdir -p _site/growing-citizens
           cp -r growing-citizens/. _site/growing-citizens/
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: _site
 
