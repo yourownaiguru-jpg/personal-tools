@@ -1,0 +1,1446 @@
+{
+  "meta": {
+    "title": "Government learning programmes for women homemakers in India",
+    "last_checked": "2026-11-05",
+    "level_labels": {
+      "school_dropout": "School dropout (below 10th)",
+      "class10_pass": "10th pass",
+      "class12_pass": "12th pass",
+      "undergraduate": "Undergraduate / Graduate",
+      "postgraduate": "Postgraduate",
+      "doctorate_research": "PhD / Research scholar"
+    },
+    "streams": [
+      "Electrical Engineering",
+      "Electronics & Communication",
+      "Computer Science & IT",
+      "Cyber Security",
+      "AI & Data Science",
+      "Biotechnology & Life Sciences",
+      "Health & Medical Research",
+      "Basic & Applied Sciences",
+      "Space & Geospatial",
+      "Intellectual Property (IPR)",
+      "Entrepreneurship & Business",
+      "Vocational Trades (tailoring, beauty, food etc.)",
+      "Literacy & Basic Education",
+      "Academic Degree (any subject)",
+      "Multi-sector / Any"
+    ],
+    "status_values": [
+      "Confirmed",
+      "Confirmed (secondary source)",
+      "Expected",
+      "Rolling",
+      "Rolling (next phase expected)",
+      "Rolling (scheme ends Mar 2027 unless extended)",
+      "Not announced",
+      "Check site"
+    ],
+    "note": "Dates marked Expected are based on past cycles. Verify on the official site before applying."
+  },
+  "programmes": [
+    {
+      "id": "P001",
+      "name": "NIOS Secondary (10th) & Senior Secondary (12th)",
+      "agency": "National Institute of Open Schooling, Ministry of Education",
+      "govt": "Central",
+      "states": [
+        "All India"
+      ],
+      "levels": [
+        "school_dropout",
+        "class10_pass"
+      ],
+      "streams": [
+        "Academic Degree (any subject)"
+      ],
+      "cost": "Low-cost",
+      "cost_note": "About ₹1,890 (10th) / ₹2,150 (12th) for women (2025-26 table); exam fee extra",
+      "mode": "Home study + exam centre",
+      "women_only": false,
+      "career_break": false,
+      "window": "Block 2 last date 31 Jan 2027 (Oct–Nov 2027 exam); late fee until 15 Mar 2027",
+      "status": "Confirmed (secondary source)",
+      "eligibility": "No upper age limit; 10th needs Class 8 certificate or self-certificate; 12th needs 10th pass",
+      "official_url": "https://sdmis.nios.ac.in",
+      "source_url": "https://www.unnatieducations.com/nios/nios-stream-1-admission",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P002",
+      "name": "NIOS Open Basic Education (Class 1–8 equivalent)",
+      "agency": "National Institute of Open Schooling",
+      "govt": "Central",
+      "states": [
+        "All India"
+      ],
+      "levels": [
+        "school_dropout"
+      ],
+      "streams": [
+        "Literacy & Basic Education"
+      ],
+      "cost": "Low-cost",
+      "cost_note": "Nominal; check NIOS",
+      "mode": "Home study / study centre",
+      "women_only": false,
+      "career_break": false,
+      "window": "Check NIOS",
+      "status": "Check site",
+      "eligibility": "Adults who never finished primary/upper-primary school",
+      "official_url": "https://nios.ac.in",
+      "source_url": "https://www.citizennest.com/guide/nios-open-schooling-admission-guide",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P003",
+      "name": "ULLAS – Nav Bharat Saaksharta Karyakram (adult literacy)",
+      "agency": "Ministry of Education (DoSEL)",
+      "govt": "Central",
+      "states": [
+        "All India"
+      ],
+      "levels": [
+        "school_dropout"
+      ],
+      "streams": [
+        "Literacy & Basic Education"
+      ],
+      "cost": "Free",
+      "cost_note": "Government-funded",
+      "mode": "Volunteer teachers + ULLAS app/DIKSHA",
+      "women_only": false,
+      "career_break": false,
+      "window": "Scheme runs to FY 2026-27 (31 Mar 2027); enrol via local literacy office",
+      "status": "Rolling (scheme ends Mar 2027 unless extended)",
+      "eligibility": "Age 15+ who missed schooling; covers literacy, digital & financial literacy, life skills",
+      "official_url": "https://ullas.education.gov.in",
+      "source_url": "https://eparlib.sansad.in/bitstream/123456789/2983765/1/AU948_NMFlHq.pdf",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P004",
+      "name": "Jan Shikshan Sansthan (JSS) vocational courses",
+      "agency": "Ministry of Skill Development & Entrepreneurship",
+      "govt": "Central",
+      "states": [
+        "All India"
+      ],
+      "levels": [
+        "school_dropout",
+        "class10_pass"
+      ],
+      "streams": [
+        "Vocational Trades (tailoring, beauty, food etc.)"
+      ],
+      "cost": "Free",
+      "cost_note": "Free for SC/ST/PwD/BPL; others may pay a small fee",
+      "mode": "In person, district centre",
+      "women_only": false,
+      "career_break": false,
+      "window": "Rolling batches",
+      "status": "Rolling",
+      "eligibility": "Non-literates, neo-literates, school dropouts; 2–6 month NSQF level 2–3 courses",
+      "official_url": "",
+      "source_url": "https://youthpower.in/institution/jss",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P005",
+      "name": "RSETI – Rural Self Employment Training Institutes",
+      "agency": "Ministry of Rural Development (DAY-NRLM) with lead banks",
+      "govt": "Central",
+      "states": [
+        "All India"
+      ],
+      "levels": [
+        "school_dropout",
+        "class10_pass",
+        "class12_pass"
+      ],
+      "streams": [
+        "Vocational Trades (tailoring, beauty, food etc.)",
+        "Entrepreneurship & Business"
+      ],
+      "cost": "Free",
+      "cost_note": "Free training, food and lodging; bank loan help afterwards",
+      "mode": "Residential",
+      "women_only": false,
+      "career_break": false,
+      "window": "Rolling batches per district",
+      "status": "Rolling",
+      "eligibility": "Unemployed rural youth & women aged 18–50; 73 NSQF-aligned courses",
+      "official_url": "https://nirdpr.org.in/rseti.aspx",
+      "source_url": "https://www.legacyias.com/pib-summaries-22-july-2026/",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P006",
+      "name": "DDU-GKY 2.0 – placement-linked residential training",
+      "agency": "Ministry of Rural Development",
+      "govt": "Central",
+      "states": [
+        "All India"
+      ],
+      "levels": [
+        "class10_pass",
+        "class12_pass"
+      ],
+      "streams": [
+        "Electrical Engineering",
+        "Electronics & Communication",
+        "Computer Science & IT",
+        "Vocational Trades (tailoring, beauty, food etc.)"
+      ],
+      "cost": "Free",
+      "cost_note": "Free training, food, lodging; placement support",
+      "mode": "Residential",
+      "women_only": false,
+      "career_break": false,
+      "window": "Rolling mobilisation drives",
+      "status": "Rolling",
+      "eligibility": "Rural poor youth 15–35 (upper age relaxed to 45 for women in some states); trades incl. Solar PV Installer (Electrical, 12th pass), home-appliance technician, IT/ITeS",
+      "official_url": "https://ddugky.gov.in",
+      "source_url": "https://nicobartimes.com/?p=31245",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P007",
+      "name": "PMKVY – Pradhan Mantri Kaushal Vikas Yojana (via Skill India Digital Hub)",
+      "agency": "Ministry of Skill Development & Entrepreneurship / NSDC",
+      "govt": "Central",
+      "states": [
+        "All India"
+      ],
+      "levels": [
+        "school_dropout",
+        "class10_pass",
+        "class12_pass",
+        "undergraduate"
+      ],
+      "streams": [
+        "Electrical Engineering",
+        "Electronics & Communication",
+        "Computer Science & IT",
+        "AI & Data Science",
+        "Vocational Trades (tailoring, beauty, food etc.)",
+        "Multi-sector / Any"
+      ],
+      "cost": "Free",
+      "cost_note": "Training, assessment and certificate free",
+      "mode": "Training centre / some online",
+      "women_only": false,
+      "career_break": false,
+      "window": "Rolling; PMKVY 4.0 reported to run to Dec 2026, PMKVY 5.0 expected 2027",
+      "status": "Rolling (next phase expected)",
+      "eligibility": "Youth; 300+ job roles across ~30 sectors",
+      "official_url": "https://www.skillindiadigital.gov.in",
+      "source_url": "https://www.careerplanb.co/?p=1001690",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P008",
+      "name": "NSTI (Women) – ITI trades: Electrician, Solar Technician, Electronics Mechanic, COPA, AI Programming Assistant",
+      "agency": "Directorate General of Training, MSDE",
+      "govt": "Central",
+      "states": [
+        "Madhya Pradesh",
+        "Gujarat",
+        "West Bengal",
+        "Kerala",
+        "Telangana",
+        "Meghalaya",
+        "Maharashtra",
+        "Karnataka",
+        "Bihar"
+      ],
+      "levels": [
+        "class10_pass",
+        "class12_pass"
+      ],
+      "streams": [
+        "Electrical Engineering",
+        "Electronics & Communication",
+        "Computer Science & IT",
+        "AI & Data Science",
+        "Vocational Trades (tailoring, beauty, food etc.)"
+      ],
+      "cost": "Free",
+      "cost_note": "Tuition and exam fee waived for women",
+      "mode": "In person (hostel at some campuses)",
+      "women_only": true,
+      "career_break": false,
+      "window": "2026-27 intake closed (Jun–Jul 2026); next expected May–Jul 2027",
+      "status": "Expected",
+      "eligibility": "10th pass for most trades; 19 women-only NSTIs nationally (Electrician at Indore & Vadodara; Solar Technician, IoT, Drone at some NSTIs)",
+      "official_url": "https://dgt.gov.in",
+      "source_url": "https://indiaeducationdiary.in/?p=545990",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P009",
+      "name": "Women ITIs (state-run, 300+ institutes)",
+      "agency": "State Directorates of Training under DGT framework",
+      "govt": "Central",
+      "states": [
+        "All India"
+      ],
+      "levels": [
+        "class10_pass",
+        "class12_pass"
+      ],
+      "streams": [
+        "Electrical Engineering",
+        "Electronics & Communication",
+        "Computer Science & IT",
+        "Vocational Trades (tailoring, beauty, food etc.)"
+      ],
+      "cost": "Free",
+      "cost_note": "Usually free or nominal for women; varies by state",
+      "mode": "In person",
+      "women_only": true,
+      "career_break": false,
+      "window": "Annual admission ~May–Aug",
+      "status": "Expected (2027 intake)",
+      "eligibility": "Mostly 10th pass; trade list varies by institute",
+      "official_url": "https://dgt.gov.in",
+      "source_url": "https://rsdebate.nic.in/bitstream/123456789/749276/1/PQ_265_24072024_U293_p484_p485.pdf",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P010",
+      "name": "Women Entrepreneurship Programme (NSDC + NIESBUD, online)",
+      "agency": "NSDC / NIESBUD, MSDE (with Britannia)",
+      "govt": "Central",
+      "states": [
+        "All India"
+      ],
+      "levels": [
+        "class10_pass",
+        "class12_pass",
+        "undergraduate",
+        "postgraduate"
+      ],
+      "streams": [
+        "Entrepreneurship & Business"
+      ],
+      "cost": "Free",
+      "cost_note": "Free self-paced courses in multiple languages",
+      "mode": "Online",
+      "women_only": true,
+      "career_break": false,
+      "window": "Self-paced on Skill India Digital Hub",
+      "status": "Rolling",
+      "eligibility": "Aspiring and existing women entrepreneurs",
+      "official_url": "https://www.skillindiadigital.gov.in",
+      "source_url": "https://www.entrepreneur.com/en-in/news-and-trends/national-skill-development-corporation-and-britannia-launch/477943",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P011",
+      "name": "SWAYAM / NPTEL online courses (IITs, IISc, universities)",
+      "agency": "Ministry of Education",
+      "govt": "Central",
+      "states": [
+        "All India"
+      ],
+      "levels": [
+        "class10_pass",
+        "class12_pass",
+        "undergraduate",
+        "postgraduate",
+        "doctorate_research"
+      ],
+      "streams": [
+        "Electrical Engineering",
+        "Electronics & Communication",
+        "Computer Science & IT",
+        "AI & Data Science",
+        "Biotechnology & Life Sciences",
+        "Basic & Applied Sciences",
+        "Academic Degree (any subject)",
+        "Multi-sector / Any"
+      ],
+      "cost": "Free",
+      "cost_note": "Learning free; optional certificate exam ₹500–1,000",
+      "mode": "Online",
+      "women_only": false,
+      "career_break": false,
+      "window": "Jan–Apr 2027 semester: enrolment expected to open mid-Nov 2026",
+      "status": "Expected",
+      "eligibility": "Anyone; 1,000+ courses per semester",
+      "official_url": "https://swayam.gov.in",
+      "source_url": "https://www.careers360.com/courses-certifications/articles/upcoming-swayam-nptel-exams-2026",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P012",
+      "name": "SWAYAM Plus – 'AI for All' free courses (incl. Hindi)",
+      "agency": "Ministry of Education, run by IIT Madras",
+      "govt": "Central",
+      "states": [
+        "All India"
+      ],
+      "levels": [
+        "class12_pass",
+        "undergraduate",
+        "postgraduate"
+      ],
+      "streams": [
+        "AI & Data Science",
+        "Computer Science & IT"
+      ],
+      "cost": "Free",
+      "cost_note": "Free",
+      "mode": "Online",
+      "women_only": false,
+      "career_break": false,
+      "window": "Cohort-based; 2026 cohorts closed 26 Jan and 12 May — next cohort not yet announced",
+      "status": "Not announced",
+      "eligibility": "UG students from first year, PG, working professionals; no-code to coding tracks",
+      "official_url": "https://swayam-plus.swayam2.ac.in",
+      "source_url": "https://news.careers360.com/iit-madras-swayam-plus-ai-for-all-hindi-courses-registration-deadline-january-26-2026-online-certification/amp",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P013",
+      "name": "NIELIT CCC – Course on Computer Concepts",
+      "agency": "NIELIT, Ministry of Electronics & IT",
+      "govt": "Central",
+      "states": [
+        "All India"
+      ],
+      "levels": [
+        "class10_pass",
+        "class12_pass",
+        "undergraduate"
+      ],
+      "streams": [
+        "Computer Science & IT"
+      ],
+      "cost": "Low-cost",
+      "cost_note": "₹500 + GST exam fee; no concession for women",
+      "mode": "Training + online exam",
+      "women_only": false,
+      "career_break": false,
+      "window": "Monthly exams; apply by end of each month",
+      "status": "Rolling",
+      "eligibility": "No formal qualification required via approved institutes",
+      "official_url": "https://www.nielit.gov.in",
+      "source_url": "https://www.careers360.com/courses-certifications/articles/nielit-ccc-exam-2025-fee-structure",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P014",
+      "name": "NIELIT free Cyber Security Awareness Programme (online)",
+      "agency": "NIELIT (Gorakhpur/Lucknow and other centres)",
+      "govt": "Central",
+      "states": [
+        "All India"
+      ],
+      "levels": [
+        "class10_pass",
+        "class12_pass",
+        "undergraduate",
+        "postgraduate"
+      ],
+      "streams": [
+        "Cyber Security"
+      ],
+      "cost": "Free",
+      "cost_note": "Free batch (no certificate); ₹100 batch gives certificate",
+      "mode": "Online, 5 days / 10 hours",
+      "women_only": false,
+      "career_break": false,
+      "window": "Frequent batches",
+      "status": "Rolling",
+      "eligibility": "Class 8 onwards",
+      "official_url": "https://regn.nielitvte.edu.in",
+      "source_url": "https://regn.nielitvte.edu.in/m/m-courseinfo.php?ci=332",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P015",
+      "name": "NIELIT free IT training for SC/ST/EWS women (Delhi/NCR)",
+      "agency": "NIELIT Delhi, MeitY",
+      "govt": "Central",
+      "states": [
+        "Delhi"
+      ],
+      "levels": [
+        "class12_pass",
+        "undergraduate"
+      ],
+      "streams": [
+        "Computer Science & IT"
+      ],
+      "cost": "Free",
+      "cost_note": "Free (MeitY-sponsored)",
+      "mode": "In person, Delhi",
+      "women_only": true,
+      "career_break": false,
+      "window": "Advt NIELIT/NDL/2026/1 — check for open batches",
+      "status": "Check site",
+      "eligibility": "SC/ST/EWS women of Delhi/NCR; NSQF courses e.g. Multimedia Development Associate",
+      "official_url": "https://nielit.gov.in/delhi",
+      "source_url": "https://www.nielit.gov.in/sites/default/files/PDF/Training/Short_Term_Courses/EELTP%20Advt%20%28Updated%29%202.pdf",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P016",
+      "name": "e-SafeHER – Cyber Sakhi training for rural women",
+      "agency": "C-DAC Hyderabad (MeitY ISEA) with Reliance Foundation",
+      "govt": "Central",
+      "states": [
+        "All India"
+      ],
+      "levels": [
+        "school_dropout",
+        "class10_pass",
+        "class12_pass"
+      ],
+      "streams": [
+        "Cyber Security"
+      ],
+      "cost": "Free",
+      "cost_note": "Free",
+      "mode": "Community / SHG-based",
+      "women_only": true,
+      "career_break": false,
+      "window": "Launched Apr 2026; target 1 million women by 2029",
+      "status": "Rolling",
+      "eligibility": "Rural women, mainly through SHGs; trained women become peer educators",
+      "official_url": "",
+      "source_url": "https://organiser.org/2026/04/24/350192/bharat/cyber-sakhi-initiative-aims-to-train-1-million-rural-women-in-digital-safety-by-2029/",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P017",
+      "name": "CyberShikshaa – cyber security training for women engineers",
+      "agency": "MeitY ISEA with DSCI & Microsoft",
+      "govt": "Central",
+      "states": [
+        "All India"
+      ],
+      "levels": [
+        "undergraduate"
+      ],
+      "streams": [
+        "Cyber Security",
+        "Computer Science & IT"
+      ],
+      "cost": "Free",
+      "cost_note": "Free, 4 months, placement assistance",
+      "mode": "Online + classroom",
+      "women_only": true,
+      "career_break": false,
+      "window": "Next cohort not announced",
+      "status": "Not announced",
+      "eligibility": "Women engineering graduates; earlier cohorts capped age at 21–26 and family income < ₹5 lakh",
+      "official_url": "",
+      "source_url": "https://sightsinplus.com/news/industry-news/cybershikshaa-free-cyber-security-training-program-apply",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P018",
+      "name": "Electronics & ICT Academy faculty development programmes (FDPs)",
+      "agency": "MeitY (at IIT Kanpur, IIT Guwahati, NIT Warangal, MNIT Jaipur, IIITDM Jabalpur and others)",
+      "govt": "Central",
+      "states": [
+        "All India"
+      ],
+      "levels": [
+        "postgraduate",
+        "doctorate_research"
+      ],
+      "streams": [
+        "Electrical Engineering",
+        "Electronics & Communication",
+        "Computer Science & IT",
+        "AI & Data Science"
+      ],
+      "cost": "Low-cost",
+      "cost_note": "Nominal fee; free for SC/ST faculty",
+      "mode": "Online / in person, 1–2 weeks",
+      "women_only": false,
+      "career_break": false,
+      "window": "Rolling calendar at each academy",
+      "status": "Rolling",
+      "eligibility": "Mainly for teaching faculty; some open to researchers — useful for returning lecturers",
+      "official_url": "https://eicta.iitk.ac.in",
+      "source_url": "https://eicta.iitk.ac.in/?p=9730",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P019",
+      "name": "IIRS-ISRO Outreach Programme (remote sensing, GIS, AI/ML, space science)",
+      "agency": "Indian Institute of Remote Sensing, ISRO",
+      "govt": "Central",
+      "states": [
+        "All India"
+      ],
+      "levels": [
+        "class12_pass",
+        "undergraduate",
+        "postgraduate",
+        "doctorate_research"
+      ],
+      "streams": [
+        "Space & Geospatial",
+        "AI & Data Science",
+        "Electronics & Communication",
+        "Basic & Applied Sciences"
+      ],
+      "cost": "Free",
+      "cost_note": "No course fee; certificate on 70% attendance + online exam",
+      "mode": "Online live",
+      "women_only": false,
+      "career_break": false,
+      "window": "Annual course calendar; 2027 calendar expected early 2027",
+      "status": "Rolling",
+      "eligibility": "UG/PG students, researchers, professionals; some courses open to Class 10+",
+      "official_url": "https://www.iirs.gov.in",
+      "source_url": "https://shivaji.du.ac.in/isro.php",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P020",
+      "name": "DST WISE-PhD Fellowship",
+      "agency": "Department of Science & Technology (WISE-KIRAN)",
+      "govt": "Central",
+      "states": [
+        "All India"
+      ],
+      "levels": [
+        "postgraduate"
+      ],
+      "streams": [
+        "Basic & Applied Sciences",
+        "Electrical Engineering",
+        "Electronics & Communication",
+        "Computer Science & IT",
+        "Biotechnology & Life Sciences"
+      ],
+      "cost": "Paid stipend",
+      "cost_note": "Reported ₹37,000/month + HRA + ₹1 lakh/yr research grant, up to 5 yrs",
+      "mode": "At a host institution",
+      "women_only": true,
+      "career_break": true,
+      "window": "Next call not announced (calls planned twice a year)",
+      "status": "Not announced",
+      "eligibility": "Women 27–45 (3-yr relaxation SC/ST/PH), PG in S&T, unemployed",
+      "official_url": "https://onlinedst.gov.in",
+      "source_url": "https://dst.gov.in/news/announcement-regarding-wise-phd-programme-call-proposals",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P021",
+      "name": "DST WISE Post-Doctoral Fellowship (WISE-PDF)",
+      "agency": "Department of Science & Technology (WISE-KIRAN)",
+      "govt": "Central",
+      "states": [
+        "All India"
+      ],
+      "levels": [
+        "doctorate_research"
+      ],
+      "streams": [
+        "Basic & Applied Sciences",
+        "Electrical Engineering",
+        "Electronics & Communication",
+        "Computer Science & IT",
+        "Biotechnology & Life Sciences"
+      ],
+      "cost": "Paid stipend",
+      "cost_note": "Up to ₹42.6 lakh over 3 years",
+      "mode": "At a host institution",
+      "women_only": true,
+      "career_break": true,
+      "window": "Historically open year-round; check portal for current cut-offs",
+      "status": "Check site",
+      "eligibility": "Women 27–60 with PhD or equivalent (MD/MS/MDS), not in regular employment; career break not mandatory",
+      "official_url": "https://onlinedst.gov.in",
+      "source_url": "https://www.publicservicesmap.in/schemes/wise-post-doctoral-fellowship--wise-pdf?lang=en",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P022",
+      "name": "DST WISE-SCOPE (lab-to-land societal research)",
+      "agency": "Department of Science & Technology (WISE-KIRAN)",
+      "govt": "Central",
+      "states": [
+        "All India"
+      ],
+      "levels": [
+        "doctorate_research"
+      ],
+      "streams": [
+        "Basic & Applied Sciences",
+        "Electrical Engineering",
+        "Electronics & Communication"
+      ],
+      "cost": "Paid stipend",
+      "cost_note": "Fellowship + project grant",
+      "mode": "At a host institution",
+      "women_only": true,
+      "career_break": true,
+      "window": "Check DST portal",
+      "status": "Check site",
+      "eligibility": "Women 27–60 with PhD working on grassroots S&T solutions",
+      "official_url": "https://onlinedst.gov.in",
+      "source_url": "https://ilovephd.com/?p=9929",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P023",
+      "name": "DST WISE Internship in IPR (WISE-IPR)",
+      "agency": "DST via TIFAC",
+      "govt": "Central",
+      "states": [
+        "All India"
+      ],
+      "levels": [
+        "undergraduate",
+        "postgraduate",
+        "doctorate_research"
+      ],
+      "streams": [
+        "Intellectual Property (IPR)",
+        "Electrical Engineering",
+        "Electronics & Communication",
+        "Computer Science & IT",
+        "Biotechnology & Life Sciences",
+        "Basic & Applied Sciences"
+      ],
+      "cost": "Paid stipend",
+      "cost_note": "One-year paid training; reported ~₹25,000/month at graduate level, higher for PG/PhD",
+      "mode": "At TIFAC coordination centres",
+      "women_only": true,
+      "career_break": true,
+      "window": "Next batch not announced",
+      "status": "Not announced",
+      "eligibility": "Women with science/engineering/medicine qualification, not in regular employment",
+      "official_url": "https://www.tifac.org.in",
+      "source_url": "https://www.biotecnika.org/2024/12/dst-wise-internship-ipr-2024-wise-ipr-2024-call-for-applications-open",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P024",
+      "name": "DBT BioCARe – research grant for women",
+      "agency": "Department of Biotechnology",
+      "govt": "Central",
+      "states": [
+        "All India"
+      ],
+      "levels": [
+        "doctorate_research"
+      ],
+      "streams": [
+        "Biotechnology & Life Sciences"
+      ],
+      "cost": "Paid stipend",
+      "cost_note": "Fellowship + research grant",
+      "mode": "At a host institution",
+      "women_only": true,
+      "career_break": true,
+      "window": "2026-27 call closed 23 Sep 2026; next call expected ~Aug–Sep 2027",
+      "status": "Expected",
+      "eligibility": "Unemployed Indian women up to 55 with PhD; first extramural grant",
+      "official_url": "https://dbtindia.gov.in",
+      "source_url": "https://www.buddy4study.com/scholarship/dbt-biocare-2026",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P025",
+      "name": "DHR Women Scientist Fellowship – North-East call",
+      "agency": "Department of Health Research, MoHFW",
+      "govt": "Central",
+      "states": [
+        "Arunachal Pradesh",
+        "Assam",
+        "Manipur",
+        "Meghalaya",
+        "Mizoram",
+        "Nagaland",
+        "Sikkim",
+        "Tripura"
+      ],
+      "levels": [
+        "postgraduate",
+        "doctorate_research"
+      ],
+      "streams": [
+        "Health & Medical Research",
+        "Biotechnology & Life Sciences"
+      ],
+      "cost": "Paid stipend",
+      "cost_note": "Fellowship + research grant",
+      "mode": "At a host institution",
+      "women_only": true,
+      "career_break": true,
+      "window": "Last date 30 Nov 2026, 5 pm",
+      "status": "Confirmed",
+      "eligibility": "Unemployed women 30–45 with a 1–5 year career break",
+      "official_url": "https://dhr.gov.in",
+      "source_url": "https://www.biotecnika.org/2026/10/women-scientist-fellowship-programme-dhr-2026/",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P026",
+      "name": "DHR Women Scientist Fellowship – national call",
+      "agency": "Department of Health Research, MoHFW",
+      "govt": "Central",
+      "states": [
+        "All India"
+      ],
+      "levels": [
+        "postgraduate",
+        "doctorate_research"
+      ],
+      "streams": [
+        "Health & Medical Research",
+        "Biotechnology & Life Sciences"
+      ],
+      "cost": "Paid stipend",
+      "cost_note": "Fellowship + research grant",
+      "mode": "At a host institution",
+      "women_only": true,
+      "career_break": true,
+      "window": "2026-27 call closed 15 Jun 2026; next expected ~Apr–Jun 2027",
+      "status": "Expected",
+      "eligibility": "Unemployed women 30–45 with a 1–5 year career break",
+      "official_url": "https://dhr.gov.in",
+      "source_url": "https://www.icmr.gov.in/icmrobject/uploads/Call/1776768718_advertisement_callforproposalhrdscheme2026-27.pdf",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P027",
+      "name": "IGNOU degrees, diplomas and certificates (BA/BCom/BSc/MA/MBA/MCA etc.)",
+      "agency": "Indira Gandhi National Open University",
+      "govt": "Central",
+      "states": [
+        "All India"
+      ],
+      "levels": [
+        "class12_pass",
+        "undergraduate",
+        "postgraduate"
+      ],
+      "streams": [
+        "Academic Degree (any subject)",
+        "Computer Science & IT"
+      ],
+      "cost": "Low-cost",
+      "cost_note": "₹300 registration + programme fee",
+      "mode": "Distance (ODL) or online",
+      "women_only": false,
+      "career_break": false,
+      "window": "January 2027 session: registration expected to open Dec 2026",
+      "status": "Expected",
+      "eligibility": "Per programme; APAAR or DEB ID required",
+      "official_url": "https://ignouadmission.samarth.edu.in",
+      "source_url": "https://university.careers360.com/hi/articles/ignou-january-2027-registration",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P028",
+      "name": "IGNOU PhD admission",
+      "agency": "Indira Gandhi National Open University",
+      "govt": "Central",
+      "states": [
+        "All India"
+      ],
+      "levels": [
+        "postgraduate"
+      ],
+      "streams": [
+        "Academic Degree (any subject)"
+      ],
+      "cost": "Low-cost",
+      "cost_note": "Check IGNOU",
+      "mode": "Part-time / regular",
+      "women_only": false,
+      "career_break": false,
+      "window": "2026 round closed 1 Jul 2026 (36 disciplines); next expected mid-2027",
+      "status": "Expected",
+      "eligibility": "PG degree; entrance test",
+      "official_url": "https://ignou.ac.in",
+      "source_url": "https://news.careers360.com/ignou-july-re-registration-deadline-odl-online-programmes-july-15",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P029",
+      "name": "IIT Madras Post-Doctoral Fellowship for women with a career break",
+      "agency": "IIT Madras",
+      "govt": "Central",
+      "states": [
+        "Tamil Nadu"
+      ],
+      "levels": [
+        "doctorate_research"
+      ],
+      "streams": [
+        "Electrical Engineering",
+        "Electronics & Communication",
+        "Computer Science & IT",
+        "Basic & Applied Sciences"
+      ],
+      "cost": "Paid stipend",
+      "cost_note": "Stipend",
+      "mode": "On campus, Chennai",
+      "women_only": true,
+      "career_break": true,
+      "window": "Check IIT Madras",
+      "status": "Check site",
+      "eligibility": "Women with PhD and a career break; engineering departments",
+      "official_url": "https://www.iitm.ac.in",
+      "source_url": "https://www.iitm.ac.in/sites/default/files/Others/Guidelines-WPDF.pdf",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P030",
+      "name": "Back-to-Lab Post-Doctoral Fellowship",
+      "agency": "Kerala State Council for Science, Technology & Environment (KSCSTE)",
+      "govt": "State",
+      "states": [
+        "Kerala"
+      ],
+      "levels": [
+        "doctorate_research"
+      ],
+      "streams": [
+        "Basic & Applied Sciences",
+        "Electrical Engineering",
+        "Electronics & Communication",
+        "Biotechnology & Life Sciences"
+      ],
+      "cost": "Paid stipend",
+      "cost_note": "₹45,000/month + 10% HRA + ₹75,000/yr contingency, 2 yrs",
+      "mode": "At a Kerala institution",
+      "women_only": true,
+      "career_break": true,
+      "window": "Dates not announced",
+      "status": "Not announced",
+      "eligibility": "Unemployed Kerala women with PhD in Science/Engineering, age ≤40 (relaxation OBC 3 / SC-ST 5 yrs)",
+      "official_url": "https://submit.kscste.kerala.gov.in",
+      "source_url": "https://sarkariyojana.com/scheme/back-to-lab-post-doctoral-fellowship-programme/",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P031",
+      "name": "Back-to-Lab Research Fellowship (complete your PhD)",
+      "agency": "KSCSTE, Kerala",
+      "govt": "State",
+      "states": [
+        "Kerala"
+      ],
+      "levels": [
+        "postgraduate"
+      ],
+      "streams": [
+        "Basic & Applied Sciences",
+        "Electrical Engineering",
+        "Electronics & Communication",
+        "Biotechnology & Life Sciences"
+      ],
+      "cost": "Paid stipend",
+      "cost_note": "Monthly fellowship, up to 3 years",
+      "mode": "At a Kerala institution",
+      "women_only": true,
+      "career_break": true,
+      "window": "Dates not announced",
+      "status": "Not announced",
+      "eligibility": "Unemployed Kerala women with valid PhD registration whose PhD was interrupted",
+      "official_url": "",
+      "source_url": "https://www.publicservicesmap.in/schemes/back-to-lab-research-fellowship-programme--btlrfp",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P032",
+      "name": "10,000 Women Back to Career (ReIgnite portal)",
+      "agency": "Govt of Kerala Labour Dept with Women Inclusive in Technology (WIIT)",
+      "govt": "State",
+      "states": [
+        "Kerala"
+      ],
+      "levels": [
+        "undergraduate",
+        "postgraduate"
+      ],
+      "streams": [
+        "Computer Science & IT",
+        "Multi-sector / Any"
+      ],
+      "cost": "Free",
+      "cost_note": "Free reskilling, returnships, employer connections",
+      "mode": "Online portal + training",
+      "women_only": true,
+      "career_break": true,
+      "window": "Scaled up Sep 2026; rolling registration",
+      "status": "Rolling",
+      "eligibility": "Women with a career break, especially from tech/knowledge jobs",
+      "official_url": "",
+      "source_url": "https://www.hrkatha.com/news/kerala-to-help-10000-women-return-to-workforce-after-career-breaks/",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P033",
+      "name": "Kerala Knowledge Economy Mission – Back to Work for women",
+      "agency": "Kerala Knowledge Economy Mission (with Kudumbashree)",
+      "govt": "State",
+      "states": [
+        "Kerala"
+      ],
+      "levels": [
+        "class12_pass",
+        "undergraduate",
+        "postgraduate"
+      ],
+      "streams": [
+        "Computer Science & IT",
+        "Multi-sector / Any"
+      ],
+      "cost": "Free",
+      "cost_note": "Free skilling and job-readiness",
+      "mode": "Online (DWMS portal) + in person",
+      "women_only": true,
+      "career_break": true,
+      "window": "Rolling registration on DWMS",
+      "status": "Rolling",
+      "eligibility": "Educated women who left jobs or never joined after education",
+      "official_url": "",
+      "source_url": "https://www.inkl.com/news/state-duty-bound-to-bring-women-who-had-career-break-back-to-work-veena",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P034",
+      "name": "Naan Mudhalvan skill courses",
+      "agency": "Tamil Nadu Skill Development Corporation",
+      "govt": "State",
+      "states": [
+        "Tamil Nadu"
+      ],
+      "levels": [
+        "class12_pass",
+        "undergraduate",
+        "postgraduate"
+      ],
+      "streams": [
+        "Computer Science & IT",
+        "AI & Data Science",
+        "Electrical Engineering",
+        "Electronics & Communication",
+        "Multi-sector / Any"
+      ],
+      "cost": "Free",
+      "cost_note": "Fully state-funded",
+      "mode": "Online free courses + college-based",
+      "women_only": false,
+      "career_break": false,
+      "window": "Free online courses always available; 2026-27 college courses running",
+      "status": "Rolling",
+      "eligibility": "Youth 18–35 in Tamil Nadu; many deep-skilling tracks are tied to college enrolment",
+      "official_url": "https://naanmudhalvan.tn.gov.in/freecourses",
+      "source_url": "https://www.dtnext.in/amp/story/news/tamilnadu/tamil-nadu-to-introduce-new-courses-under-naan-mudhalvan-scheme",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P035",
+      "name": "WE Hub – women entrepreneurship programmes",
+      "agency": "Govt of Telangana",
+      "govt": "State",
+      "states": [
+        "Telangana"
+      ],
+      "levels": [
+        "class12_pass",
+        "undergraduate",
+        "postgraduate",
+        "doctorate_research"
+      ],
+      "streams": [
+        "Entrepreneurship & Business",
+        "Computer Science & IT"
+      ],
+      "cost": "Free",
+      "cost_note": "Incubation, mentoring, training",
+      "mode": "Hyderabad + district programmes",
+      "women_only": true,
+      "career_break": false,
+      "window": "Rolling cohorts",
+      "status": "Rolling",
+      "eligibility": "Women entrepreneurs and aspiring founders; also returning-to-work upskilling with partners",
+      "official_url": "",
+      "source_url": "https://telanganatoday.com/tag/we-hub",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P036",
+      "name": "Savitribai Phule Women Skill Development Centres",
+      "agency": "Karnataka Rural Development & Panchayat Raj Dept",
+      "govt": "State",
+      "states": [
+        "Karnataka"
+      ],
+      "levels": [
+        "school_dropout",
+        "class10_pass",
+        "class12_pass"
+      ],
+      "streams": [
+        "Vocational Trades (tailoring, beauty, food etc.)",
+        "Multi-sector / Any"
+      ],
+      "cost": "Free",
+      "cost_note": "Free",
+      "mode": "Village centres (100 gram panchayats)",
+      "women_only": true,
+      "career_break": false,
+      "window": "Rolling",
+      "status": "Rolling",
+      "eligibility": "Rural women; target 30,000 women",
+      "official_url": "",
+      "source_url": "https://www.deccanchronicle.com/southern-states/karnataka/karnataka-govt-set-to-roll-out-savitribai-phule-women-empowerment-scheme-1876018",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P037",
+      "name": "Kaushalya Karnataka skill training",
+      "agency": "Karnataka Skill Development Corporation",
+      "govt": "State",
+      "states": [
+        "Karnataka"
+      ],
+      "levels": [
+        "class10_pass",
+        "class12_pass",
+        "undergraduate"
+      ],
+      "streams": [
+        "Multi-sector / Any",
+        "Computer Science & IT"
+      ],
+      "cost": "Free",
+      "cost_note": "Free",
+      "mode": "Training centres",
+      "women_only": false,
+      "career_break": false,
+      "window": "Rolling",
+      "status": "Rolling",
+      "eligibility": "Unemployed youth of Karnataka",
+      "official_url": "https://www.kaushalkar.com",
+      "source_url": "https://sarkariyojana.com/tag/skill-development",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P038",
+      "name": "APSSDC skilling programmes for women (incl. digital skilling)",
+      "agency": "Andhra Pradesh State Skill Development Corporation",
+      "govt": "State",
+      "states": [
+        "Andhra Pradesh"
+      ],
+      "levels": [
+        "class10_pass",
+        "class12_pass",
+        "undergraduate",
+        "postgraduate"
+      ],
+      "streams": [
+        "Computer Science & IT",
+        "Vocational Trades (tailoring, beauty, food etc.)",
+        "Multi-sector / Any"
+      ],
+      "cost": "Free",
+      "cost_note": "Free",
+      "mode": "Online + centres",
+      "women_only": false,
+      "career_break": false,
+      "window": "Rolling batches",
+      "status": "Rolling",
+      "eligibility": "AP residents; women-focused batches with partners",
+      "official_url": "https://www.apssdc.in",
+      "source_url": "https://www.thehansindia.com/andhra-pradesh/apssdc-launches-training-to-empower-women-with-skills-755090",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P039",
+      "name": "Mukhyamantri Yuva Karya Prashikshan Yojana (paid job training)",
+      "agency": "Maharashtra Skill, Employment, Entrepreneurship & Innovation Dept",
+      "govt": "State",
+      "states": [
+        "Maharashtra"
+      ],
+      "levels": [
+        "class12_pass",
+        "undergraduate",
+        "postgraduate"
+      ],
+      "streams": [
+        "Multi-sector / Any",
+        "Computer Science & IT",
+        "Electrical Engineering"
+      ],
+      "cost": "Paid stipend",
+      "cost_note": "₹6,000 (12th) / ₹8,000 (ITI/Diploma) / ₹10,000 (Degree/PG) per month for 6 months",
+      "mode": "On-the-job with employers",
+      "women_only": false,
+      "career_break": false,
+      "window": "Rolling on rojgar.mahaswayam.gov.in",
+      "status": "Rolling",
+      "eligibility": "Maharashtra residents 18–35, 12th pass or above",
+      "official_url": "https://rojgar.mahaswayam.gov.in",
+      "source_url": "https://www.publicservicesmap.in/schemes/mukhyamantri-yuva-karya-prashikshan-yojana--mmykpy?lang=en",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P040",
+      "name": "Mukhyamantri Kaushalya Yojana (free skill training for women)",
+      "agency": "Govt of Madhya Pradesh",
+      "govt": "State",
+      "states": [
+        "Madhya Pradesh"
+      ],
+      "levels": [
+        "class10_pass",
+        "class12_pass",
+        "undergraduate"
+      ],
+      "streams": [
+        "Multi-sector / Any",
+        "Vocational Trades (tailoring, beauty, food etc.)"
+      ],
+      "cost": "Free",
+      "cost_note": "Free",
+      "mode": "Training centres",
+      "women_only": true,
+      "career_break": false,
+      "window": "Check portal",
+      "status": "Check site",
+      "eligibility": "Women of Madhya Pradesh",
+      "official_url": "https://www.mpskills.gov.in",
+      "source_url": "https://sarkariyojana.com/tag/skill-development",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P041",
+      "name": "UPSDM free skill training",
+      "agency": "Uttar Pradesh Skill Development Mission",
+      "govt": "State",
+      "states": [
+        "Uttar Pradesh"
+      ],
+      "levels": [
+        "class10_pass",
+        "class12_pass",
+        "undergraduate"
+      ],
+      "streams": [
+        "Computer Science & IT",
+        "Electrical Engineering",
+        "Multi-sector / Any"
+      ],
+      "cost": "Free",
+      "cost_note": "Free training, uniform, study material",
+      "mode": "Training centres",
+      "women_only": false,
+      "career_break": false,
+      "window": "Rolling",
+      "status": "Rolling",
+      "eligibility": "UP domicile, 18–35; 100+ courses (IT, electrical, healthcare, beauty etc.)",
+      "official_url": "https://upsdm.gov.in",
+      "source_url": "https://youthpower.in/scheme/up-skill-development-mission-upsdm-training",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P042",
+      "name": "UP Mahila Samarthya Yojana",
+      "agency": "UP State Rural Livelihood Mission",
+      "govt": "State",
+      "states": [
+        "Uttar Pradesh"
+      ],
+      "levels": [
+        "school_dropout",
+        "class10_pass",
+        "class12_pass"
+      ],
+      "streams": [
+        "Vocational Trades (tailoring, beauty, food etc.)",
+        "Entrepreneurship & Business"
+      ],
+      "cost": "Free",
+      "cost_note": "Free skill training + market linkage",
+      "mode": "SHG-based, district",
+      "women_only": true,
+      "career_break": false,
+      "window": "Rolling",
+      "status": "Rolling",
+      "eligibility": "Rural women 18+, SHG membership preferred",
+      "official_url": "",
+      "source_url": "https://currentaffairs.adda247.com/up-mahila-samarthya-yojana-2026-objective-benefits-eligibility-how-to-apply-and-required-documents/amp/",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P043",
+      "name": "Utkarsh Bangla skill training",
+      "agency": "Paschim Banga Society for Skill Development",
+      "govt": "State",
+      "states": [
+        "West Bengal"
+      ],
+      "levels": [
+        "class10_pass",
+        "class12_pass",
+        "undergraduate"
+      ],
+      "streams": [
+        "Multi-sector / Any",
+        "Computer Science & IT",
+        "Electrical Engineering"
+      ],
+      "cost": "Free",
+      "cost_note": "Fully state-funded",
+      "mode": "Empanelled training centres",
+      "women_only": false,
+      "career_break": false,
+      "window": "Rolling",
+      "status": "Rolling",
+      "eligibility": "West Bengal residents 18+; 50+ trades",
+      "official_url": "https://www.pbssd.gov.in",
+      "source_url": "https://wb.gov.in/government-schemes-details-utkarsh-bangla.aspx",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P044",
+      "name": "Mission Shakti skilling for women SHGs",
+      "agency": "Mission Shakti Department, Govt of Odisha",
+      "govt": "State",
+      "states": [
+        "Odisha"
+      ],
+      "levels": [
+        "school_dropout",
+        "class10_pass",
+        "class12_pass"
+      ],
+      "streams": [
+        "Vocational Trades (tailoring, beauty, food etc.)",
+        "Entrepreneurship & Business"
+      ],
+      "cost": "Free",
+      "cost_note": "Free; some residential batches with food & travel",
+      "mode": "In person",
+      "women_only": true,
+      "career_break": false,
+      "window": "Rolling (tourism/hospitality batches under 2026 THSC MoU)",
+      "status": "Rolling",
+      "eligibility": "Members of Mission Shakti women SHGs",
+      "official_url": "",
+      "source_url": "https://www.womenentrepreneursreview.com/news/mission-shakti-thsc-sign-mou-to-support-women-s-skills-in-odisha-nwid-8064.html",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P045",
+      "name": "Mahila Swayamsiddha Yojana",
+      "agency": "Social Justice & Empowerment Dept, Govt of Rajasthan",
+      "govt": "State",
+      "states": [
+        "Rajasthan"
+      ],
+      "levels": [
+        "school_dropout",
+        "class10_pass"
+      ],
+      "streams": [
+        "Vocational Trades (tailoring, beauty, food etc.)"
+      ],
+      "cost": "Free",
+      "cost_note": "Free training; accommodation support",
+      "mode": "Residential (Nari Niketans)",
+      "women_only": true,
+      "career_break": false,
+      "window": "Rolling",
+      "status": "Rolling",
+      "eligibility": "Widowed, abandoned or destitute women",
+      "official_url": "",
+      "source_url": "https://www.oneindia.com/schemes/government-schemes-hamara-ped-hamara-dhan-s3805/",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    },
+    {
+      "id": "P046",
+      "name": "Mukhyamantri Work from Home – Job Work Yojana",
+      "agency": "Govt of Rajasthan (RSLDC and partners)",
+      "govt": "State",
+      "states": [
+        "Rajasthan"
+      ],
+      "levels": [
+        "class10_pass",
+        "class12_pass",
+        "undergraduate"
+      ],
+      "streams": [
+        "Multi-sector / Any"
+      ],
+      "cost": "Free",
+      "cost_note": "Training + incentive after a work-from-home offer",
+      "mode": "Training + home-based work",
+      "women_only": true,
+      "career_break": false,
+      "window": "Check portal",
+      "status": "Check site",
+      "eligibility": "Women resident in Rajasthan",
+      "official_url": "",
+      "source_url": "https://myscheme.gov.in/hi/schemes/mwfhjwy",
+      "notes": "",
+      "last_checked": "2026-11-05"
+    }
+  ]
+}
