@@ -10,7 +10,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
-    paths: ['expense-tracker/**', 'lipikala/**', 'growing-citizens/**', '.github/workflows/deploy.yml']
+    paths: ['expense-tracker/**', 'lipikala/**', 'growing-citizens/**', 'vidya-shakti/**', '.github/workflows/deploy.yml']
   workflow_dispatch:
 
 permissions:
@@ -34,6 +34,7 @@ jobs:
           cache-dependency-path: |
             expense-tracker/package-lock.json
             lipikala/package-lock.json
+            vidya-shakti/package-lock.json
 
       - name: Build expense-tracker (site root)
         working-directory: expense-tracker
@@ -49,12 +50,21 @@ jobs:
           npm run test
           npm run build
 
+      - name: Build vidya-shakti (/vidya-shakti/)
+        working-directory: vidya-shakti
+        run: |
+          npm ci
+          npm run test
+          npm run build
+
       - name: Assemble combined Pages site
         run: |
           mkdir -p _site
           cp -r expense-tracker/dist/. _site/
           mkdir -p _site/lipikala
           cp -r lipikala/dist/. _site/lipikala/
+          mkdir -p _site/vidya-shakti
+          cp -r vidya-shakti/dist/. _site/vidya-shakti/
           mkdir -p _site/growing-citizens
           cp -r growing-citizens/. _site/growing-citizens/
 
