@@ -1,6 +1,8 @@
+import { INDIA_BANKING_HINTS } from './currency'
+
 export type DateFormat = 'MDY' | 'DMY'
 
-const INDIA_HINTS = [/₹/, /\bIFSC\b/i, /\bUPI\b/i, /\bGSTIN\b/i, /\bNEFT\b/i, /\bIMPS\b/i]
+const INDIA_HINTS = [/₹/, ...INDIA_BANKING_HINTS]
 
 /**
  * Infers whether the dates in a statement are US-style (month first) or

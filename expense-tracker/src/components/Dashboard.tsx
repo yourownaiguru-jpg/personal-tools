@@ -1,4 +1,5 @@
 import { spendByCategory, summarize, totalsByMonth } from '../lib/aggregate'
+import type { Currency } from '../lib/currency'
 import type { Transaction } from '../lib/types'
 import { SummaryCards } from './SummaryCards'
 import { CategoryChart } from './CategoryChart'
@@ -8,24 +9,31 @@ import { TransactionTable } from './TransactionTable'
 interface DashboardProps {
   transactions: Transaction[]
   categories: string[]
+  currency: Currency
   onCategoryChange: (id: string, category: string) => void
 }
 
-export function Dashboard({ transactions, categories, onCategoryChange }: DashboardProps) {
+export function Dashboard({
+  transactions,
+  categories,
+  currency,
+  onCategoryChange,
+}: DashboardProps) {
   const summary = summarize(transactions)
   const categoryTotals = spendByCategory(transactions)
   const monthTotals = totalsByMonth(transactions)
 
   return (
     <div className="space-y-4">
-      <SummaryCards summary={summary} />
+      <SummaryCards summary={summary} currency={currency} />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <CategoryChart data={categoryTotals} />
-        <TrendChart data={monthTotals} />
+        <CategoryChart data={categoryTotals} currency={currency} />
+        <TrendChart data={monthTotals} currency={currency} />
       </div>
       <TransactionTable
         transactions={transactions}
         categories={categories}
+        currency={currency}
         onCategoryChange={onCategoryChange}
       />
     </div>

@@ -9,11 +9,8 @@ import {
   YAxis,
 } from 'recharts'
 import type { MonthTotal } from '../lib/aggregate'
+import { formatCurrency, type Currency } from '../lib/currency'
 import { CHART_COLORS } from '../lib/palette'
-
-function formatCurrency(value: number): string {
-  return value.toLocaleString(undefined, { style: 'currency', currency: 'USD' })
-}
 
 function formatMonth(month: string): string {
   const [y, m] = month.split('-')
@@ -23,8 +20,9 @@ function formatMonth(month: string): string {
   })
 }
 
-export function TrendChart({ data }: { data: MonthTotal[] }) {
+export function TrendChart({ data, currency }: { data: MonthTotal[]; currency: Currency }) {
   if (data.length === 0) return null
+  const format = (value: number) => formatCurrency(value, currency)
 
   return (
     <div className="rounded-lg border border-slate-800 bg-slate-900/60 p-4">
@@ -39,14 +37,14 @@ export function TrendChart({ data }: { data: MonthTotal[] }) {
             tick={{ fontSize: 11, fill: CHART_COLORS.gray }}
           />
           <YAxis
-            tickFormatter={(v: number) => formatCurrency(v)}
+            tickFormatter={(v: number) => format(v)}
             stroke={CHART_COLORS.gray}
             tick={{ fontSize: 11, fill: CHART_COLORS.gray }}
             width={70}
           />
           <Tooltip
             labelFormatter={(label: string) => formatMonth(label)}
-            formatter={(value: number) => formatCurrency(value)}
+            formatter={(value: number) => format(value)}
             contentStyle={{
               background: '#1a1a19',
               border: '1px solid #2c2c2a',

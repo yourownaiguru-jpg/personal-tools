@@ -1,2 +1,7 @@
 .claude
 .DS_Store
+
+# Claude Design working directory for the Lipikāla canvas: internal design-tool
+# bundles and reference images (some copyrighted, e.g. stock photos used only
+# as visual inspiration), not source code. The actual tool is lipikala/.
+/Historically/
