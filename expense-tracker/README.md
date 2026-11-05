@@ -3,6 +3,10 @@
 A dashboard for tracking expenses from bank and credit card statements —
 entirely in your browser. No backend, no server, no upload.
 
+> **New here? Read [the guide](./GUIDE.md).** It walks through using the
+> tool, explains how it's built and why your statements can't leak, and
+> shows you how to verify that yourself in about ten seconds.
+
 ## How it works
 
 1. You drop a PDF bank or credit card statement onto the page.
@@ -44,7 +48,7 @@ Both are covered by sample PDFs in [`samples/`](./samples) — see
 | Date order | month-first (`03/14/2024`) | day-first (`14/03/2024` or `14-03-2024`) — auto-detected, or set manually with the "Date format" control above the upload box |
 | Amount sign | plain = charge, `CR` suffix = credit | plain = charge, `Dr`/`Cr` suffix = explicit debit/credit |
 | Statement layout | one trailing amount per line (most credit cards) | credit cards: one amount + `Dr`/`Cr`; bank accounts: 2 columns (amount, running balance) or 3 columns (debit, credit, balance) |
-| Currency | `$` | `₹`, `Rs.`, `INR`, or no symbol (all stripped during parsing) |
+| Currency | `$` | `₹`, `Rs.`, `INR`, or no symbol (all recognized; dashboard renders ₹) |
 
 Auto-detection scans for an unambiguous date (day > 12) first, then for
 India-specific hints (`₹`, `IFSC`, `UPI`, `GSTIN`, `NEFT`, `IMPS`) in the
@@ -61,6 +65,7 @@ lives in small, individually tested modules under `src/lib/`:
 |---|---|
 | `pdf.ts` | pdf.js wrapper — extracts positioned text and reconstructs lines per page |
 | `dateFormat.ts` | Infers month-first vs. day-first dates from the statement text |
+| `currency.ts` | Infers the statement's currency and formats amounts for display |
 | `parseStatement.ts` | Generic line parser: leading date + 1–3 trailing amount columns → transaction |
 | `categorize.ts` | Keyword rules → category; first matching rule wins |
 | `aggregate.ts` | Summary totals, spend-by-category, monthly income/expense series |
@@ -87,8 +92,14 @@ Components under `src/components/` are thin views over these modules;
   `[transaction, running balance]`; three as `[debit, credit, balance]`.
   Four or more trailing numbers on one line are too ambiguous to guess at
   and are skipped rather than risk a wrong sign or amount.
-- **Currency display is USD** regardless of source; parsing strips `$`,
-  `₹`, and `,` but does not convert values — amounts are shown as printed.
+- **Currency is detected, not converted.** The symbol printed on the
+  statement (`$`, `₹`/`Rs.`/`INR`, `£`, `€`) sets how the dashboard renders
+  amounts — rupee figures show as ₹ with lakh grouping (₹1,23,456). An
+  Indian statement that prints no symbol at all is recognized by its
+  UPI/NEFT/IFSC vocabulary or its `Dr`/`Cr` markers. Override a wrong guess
+  with the **Currency** selector above the upload box. Values are never
+  converted between currencies — they are shown as printed, so mixing
+  statements in different currencies would produce meaningless totals.
 - The generic parser aims for broad coverage rather than per-bank
   perfection — check the table after import and correct categories inline.
   If a specific bank's layout doesn't parse correctly, its statement lines
@@ -140,21 +151,22 @@ npm run preview
 
 ## Deployment (GitHub Pages)
 
-This tool lives in the [`personal-tools`](../) monorepo and is (for now) the
-only thing deployed to that repo's Pages site — the workflows and
-`vite.config.ts`'s `REPO_NAME` assume this tool owns the whole site,
-served at `/personal-tools/`. If a second tool starts sharing the site,
-both this app's `base` and the deploy workflow's artifact path will need
-to move to a subpath instead.
+This tool lives in the [`personal-tools`](../) monorepo and owns the root
+of that repo's Pages site (`/personal-tools/`) — the workflows and
+`vite.config.ts`'s `REPO_NAME` assume that, and it stays that way because
+this URL is already shared publicly. Other tools added later (e.g.
+[`lipikala`](../lipikala)) live at their own subpath instead, so this
+one's `base` never has to move.
 
 1. In the repository's **Settings → Pages**, set **Source** to
    **GitHub Actions**.
 2. Push to `main` with changes under `expense-tracker/`.
-   [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) (at the
-   repo root) builds, tests, and publishes this tool automatically; a pull
-   request instead triggers
+   [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) (at
+   the repo root) builds every tool in the monorepo and publishes them
+   together as one Pages artifact — this tool at the root, others at their
+   subpath; a pull request instead triggers
    [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) (lint, test,
-   build, e2e) without deploying. Both are scoped to `expense-tracker/**`
-   changes so they don't run for other tools in this repo.
+   build, e2e) without deploying, scoped to `expense-tracker/**` changes
+   so it doesn't run for other tools in this repo.
 4. The published URL appears in the Actions run summary and under
    **Settings → Pages**.

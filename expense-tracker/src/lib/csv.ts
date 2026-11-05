@@ -1,3 +1,4 @@
+import type { Currency } from './currency'
 import type { Transaction } from './types'
 
 function escapeCsvField(value: string): string {
@@ -16,8 +17,13 @@ function guardFormulaInjection(value: string): string {
   return /^[=+\-@\t\r]/.test(value) ? `'${value}` : value
 }
 
-export function transactionsToCsv(transactions: Transaction[]): string {
-  const header = ['Date', 'Description', 'Category', 'Account', 'Amount']
+/**
+ * The amount column is written as a bare number so spreadsheets treat it as
+ * one; the currency is named in the header instead, so an exported file
+ * doesn't lose track of whether its figures are rupees or dollars.
+ */
+export function transactionsToCsv(transactions: Transaction[], currency: Currency): string {
+  const header = ['Date', 'Description', 'Category', 'Account', `Amount (${currency})`]
   const rows = transactions.map((t) =>
     [
       t.date,

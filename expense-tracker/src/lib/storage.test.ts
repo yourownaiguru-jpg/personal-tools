@@ -1,6 +1,22 @@
-import { describe, expect, it } from 'vitest'
-import { mergeTransactions } from './storage'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import {
+  DEFAULT_CURRENCY_SETTINGS,
+  loadCurrencySettings,
+  mergeTransactions,
+  saveCurrencySettings,
+} from './storage'
 import type { Transaction } from './types'
+
+/** Minimal in-memory stand-in — these tests run in vitest's node env. */
+function stubLocalStorage(seed: Record<string, string> = {}) {
+  const store = new Map(Object.entries(seed))
+  vi.stubGlobal('localStorage', {
+    getItem: (k: string) => store.get(k) ?? null,
+    setItem: (k: string, v: string) => void store.set(k, v),
+    removeItem: (k: string) => void store.delete(k),
+  })
+  return store
+}
 
 const tx = (over: Partial<Transaction>): Transaction => ({
   id: Math.random().toString(),
@@ -57,5 +73,49 @@ describe('mergeTransactions', () => {
     const incoming = [tx({ id: 'b', date: '2024-03-01', description: 'X' })]
     const { merged } = mergeTransactions(existing, incoming)
     expect(merged.map((t) => t.date)).toEqual(['2024-03-01', '2024-03-20'])
+  })
+})
+
+describe('currency settings persistence', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals()
+  })
+
+  it('round-trips a saved setting', () => {
+    stubLocalStorage()
+    saveCurrencySettings({ choice: 'auto', detected: 'INR' })
+    expect(loadCurrencySettings()).toEqual({ choice: 'auto', detected: 'INR' })
+  })
+
+  it('defaults when nothing has been stored', () => {
+    stubLocalStorage()
+    expect(loadCurrencySettings()).toEqual(DEFAULT_CURRENCY_SETTINGS)
+  })
+
+  it('falls back per field when storage holds junk', () => {
+    // Hand-edited or corrupted storage must not blank out the dashboard.
+    stubLocalStorage({
+      'expense-tracker:currency:v1': JSON.stringify({ choice: 'BITCOIN', detected: 'INR' }),
+    })
+    expect(loadCurrencySettings()).toEqual({ choice: 'auto', detected: 'INR' })
+  })
+
+  it('survives unparseable storage', () => {
+    stubLocalStorage({ 'expense-tracker:currency:v1': 'not json' })
+    expect(loadCurrencySettings()).toEqual(DEFAULT_CURRENCY_SETTINGS)
+  })
+
+  it('degrades to defaults when localStorage is unreachable', () => {
+    // Safari's "Block all cookies" throws on access rather than returning null.
+    vi.stubGlobal('localStorage', {
+      getItem() {
+        throw new Error('SecurityError')
+      },
+      setItem() {
+        throw new Error('SecurityError')
+      },
+    })
+    expect(loadCurrencySettings()).toEqual(DEFAULT_CURRENCY_SETTINGS)
+    expect(() => saveCurrencySettings({ choice: 'INR', detected: 'INR' })).not.toThrow()
   })
 })

@@ -60,8 +60,10 @@ test('India credit card statement: dd/mm dates and Dr/Cr markers', async ({ page
   await expect(page.getByText('2024-03-05')).toBeVisible() // Swiggy
 
   // Expenses: 450+1299+2450+1860.50+6200+649+320 = 13228.50; income 5000.
-  await expect(page.getByText('$13,229', { exact: true })).toBeVisible()
-  await expect(page.getByText('$5,000', { exact: true })).toBeVisible()
+  // Rendered in rupees: the ₹ in the statement is detected, rather than
+  // every figure being labelled with a dollar sign as it once was.
+  await expect(page.getByText('₹13,229', { exact: true })).toBeVisible()
+  await expect(page.getByText('₹5,000', { exact: true })).toBeVisible()
 
   await expect(page.getByLabel('Category for SWIGGY BANGALORE')).toHaveValue('Dining')
   await expect(page.getByLabel('Category for AMAZON.IN')).toHaveValue('Shopping')
@@ -83,8 +85,10 @@ test('India bank statement: 3-column debit/credit/balance layout', async ({ page
 
   // Expenses: 450+1860.50+2450+1000+5000+320 = 11080.50
   // Income: 55000 (salary) + 125.40 (interest) = 55125.40
-  await expect(page.getByText('$11,081', { exact: true })).toBeVisible()
-  await expect(page.getByText('$55,125', { exact: true })).toBeVisible()
+  // This sample prints no currency symbol at all — the UPI/NEFT vocabulary
+  // is the only thing identifying it as rupees.
+  await expect(page.getByText('₹11,081', { exact: true })).toBeVisible()
+  await expect(page.getByText('₹55,125', { exact: true })).toBeVisible()
 
   await expect(
     page.getByLabel('Category for UPI-SWIGGY INSTAMART-swiggy.instamart@icici-401234567890'),
