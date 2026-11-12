@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Colour Studio · Wada colour combinations</title>
+  <meta name="description" content="Browse all 348 colour combinations from Sanzo Wada's Dictionary of Color Combinations, plus colour-wheel harmonies, Japanese dye colours and painters' limited palettes, with HEX, RGB, CMYK codes and acrylic mixing hints. Free, no login, no tracking.">
+  <meta property="og:title" content="Colour Studio">
+  <meta property="og:description" content="348 colour combinations after Sanzo Wada, with HEX, RGB, CMYK and paint-mixing hints for painting, interiors and fashion.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f3f2f2'/%3E%3Crect x='20' y='20' width='30' height='60' fill='%23EBD3A2'/%3E%3Crect x='50' y='20' width='18' height='60' fill='%23437742'/%3E%3Crect x='68' y='20' width='12' height='60' fill='%23ec3013'/%3E%3C/svg%3E">
+  <link rel="preload" href="fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="nav" aria-label="Sections">
+    <span class="nav-brand">Colour Studio</span>
+    <a href="#studio">Combinations</a>
+    <a href="#collections">Collections</a>
+    <a href="#guide">Guide</a>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <span class="kicker">After Sanzo Wada · Haishoku Sōkan, 1933–34</span>
+      <h1>Choose colours that already belong together.</h1>
+      <p class="hero-lede">348 tested combinations built from 159 named colours, plus colour-wheel harmonies, Japanese dye colours and painters' limited palettes. Every colour carries HEX, RGB and CMYK codes, and a mixing starting point for paint.</p>
+    </div>
+    <div>
+      <span class="label" id="uses-label">I'm choosing colours for</span>
+      <div class="uses" id="uses" role="group" aria-labelledby="uses-label"></div>
+      <p style="font-size:14px;max-width:48ch">Previews, role names and tips below follow your choice.</p>
+    </div>
+  </header>
+
+  <main>
+    <section id="studio" class="studio" aria-label="Combinations">
+      <div class="browser">
+        <div class="filters">
+          <fieldset class="field">
+            <legend class="field-label">Colours per set</legend>
+            <div class="seg" id="size-opts"></div>
+          </fieldset>
+          <fieldset class="field">
+            <legend class="field-label">Character</legend>
+            <div class="seg" id="mood-opts"></div>
+          </fieldset>
+          <div class="field" style="flex:1 1 180px">
+            <label class="field-label" for="query">Colour name</label>
+            <input class="input" id="query" type="search" placeholder="e.g. sienna, slate, rose" autocomplete="off">
+          </div>
+        </div>
+
+        <div class="base">
+          <div class="base-head">
+            <span class="label">Start from one colour · 159</span>
+            <button class="btn btn-ghost" id="clear-base" hidden></button>
+          </div>
+          <div class="swatches" id="swatches"></div>
+        </div>
+
+        <div class="countbar">
+          <span id="count" aria-live="polite">Loading combinations…</span>
+          <span>Click a set to preview it</span>
+        </div>
+
+        <div class="cards" id="cards"></div>
+        <p class="empty" id="empty" hidden>No set matches these filters. Loosen one of them.</p>
+        <div class="more" id="more-wrap" hidden><button class="btn btn-secondary" id="more"></button></div>
+      </div>
+
+      <aside id="detail" class="detail" aria-label="Selected palette">
+        <div class="detail-inner" id="detail-inner"></div>
+      </aside>
+    </section>
+
+    <section id="collections" class="collections" aria-label="Collections">
+      <div class="col-head">
+        <div>
+          <span class="kicker">Collections</span>
+          <h2>Beyond the Dictionary</h2>
+        </div>
+        <div class="seg" id="col-tabs" role="radiogroup" aria-label="Collection"></div>
+      </div>
+      <div class="col-intro"><p id="col-intro"></p></div>
+      <div class="col-grid" id="col-grid"></div>
+    </section>
+
+    <section id="guide" class="guide" aria-label="Guide">
+      <div>
+        <span class="guide-big">60·30·10</span>
+        <h3>Proportion</h3>
+        <p>Equal amounts of every colour look flat. Give the softest about 60%, another about 30%, and keep the strongest for the 10% that becomes the focal point. The studio assigns roles this way; rotate them to test alternatives.</p>
+      </div>
+      <div>
+        <span class="guide-big">L·M·D</span>
+        <h3>Value first</h3>
+        <p>A strong set has a clear light, mid and dark. Use Value check to see the greys: if two colours turn the same grey, separate them, or lighten or darken one.</p>
+      </div>
+      <div>
+        <span class="guide-big">W/C</span>
+        <h3>Temperature</h3>
+        <p>Colours leaning towards orange come forward; colours leaning towards blue recede. Use that for depth on a canvas, in a room, or across an outfit.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Codes are a close guide, not a standard: Wada values come from Matt DesLauriers' open digitisation of the 2010 Seigensha reprint (<a href="https://github.com/mattdesl/dictionary-of-colour-combinations">MIT licence</a>). Screens, inks, fabrics and pigments all differ, so always test a physical sample. Inspired by Sanzo Wada's <em>A Dictionary of Color Combinations</em> (Seigensha); not affiliated with the publisher.</p>
+    <span>Colour Studio · no login, no tracking</span>
+  </footer>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <noscript><p style="padding:24px">Colour Studio needs JavaScript to browse the combinations.</p></noscript>
+  <script src="app.js"></script>
+</body>
+</html>

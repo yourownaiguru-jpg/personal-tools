@@ -9,6 +9,7 @@ subfolder with its own README, dependencies, and (where it has one) CI.
 | [`lipikala/`](./lipikala) | Types a name and re-sets it in a historic Indian script (Brahmi, Grantha, Siddhaṃ, Śāradā, Bhaiksuki, Nandinagari) as it might have looked cut in stone, on copper, or on a palm leaf — entirely client-side. **[Guide](./lipikala/GUIDE.md)** · **[Privacy](./lipikala/PRIVACY.md)** · **[Open site](https://yourownaiguru-jpg.github.io/personal-tools/lipikala/)** |
 | [`growing-citizens/`](./growing-citizens) | A research-informed, no-login home-learning companion for parents of children in Grades 1–8. Includes 40-week curricula per grade with hands-on challenges, parent prompts, subject filters, and on-device progress tracking. **[Open site](https://yourownaiguru-jpg.github.io/personal-tools/growing-citizens/)** |
 | [`vidya-shakti/`](./vidya-shakti) | A no-login, no-tracking guide to 46 central and state government programmes (courses, training, fellowships) that help women at home learn, earn and become financially independent — filter by qualification, state and goal. Entirely client-side. **[Guide](./vidya-shakti/GUIDE.md)** · **[Privacy](./vidya-shakti/PRIVACY.md)** · **[Open site](https://yourownaiguru-jpg.github.io/personal-tools/vidya-shakti/)** |
+| [`colour-studio/`](./colour-studio) | A free, no-login colour-combination finder for painting, interiors and fashion, inspired by Sanzo Wada's Japanese colour book series *A Dictionary of Color Combinations*. Browse all 348 combinations or start from one of 159 colours, preview each palette on a canvas, room or outfit, and copy HEX, RGB and CMYK codes with acrylic mixing hints. Also includes harmonies, Japanese dye colours, Heian layered palettes and limited palettes. **[Open site](https://yourownaiguru-jpg.github.io/personal-tools/colour-studio/)** |
 
 ## Conventions
 
@@ -20,8 +21,8 @@ subfolder with its own README, dependencies, and (where it has one) CI.
   doesn't run on another tool's changes.
 - GitHub Pages serves `expense-tracker`'s build at the site's root (that
   URL is already shared publicly, so it stays put) and every other tool at
-  its own subpath — `lipikala` lives at `/lipikala/`, Vidya Shakti at `/vidya-shakti/` and
-  Growing Citizens at `/growing-citizens/`. A single combined workflow
+  its own subpath — `lipikala` lives at `/lipikala/`, Vidya Shakti at `/vidya-shakti/`,
+  Growing Citizens at `/growing-citizens/` and Colour Studio at `/colour-studio/`. A single combined workflow
   (`.github/workflows/deploy.yml`) builds or copies every tool and publishes
   them together as one Pages artifact; each tool's own `ci.yml` only
   validates pull requests and is scoped to that tool's subfolder via
