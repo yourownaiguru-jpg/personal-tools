@@ -70,7 +70,7 @@ jobs:
           mkdir -p _site/colour-studio
           cp -r colour-studio/. _site/colour-studio/
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: _site
 
