@@ -8,7 +8,7 @@
    "Message me" buttons instead. */
 (() => {
   'use strict';
-  const ACCESS_KEY = 'YOUR_WEB3FORMS_ACCESS_KEY';
+  const ACCESS_KEY = '99ab2c36-215d-4a79-abd8-c5afeb835917';
   const ENDPOINT = 'https://api.web3forms.com/submit';
 
   const form = document.getElementById('enquiry-form');
