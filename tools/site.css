@@ -18,7 +18,9 @@ a { color: var(--accent); text-underline-offset: 3px; }
 :focus-visible { outline: 3px solid var(--warm); outline-offset: 2px; }
 
 .top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; padding: 18px 0; border-bottom: 1px solid var(--line); }
-.brand { font-weight: 800; font-size: 19px; color: var(--ink); text-decoration: none; margin-right: auto; }
+.brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; font-size: 19px; color: var(--ink); text-decoration: none; margin-right: auto; }
+.brand b { font-weight: 800; }
+.brand img { width: 52px; height: 52px; border-radius: 12px; object-fit: cover; background: #f7f5f0; }
 .brand span { color: var(--warm); }
 .top nav { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 15px; }
 
