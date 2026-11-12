@@ -164,5 +164,8 @@ export function template(state: AppState): string {
       <p style="text-align:justify;font-size:14px;line-height:1.65;color:var(--color-neutral-700);margin:0">Spellings follow the script, not the pronunciation: a name typed as <em>Ram</em> ends in a silent-vowel mark; type <em>Rama</em> for the classical form.</p>
     </div>
   </div>
+
+  <div class="hr" style="margin:40px 0 16px"></div>
+  <p style="font-size:13px;color:var(--color-neutral-700);margin:0">Made by YourAI Guru · <a href="https://yourownaiguru-jpg.github.io/personal-tools/tools/">More free tools</a> · <a href="https://yourownaiguru-jpg.github.io/personal-tools/work-with-me/">Want a tool like this? Work with me</a></p>
   `
 }

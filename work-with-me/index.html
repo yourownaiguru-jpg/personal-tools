@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Work with me · YourAI Guru</title>
+  <meta name="description" content="Need a small custom tool, a version of one of my tools for your organisation, or a one-hour AI session? Tell me what you need and I'll reply with a quote.">
+  <meta property="og:title" content="Work with me · YourAI Guru">
+  <meta property="og:description" content="Small custom AI-built tools for tutors, home businesses, schools and community groups.">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="../tools/site.css">
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <a class="brand" href="../tools/">Your<span>AI</span> Guru</a>
+      <nav aria-label="Main">
+        <a href="../tools/#tools">Tools</a>
+        <a href="./" aria-current="page">Work with me</a>
+        <a href="https://www.instagram.com/yourownaiguru/">Instagram</a>
+        <a href="https://x.com/OwnAIGuru">X</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <h1>Want a tool built for you?</h1>
+        <p>I build small, simple tools with AI that work on a phone and need no login. Tell me what you need and I'll reply with what I can build and a quote.</p>
+      </section>
+
+      <h2>What I can do</h2>
+      <ul class="cards">
+        <li class="card">
+          <span class="for">Offer 1</span>
+          <h3>A small custom tool</h3>
+          <p>A calculator, tracker, finder or form for your classes, home business, shop, clinic or housing society. You get a link that works on any phone.</p>
+        </li>
+        <li class="card">
+          <span class="for">Offer 2</span>
+          <h3>One of my tools, made yours</h3>
+          <p>A version of an existing tool with your content and name. For example, learning challenges for your school, or a scheme finder for your NGO.</p>
+        </li>
+        <li class="card">
+          <span class="for">Offer 3</span>
+          <h3>A one-hour AI session</h3>
+          <p>A video call where I show you how to use AI tools for your home or small business, using your own examples.</p>
+        </li>
+      </ul>
+
+      <h2 id="enquiry">Tell me what you need</h2>
+
+      <form id="enquiry-form" novalidate hidden>
+        <div class="row">
+          <label>Your name
+            <input name="name" type="text" autocomplete="name" required maxlength="100">
+          </label>
+          <label>Your email <small>so I can reply</small>
+            <input name="email" type="email" autocomplete="email" required maxlength="200">
+          </label>
+        </div>
+        <div class="row">
+          <label>What are you interested in?
+            <select name="interest" required>
+              <option value="">Choose one</option>
+              <option>A small custom tool</option>
+              <option>One of your tools for my organisation</option>
+              <option>A one-hour AI session</option>
+              <option>Something else</option>
+            </select>
+          </label>
+          <label>Business or organisation <small>optional</small>
+            <input name="organisation" type="text" autocomplete="organization" maxlength="150">
+          </label>
+        </div>
+        <label>What do you need? <small>a few lines is enough</small>
+          <textarea name="message" required minlength="10" maxlength="3000" placeholder="Example: I run tuition classes for 40 students and want a simple fee tracker that works on my phone."></textarea>
+        </label>
+        <div class="hp" aria-hidden="true">
+          <label>Leave this empty <input name="botcheck" type="checkbox" tabindex="-1" autocomplete="off"></label>
+        </div>
+        <div><button class="btn" type="submit" id="send">Send enquiry</button></div>
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+        <p class="note">This form sends your message to my email through the Web3Forms service. I use your details only to reply to you.</p>
+      </form>
+
+      <section class="band" id="fallback">
+        <h2>Message me</h2>
+        <p>Send me a message on Instagram or X with a few lines about what you need, and I'll reply.</p>
+        <div class="actions">
+          <a class="btn" href="https://www.instagram.com/yourownaiguru/">Message on Instagram</a>
+          <a class="btn btn-quiet" href="https://x.com/OwnAIGuru">Message on X</a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Made by YourAI Guru · <a href="../tools/">All free tools</a> · <a href="https://www.instagram.com/yourownaiguru/">Instagram</a> · <a href="https://x.com/OwnAIGuru">X</a></p>
+      <p>No cookies and no tracking. Nothing is sent until you press Send.</p>
+    </footer>
+  </div>
+  <script src="form.js"></script>
+</body>
+</html>

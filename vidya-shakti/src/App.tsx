@@ -187,6 +187,7 @@ export default function App() {
         <div className="wrap">
           <p><strong style={{ color: '#fff' }}>Always verify before you apply.</strong> Dates marked Expected are based on past cycles. Details were last checked on {UPDATED} from official pages and news reports, and schemes change. This is an independent guide, not an official government site.</p>
           <p>Free to use and share. <a href="./programmes.csv" download>Download the full list (CSV)</a>.</p>
+          <p>Made by YourAI Guru · <a href="https://yourownaiguru-jpg.github.io/personal-tools/tools/">More free tools</a> · <a href="https://yourownaiguru-jpg.github.io/personal-tools/work-with-me/">Want a tool like this? Work with me</a></p>
         </div>
       </footer>
     </>
