@@ -10,7 +10,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
-    paths: ['expense-tracker/**', 'lipikala/**', 'growing-citizens/**', 'vidya-shakti/**', 'colour-studio/**', '.github/workflows/deploy.yml']
+    paths: ['expense-tracker/**', 'lipikala/**', 'growing-citizens/**', 'vidya-shakti/**', 'colour-studio/**', 'tools/**', 'work-with-me/**', '.github/workflows/deploy.yml']
   workflow_dispatch:
 
 permissions:
@@ -69,6 +69,9 @@ jobs:
           cp -r growing-citizens/. _site/growing-citizens/
           mkdir -p _site/colour-studio
           cp -r colour-studio/. _site/colour-studio/
+          mkdir -p _site/tools _site/work-with-me
+          cp -r tools/. _site/tools/
+          cp -r work-with-me/. _site/work-with-me/
 
       - uses: actions/upload-pages-artifact@v3
         with:
